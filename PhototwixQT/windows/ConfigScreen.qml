@@ -2,7 +2,6 @@ import QtQuick 2.4
 import Qt.labs.folderlistmodel 2.1
 import QtQuick.Controls 1.3
 
-import "../script/config.js" as Config
 import "../resources/controls"
 
 Rectangle {
@@ -55,11 +54,14 @@ Rectangle {
                     spacing : 10
                     Switch {
                         checked: false
-                        onCheckedChanged: {checked ? Config.addTemplate(fileName) : Config.removeTemplate(fileName)}
+                        onCheckedChanged: {checked ?
+                                               parameters.activeTemplate(fileName) :
+                                               parameters.unactiveTemplate(fileName)
+                        }
                     }
                     ButtonImage {
                         label: "Config"
-                        onClicked: { Config.editTemplate(fileName) }
+                        onClicked: { }
                     }
                 }
 

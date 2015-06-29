@@ -5,7 +5,6 @@
         <file>resources/images/logo.png</file>
         <file>windows/TakePhotoScreen.qml</file>
         <file>windows/StartScreen.qml</file>
-        <file>script/navigation.js</file>
         <file>resources/controls/ButtonImage.qml</file>
         <file>resources/controls/BusyIndicator.qml</file>
         <file>resources/images/box-shadow.png</file>
@@ -13,7 +12,5 @@
         <file>resources/controls/ButtonSelectorImage.qml</file>
         <file>resources/images/cardboardSelected.png</file>
         <file>windows/ConfigScreen.qml</file>
-        <file>script/global.js</file>
-        <file>script/config.js</file>
     </qresource>
 </RCC>
