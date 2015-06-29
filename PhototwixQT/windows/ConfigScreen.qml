@@ -2,6 +2,7 @@ import QtQuick 2.4
 import Qt.labs.folderlistmodel 2.1
 import QtQuick.Controls 1.3
 
+import "../script/config.js" as Config
 import "../resources/controls"
 
 Rectangle {
@@ -10,19 +11,20 @@ Rectangle {
     anchors.fill : parent
 
 
-
+    //Liste des templates
     ListView {
         anchors.fill:parent
 
+        //Dans quel répertoire il faut chercher
         FolderListModel {
             id: folderModel
             nameFilters: ["*.png", "*.jpg"]
             folder: "file:///" + applicationDirPath + "/templates/"
         }
 
+        //Représentation des template, avec un bouton et un switch
         Component {
             id: fileDelegate
-
 
             Row {
                 spacing : 30
@@ -37,6 +39,7 @@ Rectangle {
                         source: fileURL
                         sourceSize.height: 150
                         cache: false
+                        asynchronous: true
                         antialiasing: true
                     }
 
@@ -50,9 +53,13 @@ Rectangle {
                 Column {
                     anchors.verticalCenter: parent.verticalCenter
                     spacing : 10
-                    Switch { checked: false }
+                    Switch {
+                        checked: false
+                        onCheckedChanged: {checked ? Config.addTemplate(fileName) : Config.removeTemplate(fileName)}
+                    }
                     ButtonImage {
                         label: "Config"
+                        onClicked: { Config.editTemplate(fileName) }
                     }
                 }
 

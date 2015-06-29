@@ -9,8 +9,8 @@ ApplicationWindow {
     id: applicationWindows
     title: "Phototwix V5"
     visible: true
-    visibility: Window.FullScreen
-/*
+//    visibility: Window.FullScreen
+
     height: 600
     width: 800
 
@@ -19,7 +19,7 @@ ApplicationWindow {
         color: "#212126"
         anchors.fill: parent
     }
-*/
+
 
     TabView {
         id: mainTabView
