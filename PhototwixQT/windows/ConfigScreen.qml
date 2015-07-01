@@ -15,11 +15,13 @@ Rectangle {
         anchors.fill:parent
 
         //Dans quel répertoire il faut chercher
+        /*
         FolderListModel {
             id: folderModel
             nameFilters: ["*.png", "*.jpg"]
             folder: "file:///" + applicationDirPath + "/templates/"
         }
+        */
 
         //Représentation des template, avec un bouton et un switch
         Component {
@@ -35,7 +37,7 @@ Rectangle {
 
                     Image {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        source: fileURL
+                        source: model.modelData.url
                         sourceSize.height: 150
                         cache: false
                         asynchronous: true
@@ -44,7 +46,7 @@ Rectangle {
 
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: qsTr(fileName)
+                        text: qsTr(model.modelData.name)
                     }
                 }
 
@@ -69,7 +71,7 @@ Rectangle {
 
         }
 
-        model: folderModel
+        model: parameters.getAllTemplates()
         delegate: fileDelegate
     }
 

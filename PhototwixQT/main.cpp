@@ -3,9 +3,13 @@
 #include <QQmlContext>
 
 #include "parameters.h"
+#include "clog.h"
 
 int main(int argc, char *argv[])
 {
+    //Définition du niveau de log
+    CLog::SetLevel(CLog::Debug);
+
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;

@@ -4,7 +4,8 @@ QT += qml quick widgets
 
 SOURCES += main.cpp \
     template.cpp \
-    parameters.cpp
+    parameters.cpp \
+    clog.cpp
 
 RESOURCES += qml.qrc
 
@@ -16,4 +17,6 @@ include(deployment.pri)
 
 HEADERS += \
     template.h \
-    parameters.h
+    parameters.h \
+    clog.h \
+    common.h

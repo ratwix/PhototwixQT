@@ -1,9 +1,10 @@
+#include <QApplication>
 #include "template.h"
 
-Template::Template(QString name, QUrl url)
+Template::Template(QString name)
 {
-    this->name = name;
-    this->url = url;
+    setName(name);
+    setUrl("file:///" + QGuiApplication::applicationDirPath() + "/" + TEMPLATE_PATH + "/");
 }
 
 Template::~Template()
