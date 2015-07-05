@@ -15,9 +15,9 @@ Parameters::Parameters()
 Parameters::~Parameters()
 {
     //Free templates
-    QList<Template*>::iterator it;
+    QList<QObject*>::iterator it;
 
-    for (it = templates.begin(); it != templates.end(); it++) {
+    for (it = m_templates.begin(); it != m_templates.end(); it++) {
         delete *it;
     }
 }
@@ -26,7 +26,8 @@ void Parameters::addTemplate(QString name) {
     CLog::Write(CLog::Info, "Add Template " + name.toStdString());
 
     Template *t = new Template(name);
-    templates += t;
+    m_templates.append(t);
+    emit templatesChanged();
 }
 
 void Parameters::activeTemplate(QString name) {
@@ -46,6 +47,7 @@ void Parameters::unactiveTemplate(QString name) {
  * * Charge les nouveaux templates              //TODO
  */
 void Parameters::init() {
+
     //Read all .png and .jpg files in tempalte directory
     readTemplateDir();
 }
@@ -81,4 +83,13 @@ void Parameters::readTemplateDir() {
         exit(1);
     }
     closedir(dir);
+}
+
+QList<QObject*> Parameters::getTemplates() {
+    return m_templates;
+}
+
+void Parameters::setTemplates(QList<QObject*> templates) {
+    this->m_templates = templates;
+    emit templatesChanged();
 }

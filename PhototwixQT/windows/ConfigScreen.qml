@@ -55,12 +55,11 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     spacing : 10
                     Switch {
-                        checked: false
-                        onCheckedChanged: {checked ?
-                                               parameters.activeTemplate(fileName) :
-                                               parameters.unactiveTemplate(fileName)
-                        }
+                        id:templateActiveSwitch
+                        //checked: model.modelData.active
+                        onCheckedChanged: {model.modelData.active = checked}
                     }
+                    Binding { target: model.modelData; property: active; value: templateActiveSwitch.checked }
                     ButtonImage {
                         label: "Config"
                         onClicked: { }
@@ -71,9 +70,7 @@ Rectangle {
 
         }
 
-        model: parameters.getAllTemplates()
+        model: parameters.templates
         delegate: fileDelegate
     }
-
-
 }
