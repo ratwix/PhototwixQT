@@ -3,10 +3,13 @@
 #include <direct.h>
 #include <errno.h>
 #include <dirent.h>
+#include <iostream>
+#include <fstream>
 
 #include "clog.h"
 #include "rapidjson/document.h"
 
+using namespace std;
 using namespace rapidjson;
 
 Parameters::Parameters()
@@ -26,11 +29,30 @@ Parameters::~Parameters()
 }
 
 void Parameters::addTemplate(QString name) {
-    CLog::Write(CLog::Info, "Add Template " + name.toStdString());
+    bool find = false;
+    //Research if template already exist in base, already configured
+    for (QList<QObject*>::iterator it = m_templates.begin(); it != m_templates.end(); it++) {
+        if (Template *t = dynamic_cast<Template*>(*it)) {
+            if (t->getName() == name) {
+                find = true;
+                CLog::Write(CLog::Debug, "Template " + name.toStdString() + " already configured");
+                break;
+            }
+        }
 
-    Template *t = new Template(name);
+    }
+
+    if (!find) {
+        CLog::Write(CLog::Info, "Add Template " + name.toStdString());
+        Template *t = new Template(name, this);
+        m_templates.append(t);
+    }
+}
+
+void Parameters::addTemplate(Value const &value) {
+    CLog::Write(CLog::Info, "Load Template ");
+    Template *t = new Template(value, this);
     m_templates.append(t);
-    emit templatesChanged();
 }
 
 void Parameters::activeTemplate(QString name) {
@@ -50,6 +72,7 @@ void Parameters::unactiveTemplate(QString name) {
  * * Charge les nouveaux templates              //TODO
  */
 void Parameters::init() {
+    Unserialize();
 
     //Read all .png and .jpg files in tempalte directory
     readTemplateDir();
@@ -77,10 +100,7 @@ void Parameters::readTemplateDir() {
         string fn = string(file->d_name);
         string ext = fn.substr(fn.find_last_of(".") + 1);
         if (ext == "png" || ext == "jpg" || ext == "gif") {
-            CLog::Write(CLog::Debug, "Nouveau template " + fn);
             addTemplate(QString(fn.c_str()));
-        } else {
-            CLog::Write(CLog::Debug, "Not a template " + fn);
         }
     }
     if (errno){
@@ -127,23 +147,51 @@ void Parameters::Serialize() {
 
     writer.EndObject();
 
-    CLog::Write(CLog::Debug, sb.GetString());
+    //write to file
+    std::ofstream jsonFile;
+
+    jsonFile.open(CONFIG_FILE);
+    jsonFile << sb.GetString();
+
+    if (!jsonFile.good()) {
+        CLog::Write(CLog::Fatal, "Can't write the JSON string to the file!");
+    } else {
+        CLog::Write(CLog::Debug, "Write the JSON string to the file!");
+    }
+
+    jsonFile.close();
 }
 
 void Parameters::Unserialize() {
-    StringBuffer sb;
+    ifstream jsonFile(CONFIG_FILE, ios::in);
+
+    if (!jsonFile) {
+        CLog::Write(CLog::Info, "JSON File not exist");
+        return;
+    }
+
+    std::string str;
+
+    jsonFile.seekg(0, std::ios::end);
+    str.reserve(jsonFile.tellg());
+    jsonFile.seekg(0, std::ios::beg);
+
+    str.assign((std::istreambuf_iterator<char>(jsonFile)),
+                std::istreambuf_iterator<char>());
+
+    CLog::Write(CLog::Debug, "Fichier json : " + str);
 
     Document document;
-    document.Parse(sb.GetString());
+    document.Parse(str.c_str());
+
+    jsonFile.close();
 
     if (document.HasMember("templates")) {
         const Value& templates = document["templates"];
         if (templates.IsArray()) {
-        /*
-            for (Value::ConstMemberIterator it = templates.MemberBegin(); it != templates.MemberEnd(); it++) {
-
+            for (SizeType i = 0; i < templates.Size(); i++) {
+                addTemplate(templates[i]);
             }
-        */
         }
     }
 }

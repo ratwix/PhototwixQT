@@ -15,13 +15,6 @@ Rectangle {
         anchors.fill:parent
 
         //Dans quel répertoire il faut chercher
-        /*
-        FolderListModel {
-            id: folderModel
-            nameFilters: ["*.png", "*.jpg"]
-            folder: "file:///" + applicationDirPath + "/templates/"
-        }
-        */
 
         //Représentation des template, avec un bouton et un switch
         Component {
@@ -56,10 +49,10 @@ Rectangle {
                     spacing : 10
                     Switch {
                         id:templateActiveSwitch
-                        //checked: model.modelData.active
+                        checked: model.modelData.active
                         onCheckedChanged: {model.modelData.active = checked}
                     }
-                    Binding { target: model.modelData; property: active; value: templateActiveSwitch.checked }
+
                     ButtonImage {
                         label: "Config"
                         onClicked: { }

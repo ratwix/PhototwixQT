@@ -1,10 +1,17 @@
 #include <QApplication>
 #include "template.h"
 
-Template::Template(QString name)
+Template::Template(QString name, Parameters *parameters)
 {
+    m_parameters = parameters;
     setName(name);
+    m_active = false;
     setUrl("file:///" + QGuiApplication::applicationDirPath() + "/" + TEMPLATE_PATH + "/" + name);
+}
+
+Template::Template(Value const &value, Parameters *parameters) {
+    m_parameters = parameters;
+    Unserialize(value);
 }
 
 Template::~Template()
@@ -18,7 +25,6 @@ QString Template::getName() const {
 
 void Template::setName(QString name) {
     m_name = name;
-    emit nameChanged(name);
 }
 
 QUrl Template::getUrl() const {
@@ -27,7 +33,6 @@ QUrl Template::getUrl() const {
 
 void Template::setUrl(QUrl url)  {
     m_url = url;
-    emit urlChanged(url);
 }
 
 bool Template::getActive() const {
@@ -35,11 +40,13 @@ bool Template::getActive() const {
 }
 
 void Template::setActive(bool active) {
-    this->m_active = active;
+    if (active != m_active) {
+        this->m_active = active;
 
-    CLog::Write(CLog::Info, m_name.toStdString() + " active:" + (this->m_active ? "true" : "false"));
-
-    emit activeChanged(m_active);
+        CLog::Write(CLog::Info, m_name.toStdString() + " active:" + (this->m_active ? "true" : "false"));
+        //Save change to json files
+        m_parameters->Serialize();
+    }
 }
 
 void Template::Serialize(PrettyWriter<StringBuffer> &writer) const {
@@ -51,16 +58,24 @@ void Template::Serialize(PrettyWriter<StringBuffer> &writer) const {
     writer.Key("url");
     writer.String(m_url.toString().toStdString().c_str());
 
+    writer.Key("active");
+    writer.Bool(m_active);
+
     writer.EndObject();
 }
 
 
-void Template::Unserialize(Value &value) {
+void Template::Unserialize(Value const &value) {
     if (value.HasMember("template_name")) {
         m_name = QString(value["template_name"].GetString());
     }
+
     if (value.HasMember("url")) {
         m_url = QUrl(value["url"].GetString());
+    }
+
+    if (value.HasMember("active")) {
+        m_active = value["active"].GetBool();
     }
 }
 

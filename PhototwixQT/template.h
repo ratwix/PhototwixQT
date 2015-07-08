@@ -10,10 +10,12 @@
 
 #include "rapidjson/prettywriter.h"
 #include "rapidjson/document.h"
+#include "parameters.h"
 
 using namespace std;
 using namespace rapidjson;
 
+class Parameters;
 class Template : public QObject
 {
     Q_OBJECT
@@ -22,7 +24,8 @@ class Template : public QObject
     Q_PROPERTY(bool active READ getActive WRITE setActive NOTIFY activeChanged)
 
 public:
-    Template(QString name);
+    Template(QString name, Parameters *parameters);
+    Template(Value const &value, Parameters *parameters);
     ~Template();
 
     //Property Accesseurs
@@ -37,7 +40,7 @@ public:
     //End of accessors
 
     void Serialize(PrettyWriter<StringBuffer>& writer) const;
-    void Unserialize(Value &value);
+    void Unserialize(Value const &value);
 
 signals:
     void nameChanged(QString);
@@ -45,9 +48,10 @@ signals:
     void activeChanged(bool);
 
 private:
-    bool    m_active;
-    QString m_name;
-    QUrl    m_url;
+    bool        m_active;
+    QString     m_name;
+    QUrl        m_url;
+    Parameters  *m_parameters;
 
 
 };

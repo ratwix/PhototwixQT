@@ -32,14 +32,14 @@ public:
     QList<QObject*> getTemplates();
     void setTemplates(QList<QObject*> templates);
 
+    void Serialize();
 private:
     QList<QObject*>   m_templates;
     void addTemplate(QString name);
+    void addTemplate(Value const &value);
 
     void init();
     void readTemplateDir();
-
-    void Serialize();
     void Unserialize();
 signals:
     void templatesChanged();
