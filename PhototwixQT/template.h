@@ -8,7 +8,11 @@
 
 #include "common.h"
 
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/document.h"
+
 using namespace std;
+using namespace rapidjson;
 
 class Template : public QObject
 {
@@ -22,27 +26,18 @@ public:
     ~Template();
 
     //Property Accesseurs
-    void setName(QString name) {
-        m_name = name;
-        emit nameChanged(name);
-    }
-    QString getName() const { return m_name; }
+    QString getName() const;
+    void setName(QString name);
 
-    void setUrl(QUrl url) {
-        m_url = url;
-        emit urlChanged(url);
-    }
-    QUrl getUrl() const { return m_url; }
+    QUrl getUrl() const;
+    void setUrl(QUrl url);
 
-    bool getActive() { return m_active; }
-    void setActive(bool active) {
-        this->m_active = active;
-
-        CLog::Write(CLog::Info, m_name.toStdString() + " active:" + (this->m_active ? "true" : "false"));
-
-        emit activeChanged(m_active);
-    }
+    bool getActive() const;
+    void setActive(bool active);
     //End of accessors
+
+    void Serialize(PrettyWriter<StringBuffer>& writer) const;
+    //void Unserialize(GenericValue &value);
 
 signals:
     void nameChanged(QString);
@@ -53,6 +48,8 @@ private:
     bool    m_active;
     QString m_name;
     QUrl    m_url;
+
+
 };
 
 #endif // TEMPLATE_H

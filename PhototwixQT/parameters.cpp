@@ -5,6 +5,9 @@
 #include <dirent.h>
 
 #include "clog.h"
+#include "rapidjson/document.h"
+
+using namespace rapidjson;
 
 Parameters::Parameters()
 {
@@ -50,6 +53,8 @@ void Parameters::init() {
 
     //Read all .png and .jpg files in tempalte directory
     readTemplateDir();
+
+    Serialize();
 }
 
 /**
@@ -92,4 +97,53 @@ QList<QObject*> Parameters::getTemplates() {
 void Parameters::setTemplates(QList<QObject*> templates) {
     this->m_templates = templates;
     emit templatesChanged();
+}
+
+
+/**
+ * @brief Parameters::Serialize
+ * Save parameters to JSon file
+ */
+
+void Parameters::Serialize() {
+    StringBuffer sb;
+    PrettyWriter<StringBuffer> writer(sb);
+
+    writer.StartObject();
+        //save standard elements
+
+        //save template definition
+
+        writer.Key("templates");
+        writer.StartArray();
+        for (QList<QObject*>::const_iterator it = m_templates.begin(); it != m_templates.end(); it++) {
+            if (Template *t = dynamic_cast<Template*>(*it)) {
+                t->Serialize(writer);
+            } else {
+                CLog::Write(CLog::Fatal, "Bad type QObject -> Template");
+            }
+        }
+        writer.EndArray();
+
+    writer.EndObject();
+
+    CLog::Write(CLog::Debug, sb.GetString());
+}
+
+void Parameters::Unserialize() {
+    StringBuffer sb;
+
+    Document document;
+    document.Parse(sb.GetString());
+
+    if (document.HasMember("templates")) {
+        const Value& templates = document["templates"];
+        if (templates.IsArray()) {
+        /*
+            for (Value::ConstMemberIterator it = templates.MemberBegin(); it != templates.MemberEnd(); it++) {
+
+            }
+        */
+        }
+    }
 }
