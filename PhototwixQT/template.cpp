@@ -54,8 +54,8 @@ void Template::Serialize(PrettyWriter<StringBuffer> &writer) const {
     writer.EndObject();
 }
 
-/*
-void Template::Unserialize(GenericValue &value) {
+
+void Template::Unserialize(Value &value) {
     if (value.HasMember("template_name")) {
         m_name = QString(value["template_name"].GetString());
     }
@@ -63,4 +63,4 @@ void Template::Unserialize(GenericValue &value) {
         m_url = QUrl(value["url"].GetString());
     }
 }
-*/
+

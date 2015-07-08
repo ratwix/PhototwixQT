@@ -37,7 +37,7 @@ public:
     //End of accessors
 
     void Serialize(PrettyWriter<StringBuffer>& writer) const;
-    //void Unserialize(GenericValue &value);
+    void Unserialize(Value &value);
 
 signals:
     void nameChanged(QString);
