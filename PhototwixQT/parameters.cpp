@@ -8,9 +8,15 @@
 
 #include "clog.h"
 #include "rapidjson/document.h"
+#include <sys/stat.h>
 
 using namespace std;
 using namespace rapidjson;
+
+inline bool file_exists (const std::string& name) {
+  struct stat buffer;
+  return (stat (name.c_str(), &buffer) == 0);
+}
 
 Parameters::Parameters()
 {
@@ -51,8 +57,13 @@ void Parameters::addTemplate(QString name) {
 
 void Parameters::addTemplate(Value const &value) {
     CLog::Write(CLog::Info, "Load Template ");
-    Template *t = new Template(value, this);
-    m_templates.append(t);
+    //TODO : check if template file exists, or remove it
+    if (file_exists(string(TEMPLATE_PATH) + "/" + value["template_name"].GetString())) {
+        Template *t = new Template(value, this);
+        m_templates.append(t);
+    } else {
+        CLog::Write(CLog::Info, "Template file not found " + string(value["template_name"].GetString()));
+    }
 }
 
 void Parameters::activeTemplate(QString name) {
