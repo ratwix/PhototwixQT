@@ -1,14 +1,17 @@
 import QtQuick 2.4
-import Qt.labs.folderlistmodel 2.1
 import QtQuick.Controls 1.3
 
 import "../resources/controls"
+
+
 
 Rectangle {
     id: configScreen
     color: "green"
     anchors.fill : parent
 
+
+    signal currentEditedTemplateChange(url currentUrl) //TODO: changer avec un objet C++ template
 
     //Liste des templates
     ListView {
@@ -55,7 +58,12 @@ Rectangle {
 
                     ButtonImage {
                         label: "Config"
-                        onClicked: { }
+                        onClicked: {
+                            applicationWindows.currentEditedTemplate = model.modelData.url
+                            //configTemplateScreen.currentEditedTemplateUrl = model.modelData.url
+                            mainTabView.currentIndex = 3
+                            //configScreen.currentEditedTemplateChange(model.modelData.url) //envoie d'un signal que la configuration a changé
+                        }
                     }
                 }
 

@@ -12,5 +12,6 @@
         <file>resources/controls/ButtonSelectorImage.qml</file>
         <file>resources/images/cardboardSelected.png</file>
         <file>windows/ConfigScreen.qml</file>
+        <file>windows/ConfigTemplateScreen.qml</file>
     </qresource>
 </RCC>

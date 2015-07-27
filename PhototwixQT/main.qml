@@ -20,6 +20,7 @@ ApplicationWindow {
         anchors.fill: parent
     }
 
+    property url currentEditedTemplate //property to comunicate between differents tabs. Change it to current template C++ class
 
     TabView {
         id: mainTabView
@@ -35,16 +36,25 @@ ApplicationWindow {
             }
 
         }
+
         Tab {
             title: "Take Photo Screen"
             TakePhotoScreen {
                 id: takePhotoScreen
             }
         }
+
         Tab {
             title: "Config Screen"
             ConfigScreen {
                 id: configScreen
+            }
+        }
+
+        Tab {
+            title: "Config Template Screen"
+            ConfigTemplateScreen {
+                id: configTemplateScreen
             }
         }
     }
