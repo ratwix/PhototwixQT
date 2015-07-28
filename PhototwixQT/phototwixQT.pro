@@ -5,7 +5,8 @@ QT += qml quick widgets
 SOURCES += main.cpp \
     template.cpp \
     parameters.cpp \
-    clog.cpp
+    clog.cpp \
+    templatephotoposition.cpp
 
 RESOURCES += qml.qrc
 
@@ -47,4 +48,5 @@ HEADERS += \
     rapidjson/rapidjson.h \
     rapidjson/reader.h \
     rapidjson/stringbuffer.h \
-    rapidjson/writer.h
+    rapidjson/writer.h \
+    templatephotoposition.h

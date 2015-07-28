@@ -1,5 +1,13 @@
 #include <QApplication>
+#include <sstream>
 #include "template.h"
+
+Template::Template()
+{
+    m_parameters = 0;
+    setName("error");
+    m_active = false;
+}
 
 Template::Template(QString name, Parameters *parameters)
 {
@@ -16,7 +24,12 @@ Template::Template(Value const &value, Parameters *parameters) {
 
 Template::~Template()
 {
+    //Free templatesPhotoPosition
+    QList<QObject*>::iterator it;
 
+    for (it = m_templatePhotoPositions.begin(); it != m_templatePhotoPositions.end(); it++) {
+        delete *it;
+    }
 }
 
 QString Template::getName() const {
@@ -49,6 +62,19 @@ void Template::setActive(bool active) {
     }
 }
 
+QList<QObject *> Template::templatePhotoPositions() const
+{
+    return m_templatePhotoPositions;
+}
+
+void Template::setTemplatePhotoPositions(const QList<QObject *> &templatePhotoPositions)
+{
+    m_templatePhotoPositions = templatePhotoPositions;
+}
+
+
+
+
 void Template::Serialize(PrettyWriter<StringBuffer> &writer) const {
     writer.StartObject();
 
@@ -79,3 +105,12 @@ void Template::Unserialize(Value const &value) {
     }
 }
 
+void Template::addTemplatePhotoPosition() {
+    std::stringstream sstm;
+    sstm << "Add a new Template Photo Position : " << m_templatePhotoPositions.count() << " pour template " << m_name.toStdString();
+    CLog::Write(CLog::Info, sstm.str());
+
+    TemplatePhotoPosition *t = new TemplatePhotoPosition();
+
+    m_templatePhotoPositions.append(t);
+}

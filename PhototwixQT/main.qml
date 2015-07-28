@@ -3,6 +3,8 @@ import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 
+import com.phototwix.template 1.0
+
 import "./windows"
 
 ApplicationWindow {
@@ -20,7 +22,7 @@ ApplicationWindow {
         anchors.fill: parent
     }
 
-    property url currentEditedTemplate //property to comunicate between differents tabs. Change it to current template C++ class
+    property Template currentEditedTemplate //property to comunicate between ConfigScreen and ConfigTemplateScreen with the current edited template
 
     TabView {
         id: mainTabView

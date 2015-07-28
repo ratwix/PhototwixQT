@@ -59,10 +59,8 @@ Rectangle {
                     ButtonImage {
                         label: "Config"
                         onClicked: {
-                            applicationWindows.currentEditedTemplate = model.modelData.url
-                            //configTemplateScreen.currentEditedTemplateUrl = model.modelData.url
+                            applicationWindows.currentEditedTemplate = model.modelData
                             mainTabView.currentIndex = 3
-                            //configScreen.currentEditedTemplateChange(model.modelData.url) //envoie d'un signal que la configuration a changé
                         }
                     }
                 }

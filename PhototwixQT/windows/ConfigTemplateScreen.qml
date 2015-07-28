@@ -28,7 +28,8 @@ Rectangle {
                 label: "Ajouter";
                 onClicked:
                 {
-
+                    applicationWindows.currentEditedTemplate.addTemplatePhotoPosition();
+                    templatePhotoPositionsRepeater.model = applicationWindows.currentEditedTemplate.templatePhotoPositions;
                 }
             }
 
@@ -63,7 +64,7 @@ Rectangle {
         Image {
             id: currentEditedTemplate
 
-            source: applicationWindows.currentEditedTemplate
+            source: applicationWindows.currentEditedTemplate.url
 
             asynchronous: true
             cache: false
@@ -72,6 +73,75 @@ Rectangle {
             height: parent.height * 0.95
             width: parent.width * 0.95
             fillMode: Image.PreserveAspectFit
+        }
+
+        Repeater { //Affichage de tout les photo frame
+            id:templatePhotoPositionsRepeater
+            anchors.fill: parent
+
+            model: applicationWindows.currentEditedTemplate.templatePhotoPositions
+
+            Rectangle {
+                id:templatePhotoPosition
+                x:10
+                y:10
+                z:10
+                height: 50
+                width: 75
+                color: "red"
+                border.color: "white"
+                border.width: 2
+                smooth: true
+                antialiasing: true
+
+                PinchArea {
+                    anchors.fill: parent
+                    pinch.target: templatePhotoPosition
+                    pinch.minimumRotation: -360
+                    pinch.maximumRotation: 360
+                    pinch.minimumScale: 0.1
+                    pinch.maximumScale: 10
+                    //onPinchStarted: setFrameColor();
+                    MouseArea {
+                        id: dragArea
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        drag.target: templatePhotoPosition
+                        onPressed: {
+                            /*
+                            photoFrame.z = ++root.highestZ;
+                            parent.setFrameColor();
+                            */
+                        }
+                        //onEntered: parent.setFrameColor();
+                        onWheel: {
+                            if (wheel.modifiers & Qt.ControlModifier) {
+                                templatePhotoPosition.rotation += wheel.angleDelta.y / 120 * 5;
+                                if (Math.abs(templatePhotoPosition.rotation) < 4)
+                                    templatePhotoPosition.rotation = 0;
+                            } else {
+                                templatePhotoPosition.rotation += wheel.angleDelta.x / 120;
+                                if (Math.abs(templatePhotoPosition.rotation) < 0.6)
+                                    templatePhotoPosition.rotation = 0;
+                                //var scaleBefore = image.scale;
+                                //image.scale += image.scale * wheel.angleDelta.y / 120 / 10;
+                                //photoFrame.x -= image.width * (image.scale - scaleBefore) / 2.0;
+                                //photoFrame.y -= image.height * (image.scale - scaleBefore) / 2.0;
+                            }
+                        }
+                    }
+                    /*
+                    function setFrameColor() {
+                        if (currentFrame)
+                            currentFrame.border.color = "black";
+                        currentFrame = photoFrame;
+                        currentFrame.border.color = "red";
+                    }
+                    */
+                }
+            }
+
+
         }
     }
 }
