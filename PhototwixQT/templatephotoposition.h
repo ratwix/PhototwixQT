@@ -19,6 +19,7 @@ class Parameters;
 class TemplatePhotoPosition : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
     Q_PROPERTY(qreal x READ x WRITE setX NOTIFY xChanged)
     Q_PROPERTY(qreal y READ y WRITE setY NOTIFY yChanged)
     Q_PROPERTY(qreal rotate READ rotate WRITE setRotate NOTIFY rotateChanged)
@@ -52,6 +53,9 @@ public:
     void Serialize(PrettyWriter<StringBuffer>& writer) const;
     void Unserialize(Value const &value);
 
+    int number() const;
+    void setNumber(const int &number);
+
 signals:
     void xChanged(qreal);
     void yChanged(qreal);
@@ -59,8 +63,10 @@ signals:
     void widthChanged(qreal);
     void heightChanged(qreal);
     void xphotoChanged(qreal);
+    void numberChanged(int);
 
 private:
+    int          m_number;
     qreal       m_x;
     qreal       m_y;
     qreal       m_rotate;

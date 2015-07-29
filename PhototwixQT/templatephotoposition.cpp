@@ -21,6 +21,17 @@ void TemplatePhotoPosition::Unserialize(const Value &value) {
     //TODO
 }
 
+int TemplatePhotoPosition::number() const
+{
+    return m_number;
+}
+
+void TemplatePhotoPosition::setNumber(const int &number)
+{
+    m_number = number;
+}
+
+
 qreal TemplatePhotoPosition::x() const
 {
     return m_x;

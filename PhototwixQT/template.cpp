@@ -113,4 +113,6 @@ void Template::addTemplatePhotoPosition() {
     TemplatePhotoPosition *t = new TemplatePhotoPosition();
 
     m_templatePhotoPositions.append(t);
+
+    t->setNumber(m_templatePhotoPositions.count());
 }

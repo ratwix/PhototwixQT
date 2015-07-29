@@ -1,3 +1,4 @@
+
 import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
@@ -10,6 +11,10 @@ Rectangle {
     anchors.fill : parent
 
     property url currentEditedTemplateUrl //TODO, remplacer par un template C++
+
+    function updateTemplatePhotoPositionsRepeater(model) {
+        templatePhotoPositionsRepeater.model = model;
+    }
 
     Rectangle {
         id: configTemplateScreenButtons
@@ -29,7 +34,7 @@ Rectangle {
                 onClicked:
                 {
                     applicationWindows.currentEditedTemplate.addTemplatePhotoPosition();
-                    templatePhotoPositionsRepeater.model = applicationWindows.currentEditedTemplate.templatePhotoPositions;
+                    updateTemplatePhotoPositionsRepeater(applicationWindows.currentEditedTemplate.templatePhotoPositions);
                 }
             }
 
@@ -73,6 +78,10 @@ Rectangle {
             height: parent.height * 0.95
             width: parent.width * 0.95
             fillMode: Image.PreserveAspectFit
+
+            onSourceChanged: {
+                updateTemplatePhotoPositionsRepeater(applicationWindows.currentEditedTemplate.templatePhotoPositions);
+            }
         }
 
         Repeater { //Affichage de tout les photo frame
@@ -86,13 +95,21 @@ Rectangle {
                 x:10
                 y:10
                 z:10
-                height: 50
-                width: 75
-                color: "red"
-                border.color: "white"
+                height: 200
+                width: 375
+                color: "#800000FF"
+                border.color: "#80FFFF00"
                 border.width: 2
                 smooth: true
                 antialiasing: true
+
+                Label {
+
+                    id: templatePhotoPositionNumber
+                    anchors.centerIn: parent
+                    font.pixelSize: parent.height * 0.6
+                    text: modelData.number
+                }
 
                 PinchArea {
                     anchors.fill: parent
