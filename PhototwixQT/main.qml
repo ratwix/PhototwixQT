@@ -13,8 +13,8 @@ ApplicationWindow {
     visible: true
 //    visibility: Window.FullScreen
 
-    height: 600
-    width: 800
+    height: 900
+    width: 1600
 
     //Fond d'ecran
     Rectangle {

@@ -7,13 +7,15 @@ import "../resources/controls"
 
 Rectangle {
     id: configTemplateScreen
-    color: "yellow"
+
     anchors.fill : parent
 
-    property url currentEditedTemplateUrl //TODO, remplacer par un template C++
+    property double aspectRation : 1.5 //TODO, replace with camera aspect ration
 
-    function updateTemplatePhotoPositionsRepeater(model) {
-        templatePhotoPositionsRepeater.model = model;
+    property var currentFrame: undefined
+
+    function updateTemplatePhotoPositionsRepeater() {
+        templatePhotoPositionsRepeater.model = applicationWindows.currentEditedTemplate.templatePhotoPositions;
     }
 
     Rectangle {
@@ -34,7 +36,7 @@ Rectangle {
                 onClicked:
                 {
                     applicationWindows.currentEditedTemplate.addTemplatePhotoPosition();
-                    updateTemplatePhotoPositionsRepeater(applicationWindows.currentEditedTemplate.templatePhotoPositions);
+                    updateTemplatePhotoPositionsRepeater();
                 }
             }
 
@@ -62,6 +64,11 @@ Rectangle {
 
     Rectangle {
         id: configTemplateScreenTemplate
+
+        property int highestZ: 0
+
+
+        color: "yellow"
         anchors.right: parent.right
         height: parent.height
         width: parent.width - configTemplateScreenButtons.width
@@ -76,11 +83,10 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height * 0.95
-            width: parent.width * 0.95
-            fillMode: Image.PreserveAspectFit
+            width: sourceSize.width / sourceSize.height * height //conserv aspect ratio. Can't use native fonction, coords incorect
 
             onSourceChanged: {
-                updateTemplatePhotoPositionsRepeater(applicationWindows.currentEditedTemplate.templatePhotoPositions);
+                updateTemplatePhotoPositionsRepeater();
             }
         }
 
@@ -92,16 +98,55 @@ Rectangle {
 
             Rectangle {
                 id:templatePhotoPosition
-                x:10
-                y:10
+                x:0
+                y:0
                 z:10
                 height: 200
-                width: 375
+                width: height * aspectRation
                 color: "#800000FF"
-                border.color: "#80FFFF00"
-                border.width: 2
                 smooth: true
                 antialiasing: true
+
+                onXChanged: {
+                    calculateCoord()
+                }
+
+                onYChanged: {
+                    calculateCoord()
+                }
+
+                onRotationChanged: {
+                    modelData.rotate = rotation;
+                }
+
+                onHeightChanged: {
+                    modelData.height = templatePhotoPosition.height / currentEditedTemplate.height
+                }
+
+                onWidthChanged: {
+                    modelData.width = templatePhotoPosition.width / currentEditedTemplate.width
+                }
+
+
+                function calculateCoord() {
+                    var cords = templatePhotoPosition.mapToItem(null, 0, 0);
+                    var cords2 = currentEditedTemplate.mapToItem(null, 0, 0);
+
+                    //x, y relative to
+                    var x = cords.x - cords2.x;
+                    var y = cords.y - cords2.y;
+
+                    var maxx = currentEditedTemplate.width
+                    var maxy = currentEditedTemplate.height
+
+                    var px = x / maxx;
+                    var py = y / maxy;
+
+                    modelData.x = px;
+                    modelData.y = py;
+
+                    //console.info("x:", x, "y:", y, "maxx", maxx, "maxy", maxy, "px", px, "py", py);
+                }
 
                 Label {
 
@@ -118,19 +163,17 @@ Rectangle {
                     pinch.maximumRotation: 360
                     pinch.minimumScale: 0.1
                     pinch.maximumScale: 10
-                    //onPinchStarted: setFrameColor();
+                    onPinchStarted: setFrameColor();
                     MouseArea {
                         id: dragArea
                         hoverEnabled: true
                         anchors.fill: parent
                         drag.target: templatePhotoPosition
                         onPressed: {
-                            /*
-                            photoFrame.z = ++root.highestZ;
+                            templatePhotoPosition.z = ++configTemplateScreenTemplate.highestZ; //set element to top
                             parent.setFrameColor();
-                            */
                         }
-                        //onEntered: parent.setFrameColor();
+                        onEntered: parent.setFrameColor();
                         onWheel: {
                             if (wheel.modifiers & Qt.ControlModifier) {
                                 templatePhotoPosition.rotation += wheel.angleDelta.y / 120 * 5;
@@ -140,21 +183,22 @@ Rectangle {
                                 templatePhotoPosition.rotation += wheel.angleDelta.x / 120;
                                 if (Math.abs(templatePhotoPosition.rotation) < 0.6)
                                     templatePhotoPosition.rotation = 0;
-                                //var scaleBefore = image.scale;
-                                //image.scale += image.scale * wheel.angleDelta.y / 120 / 10;
-                                //photoFrame.x -= image.width * (image.scale - scaleBefore) / 2.0;
-                                //photoFrame.y -= image.height * (image.scale - scaleBefore) / 2.0;
+                                var heighBefore = templatePhotoPosition.height;
+                                var widthBefore = templatePhotoPosition.width;
+                                templatePhotoPosition.height += templatePhotoPosition.height * wheel.angleDelta.y / 120 / 40;
+                                templatePhotoPosition.x -= (templatePhotoPosition.width - widthBefore) / 2.0;
+                                templatePhotoPosition.y -= (templatePhotoPosition.height - heighBefore) / 2.0;
                             }
                         }
                     }
-                    /*
+
                     function setFrameColor() {
                         if (currentFrame)
-                            currentFrame.border.color = "black";
-                        currentFrame = photoFrame;
-                        currentFrame.border.color = "red";
+                            currentFrame.color = "#800000FF";
+                        currentFrame = templatePhotoPosition;
+                        currentFrame.color = "#80FF0000";
                     }
-                    */
+
                 }
             }
 
