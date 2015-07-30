@@ -13,6 +13,7 @@ Rectangle {
     property double aspectRation : 1.5 //TODO, replace with camera aspect ration
 
     property var currentFrame: undefined
+    property int currentFrameNumber : 0
 
     function updateTemplatePhotoPositionsRepeater() {
         templatePhotoPositionsRepeater.model = applicationWindows.currentEditedTemplate.templatePhotoPositions;
@@ -41,12 +42,15 @@ Rectangle {
             }
 
             ButtonImage {
-                id: resetTemplate;
+                id: deletePhoto;
                 anchors.horizontalCenter: parent.horizontalCenter
-                label: "Reset";
+                label: "Supprimer";
                 onClicked:
                 {
-
+                    if (currentFrame) {
+                        applicationWindows.currentEditedTemplate.deleteTemplatePhotoPosition(currentFrameNumber);
+                        updateTemplatePhotoPositionsRepeater();
+                    }
                 }
             }
 
@@ -56,6 +60,7 @@ Rectangle {
                 label: "Sauvegarder";
                 onClicked:
                 {
+                    parameters.Serialize();
                     mainTabView.currentIndex = 2
                 }
             }
@@ -88,121 +93,134 @@ Rectangle {
             onSourceChanged: {
                 updateTemplatePhotoPositionsRepeater();
             }
-        }
 
-        Repeater { //Affichage de tout les photo frame
-            id:templatePhotoPositionsRepeater
-            anchors.fill: parent
+            Repeater { //Affichage de tout les photo frame
+                id:templatePhotoPositionsRepeater
+                anchors.fill: parent
 
-            model: applicationWindows.currentEditedTemplate.templatePhotoPositions
+                model: applicationWindows.currentEditedTemplate.templatePhotoPositions
 
-            Rectangle {
-                id:templatePhotoPosition
-                x:0
-                y:0
-                z:10
-                height: 200
-                width: height * aspectRation
-                color: "#800000FF"
-                smooth: true
-                antialiasing: true
+                Rectangle {
+                    id:templatePhotoPosition
+                    y: currentEditedTemplate.height * modelData.y
+                    x: currentEditedTemplate.width * modelData.x
+                    z:10
+                    height: currentEditedTemplate.height * modelData.height
+                    width: height * aspectRation
+                    rotation: modelData.rotate
+                    color: "#800000FF"
+                    smooth: true
+                    antialiasing: true
+                    property bool renderFinish: false
 
-                onXChanged: {
-                    calculateCoord()
-                }
-
-                onYChanged: {
-                    calculateCoord()
-                }
-
-                onRotationChanged: {
-                    modelData.rotate = rotation;
-                }
-
-                onHeightChanged: {
-                    modelData.height = templatePhotoPosition.height / currentEditedTemplate.height
-                }
-
-                onWidthChanged: {
-                    modelData.width = templatePhotoPosition.width / currentEditedTemplate.width
-                }
-
-
-                function calculateCoord() {
-                    var cords = templatePhotoPosition.mapToItem(null, 0, 0);
-                    var cords2 = currentEditedTemplate.mapToItem(null, 0, 0);
-
-                    //x, y relative to
-                    var x = cords.x - cords2.x;
-                    var y = cords.y - cords2.y;
-
-                    var maxx = currentEditedTemplate.width
-                    var maxy = currentEditedTemplate.height
-
-                    var px = x / maxx;
-                    var py = y / maxy;
-
-                    modelData.x = px;
-                    modelData.y = py;
-
-                    //console.info("x:", x, "y:", y, "maxx", maxx, "maxy", maxy, "px", px, "py", py);
-                }
-
-                Label {
-
-                    id: templatePhotoPositionNumber
-                    anchors.centerIn: parent
-                    font.pixelSize: parent.height * 0.6
-                    text: modelData.number
-                }
-
-                PinchArea {
-                    anchors.fill: parent
-                    pinch.target: templatePhotoPosition
-                    pinch.minimumRotation: -360
-                    pinch.maximumRotation: 360
-                    pinch.minimumScale: 0.1
-                    pinch.maximumScale: 10
-                    onPinchStarted: setFrameColor();
-                    MouseArea {
-                        id: dragArea
-                        hoverEnabled: true
-                        anchors.fill: parent
-                        drag.target: templatePhotoPosition
-                        onPressed: {
-                            templatePhotoPosition.z = ++configTemplateScreenTemplate.highestZ; //set element to top
-                            parent.setFrameColor();
+                    onXChanged: {
+                        if (renderFinish) {
+                            calculateCoord()
                         }
-                        onEntered: parent.setFrameColor();
-                        onWheel: {
-                            if (wheel.modifiers & Qt.ControlModifier) {
-                                templatePhotoPosition.rotation += wheel.angleDelta.y / 120 * 5;
-                                if (Math.abs(templatePhotoPosition.rotation) < 4)
-                                    templatePhotoPosition.rotation = 0;
-                            } else {
-                                templatePhotoPosition.rotation += wheel.angleDelta.x / 120;
-                                if (Math.abs(templatePhotoPosition.rotation) < 0.6)
-                                    templatePhotoPosition.rotation = 0;
-                                var heighBefore = templatePhotoPosition.height;
-                                var widthBefore = templatePhotoPosition.width;
-                                templatePhotoPosition.height += templatePhotoPosition.height * wheel.angleDelta.y / 120 / 40;
-                                templatePhotoPosition.x -= (templatePhotoPosition.width - widthBefore) / 2.0;
-                                templatePhotoPosition.y -= (templatePhotoPosition.height - heighBefore) / 2.0;
+                    }
+
+                    onYChanged: {
+                        if (renderFinish) {
+                            calculateCoord()
+                        }
+                    }
+
+                    onRotationChanged: {
+                        if (renderFinish) {
+                            modelData.rotate = rotation;
+                        }
+                    }
+
+                    onHeightChanged: {
+                        if (renderFinish) {
+                            modelData.height = templatePhotoPosition.height / currentEditedTemplate.height
+                        }
+                    }
+
+                    onWidthChanged: {
+                        if (renderFinish) {
+                            modelData.width = templatePhotoPosition.width / currentEditedTemplate.width
+                        }
+                    }
+
+                    Component.onCompleted: {
+                        renderFinish = true
+                    }
+
+                    function calculateCoord() {
+                        var tx = templatePhotoPosition.x;
+                        var ty = templatePhotoPosition.y;
+
+                        var maxx = currentEditedTemplate.width
+                        var maxy = currentEditedTemplate.height
+
+                        var px = tx / maxx;
+                        var py = ty / maxy;
+
+                        modelData.x = px;
+                        modelData.y = py;
+                    }
+
+                    Label {
+
+                        id: templatePhotoPositionNumber
+                        anchors.centerIn: parent
+                        font.pixelSize: parent.height * 0.6
+                        text: modelData.number
+                    }
+
+                    PinchArea {
+                        anchors.fill: parent
+                        pinch.target: templatePhotoPosition
+                        pinch.minimumRotation: -360
+                        pinch.maximumRotation: 360
+                        pinch.minimumScale: 0.1
+                        pinch.maximumScale: 10
+                        onPinchStarted: setFrameColor();
+                        MouseArea {
+                            id: dragArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            drag.target: templatePhotoPosition
+                            onPressed: {
+                                templatePhotoPosition.z = ++configTemplateScreenTemplate.highestZ; //set element to top
+                                parent.setFrameColor();
+                                //console.debug("px:", modelData.x, "py:", modelData.y, "x:", templatePhotoPosition.x, "y:", templatePhotoPosition.y, "maxx:", currentEditedTemplate.width, "maxy:", currentEditedTemplate.height)
+                            }
+                            onEntered: {
+                                currentFrameNumber = modelData.number;
+                                parent.setFrameColor();
+                            }
+
+                            onWheel: {
+                                if (wheel.modifiers & Qt.ControlModifier) {
+                                    templatePhotoPosition.rotation += wheel.angleDelta.y / 120;
+                                    if (Math.abs(templatePhotoPosition.rotation) < 0.6)
+                                        templatePhotoPosition.rotation = 0;
+                                } else {
+                                    templatePhotoPosition.rotation += wheel.angleDelta.x / 120;
+                                    if (Math.abs(templatePhotoPosition.rotation) < 0.6)
+                                        templatePhotoPosition.rotation = 0;
+                                    var heighBefore = templatePhotoPosition.height;
+                                    var widthBefore = templatePhotoPosition.width;
+                                    templatePhotoPosition.height += templatePhotoPosition.height * wheel.angleDelta.y / 120 / 60;
+                                    templatePhotoPosition.width =  widthBefore / heighBefore * templatePhotoPosition.height
+                                    templatePhotoPosition.x -= (templatePhotoPosition.width - widthBefore) / 2.0;
+                                    templatePhotoPosition.y -= (templatePhotoPosition.height - heighBefore) / 2.0;
+                                }
                             }
                         }
-                    }
 
-                    function setFrameColor() {
-                        if (currentFrame)
-                            currentFrame.color = "#800000FF";
-                        currentFrame = templatePhotoPosition;
-                        currentFrame.color = "#80FF0000";
-                    }
+                        function setFrameColor() {
+                            if (currentFrame)
+                                currentFrame.color = "#800000FF";
+                            currentFrame = templatePhotoPosition;
+                            currentFrame.color = "#80FF0000";
+                        }
 
+                    }
                 }
             }
-
-
         }
     }
 }

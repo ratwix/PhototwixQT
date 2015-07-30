@@ -29,6 +29,7 @@ class TemplatePhotoPosition : public QObject
 
 public:
     TemplatePhotoPosition();
+    TemplatePhotoPosition(const Value &value);
 
     //Accessors
     qreal x() const;
@@ -66,7 +67,7 @@ signals:
     void numberChanged(int);
 
 private:
-    int          m_number;
+    int         m_number;
     qreal       m_x;
     qreal       m_y;
     qreal       m_rotate;

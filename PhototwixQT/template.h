@@ -48,8 +48,10 @@ public:
 
     void Serialize(PrettyWriter<StringBuffer>& writer) const;
     void Unserialize(Value const &value);
+    void addTemplatePhotoPosition(Value const &value);
 
     Q_INVOKABLE void addTemplatePhotoPosition();
+    Q_INVOKABLE void deleteTemplatePhotoPosition(int i);
 
 signals:
     void nameChanged(QString);

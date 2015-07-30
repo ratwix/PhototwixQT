@@ -14,21 +14,74 @@ string d2s(qreal const &q) {
 TemplatePhotoPosition::TemplatePhotoPosition()
 {
     //initialise
-    setX(0.1);
-    setY(0.1);
+    setX(0);
+    setY(0);
     setHeight(0.2);
-    setWidth(height() * PHOTO_ASPECT_RATIO);
+    setWidth(0.35);
     setRotate(0);
-    setWidth(0.3);
     setXphoto(0);
 }
 
+TemplatePhotoPosition::TemplatePhotoPosition(const Value &value)
+{
+    Unserialize(value);
+}
+
 void TemplatePhotoPosition::Serialize(PrettyWriter<StringBuffer> &writer) const {
-    //TODO
+    writer.StartObject();
+
+    writer.Key("number");
+    writer.Int(number());
+
+    writer.Key("x");
+    writer.Double(x());
+
+    writer.Key("y");
+    writer.Double(y());
+
+    writer.Key("height");
+    writer.Double(height());
+
+    writer.Key("width");
+    writer.Double(width());
+
+    writer.Key("rotate");
+    writer.Double(rotate());
+
+    writer.Key("xphoto");
+    writer.Double(xphoto());
+
+    writer.EndObject();
 }
 
 void TemplatePhotoPosition::Unserialize(const Value &value) {
-    //TODO
+    if (value.HasMember("number")) {
+        setNumber(value["number"].GetInt());
+    }
+
+    if (value.HasMember("x")) {
+        setX(value["x"].GetDouble());
+    }
+
+    if (value.HasMember("y")) {
+        setY(value["y"].GetDouble());
+    }
+
+    if (value.HasMember("height")) {
+        setHeight(value["height"].GetDouble());
+    }
+
+    if (value.HasMember("width")) {
+        setWidth(value["width"].GetDouble());
+    }
+
+    if (value.HasMember("rotate")) {
+        setRotate(value["rotate"].GetDouble());
+    }
+
+    if (value.HasMember("xphoto")) {
+        setXphoto(value["xphoto"].GetDouble());
+    }
 }
 
 int TemplatePhotoPosition::number() const
@@ -49,7 +102,6 @@ qreal TemplatePhotoPosition::x() const
 
 void TemplatePhotoPosition::setX(const qreal &x)
 {
-    CLog::Write(CLog::Debug, "New X:" + d2s(x));
     m_x = x;
 }
 qreal TemplatePhotoPosition::y() const
@@ -59,7 +111,6 @@ qreal TemplatePhotoPosition::y() const
 
 void TemplatePhotoPosition::setY(const qreal &y)
 {
-    CLog::Write(CLog::Debug, "New Y:" + d2s(y));
     m_y = y;
 }
 qreal TemplatePhotoPosition::rotate() const
@@ -69,7 +120,6 @@ qreal TemplatePhotoPosition::rotate() const
 
 void TemplatePhotoPosition::setRotate(const qreal &rotate)
 {
-    CLog::Write(CLog::Debug, "New Rotate:" + d2s(rotate));
     m_rotate = rotate;
 }
 qreal TemplatePhotoPosition::width() const
@@ -79,7 +129,6 @@ qreal TemplatePhotoPosition::width() const
 
 void TemplatePhotoPosition::setWidth(const qreal &width)
 {
-    CLog::Write(CLog::Debug, "New Width:" + d2s(width));
     m_width = width;
 }
 qreal TemplatePhotoPosition::height() const
@@ -89,7 +138,6 @@ qreal TemplatePhotoPosition::height() const
 
 void TemplatePhotoPosition::setHeight(const qreal &height)
 {
-    CLog::Write(CLog::Debug, "New Height:" + d2s(height));
     m_height = height;
 }
 qreal TemplatePhotoPosition::xphoto() const

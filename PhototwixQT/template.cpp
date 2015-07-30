@@ -72,9 +72,6 @@ void Template::setTemplatePhotoPositions(const QList<QObject *> &templatePhotoPo
     m_templatePhotoPositions = templatePhotoPositions;
 }
 
-
-
-
 void Template::Serialize(PrettyWriter<StringBuffer> &writer) const {
     writer.StartObject();
 
@@ -86,6 +83,21 @@ void Template::Serialize(PrettyWriter<StringBuffer> &writer) const {
 
     writer.Key("active");
     writer.Bool(m_active);
+
+    //Serialisation des TemplatePhotoPosition
+    QList<QObject*>::const_iterator it;
+
+    writer.Key("templatesPhotoPositions");
+    writer.StartArray();
+
+    for (it = m_templatePhotoPositions.begin(); it != m_templatePhotoPositions.end(); it++) {
+        TemplatePhotoPosition *tpp = dynamic_cast<TemplatePhotoPosition*>(*it);
+        if (tpp != 0) {
+            tpp->Serialize(writer);
+        }
+    }
+
+    writer.EndArray();
 
     writer.EndObject();
 }
@@ -103,11 +115,32 @@ void Template::Unserialize(Value const &value) {
     if (value.HasMember("active")) {
         m_active = value["active"].GetBool();
     }
+
+    if (value.HasMember("templatesPhotoPositions")) {
+        const Value& templatesPhotoPositions = value["templatesPhotoPositions"];
+        if (templatesPhotoPositions.IsArray()) {
+            for (SizeType i = 0; i < templatesPhotoPositions.Size(); i++) {
+                addTemplatePhotoPosition(templatesPhotoPositions[i]);
+            }
+        }
+    }
+}
+
+void Template::addTemplatePhotoPosition(const Value &value)
+{
+    std::stringstream sstm;
+    sstm << "Unserialise new Template Photo Position : " << m_templatePhotoPositions.count() << " for template " << m_name.toStdString();
+    CLog::Write(CLog::Info, sstm.str());
+
+    TemplatePhotoPosition *t = new TemplatePhotoPosition(value);
+
+    m_templatePhotoPositions.append(t);
+    t->setNumber(m_templatePhotoPositions.count());
 }
 
 void Template::addTemplatePhotoPosition() {
     std::stringstream sstm;
-    sstm << "Add a new Template Photo Position : " << m_templatePhotoPositions.count() << " pour template " << m_name.toStdString();
+    sstm << "Add a new Template Photo Position : " << m_templatePhotoPositions.count() << " for template " << m_name.toStdString();
     CLog::Write(CLog::Info, sstm.str());
 
     TemplatePhotoPosition *t = new TemplatePhotoPosition();
@@ -115,4 +148,24 @@ void Template::addTemplatePhotoPosition() {
     m_templatePhotoPositions.append(t);
 
     t->setNumber(m_templatePhotoPositions.count());
+}
+
+void Template::deleteTemplatePhotoPosition(int i)
+{
+    std::stringstream sstm;
+    sstm << "Delete Template Photo Position at position : " << i << " for template " << m_name.toStdString();
+    CLog::Write(CLog::Info, sstm.str());
+
+    m_templatePhotoPositions.removeAt(i - 1);
+
+    QList<QObject*>::iterator it;
+    i = 1;
+
+    for (it = m_templatePhotoPositions.begin(); it != m_templatePhotoPositions.end(); it++) {
+        TemplatePhotoPosition *tpp = dynamic_cast<TemplatePhotoPosition*>(*it);
+
+        if (tpp != 0) {
+            tpp->setNumber(i++);
+        }
+    }
 }

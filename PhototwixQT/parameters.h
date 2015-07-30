@@ -28,11 +28,10 @@ public:
 
     Q_INVOKABLE void activeTemplate(QString name);
     Q_INVOKABLE void unactiveTemplate(QString name);
+    Q_INVOKABLE void Serialize();
 
     QList<QObject*> getTemplates();
     void setTemplates(QList<QObject*> templates);
-
-    void Serialize();
 private:
     QList<QObject*>   m_templates;
     void addTemplate(QString name);
