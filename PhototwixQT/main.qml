@@ -21,8 +21,10 @@ ApplicationWindow {
         color: "#212126"
         anchors.fill: parent
     }
-
-    property Template currentEditedTemplate //property to comunicate between ConfigScreen and ConfigTemplateScreen with the current edited template
+    //property to comunicate between differentScreen
+    property Template currentEditedTemplate
+    property Template currentPhotoTemplate
+    property var currentActiveTemplates : parameters.activesTemplates
 
     TabView {
         id: mainTabView

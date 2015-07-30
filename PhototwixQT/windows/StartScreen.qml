@@ -9,15 +9,6 @@ Rectangle {
     color: "red"
     anchors.fill : parent
 
-    Rectangle {
-        width: 100
-        height: 100
-        color: "blue"
-        border.color: "white"
-        border.width: 5
-        radius: 10
-    }
-
     Column {
         spacing: 10
         anchors.fill: parent
@@ -28,59 +19,40 @@ Rectangle {
             width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
 
-            ButtonImage {
-                id: takePhotoButton;
-                label: "Take Photo";
-                //rotation: -2;
-                onClicked:
-                {
-                    mainTabView.currentIndex = 1
-                }
+            ListView {
+                anchors.fill: parent
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-            }
+                orientation: Qt.Horizontal
+                spacing: 10
 
-            GroupBox {
-                id: takePhotoOptionGroup
-                anchors.left: takePhotoButton.right
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: 50
+                Component {
+                    id: activeTemplateDelegate
 
-                Row {
-                    spacing: 20
+                    Image {
+                        id: templateSelect
+                        source: modelData.url
+                        sourceSize.height: takePhotoGroup.height * 0.8
+                        cache: true
+                        asynchronous: true
+                        antialiasing: true
 
-                    ButtonSelectorImage {
-                        id: onePhotoShoot; label: "1 Photo";
-                        onClicked:
-                        {
+                        MouseArea {
+                            id: templateSelectMouseArea
+                            anchors.fill: parent
 
+                            onPressed: {
+                                applicationWindows.currentPhotoTemplate = model.modelData
+                                mainTabView.currentIndex = 1
+                            }
                         }
                     }
 
-                    ButtonSelectorImage {
-                        id: twoPhotoShoot; label: "2 Photo";
-                        onClicked:
-                        {
 
-                        }
-                    }
-
-                    ButtonSelectorImage {
-                        id: fourPhotoShoot; label: "4 Photo";
-                        onClicked:
-                        {
-
-                        }
-                    }
-
-                    ButtonSelectorImage {
-                        id: gamePhotoShoot; label: "Game Photo";
-                        onClicked:
-                        {
-
-                        }
-                    }
                 }
+
+                model: currentActiveTemplates
+                delegate: activeTemplateDelegate
             }
         }
 

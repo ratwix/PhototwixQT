@@ -6,12 +6,15 @@ Rectangle {
     color: "blue"
     anchors.fill : parent
 
-    Rectangle {
-        width: 100
-        height: 100
-        color: "red"
-        border.color: "black"
-        border.width: 5
-        radius: 10
+    Image {
+        id: photoScreenTemplate
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        source: applicationWindows.currentPhotoTemplate.url
+        sourceSize.height: parent.height * 0.9
+        cache: true
+        asynchronous: true
+        antialiasing: true
+
     }
 }

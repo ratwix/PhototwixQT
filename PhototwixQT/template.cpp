@@ -59,6 +59,8 @@ void Template::setActive(bool active) {
         CLog::Write(CLog::Info, m_name.toStdString() + " active:" + (this->m_active ? "true" : "false"));
         //Save change to json files
         m_parameters->Serialize();
+        emit activeChanged();
+        m_parameters->rebuildActivesTemplates();
     }
 }
 

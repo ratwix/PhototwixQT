@@ -56,7 +56,7 @@ public:
 signals:
     void nameChanged(QString);
     void urlChanged(QUrl);
-    void activeChanged(bool);
+    void activeChanged();
     void templatePhotoPositionsChanged();
 
 private:

@@ -45,7 +45,6 @@ void Parameters::addTemplate(QString name) {
                 break;
             }
         }
-
     }
 
     if (!find) {
@@ -87,8 +86,8 @@ void Parameters::init() {
 
     //Read all .png and .jpg files in tempalte directory
     readTemplateDir();
-
     Serialize();
+    rebuildActivesTemplates();
 }
 
 /**
@@ -129,6 +128,16 @@ void Parameters::setTemplates(QList<QObject*> templates) {
     this->m_templates = templates;
     emit templatesChanged();
 }
+QList<QObject *> Parameters::getActivesTemplates() const
+{
+    return m_activesTemplates;
+}
+
+void Parameters::setActivesTemplates(const QList<QObject *> &activesTemplates)
+{
+    m_activesTemplates = activesTemplates;
+}
+
 
 
 /**
@@ -141,7 +150,7 @@ void Parameters::Serialize() {
     PrettyWriter<StringBuffer> writer(sb);
 
     writer.StartObject();
-        //save standard elements
+    //save standard elements
 
         //save template definition
 
@@ -205,4 +214,21 @@ void Parameters::Unserialize() {
             }
         }
     }
+}
+
+void Parameters::rebuildActivesTemplates()
+{
+    m_activesTemplates.clear();
+
+    QList<QObject*>::iterator it;
+
+    for (QList<QObject*>::iterator it = m_templates.begin(); it != m_templates.end(); it++) {
+        if (Template *t = dynamic_cast<Template*>(*it)) {
+            if (t->getActive()) {
+                m_activesTemplates.push_back(t);
+                emit activeTemplatesChanged();
+            }
+        }
+    }
+
 }

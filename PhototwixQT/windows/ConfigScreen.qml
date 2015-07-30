@@ -53,7 +53,9 @@ Rectangle {
                     Switch {
                         id:templateActiveSwitch
                         checked: model.modelData.active
-                        onCheckedChanged: {model.modelData.active = checked}
+                        onCheckedChanged: {
+                            model.modelData.active = checked
+                        }
                     }
 
                     ButtonImage {

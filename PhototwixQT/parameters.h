@@ -22,6 +22,7 @@ class Parameters : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QList<QObject*> templates READ getTemplates WRITE setTemplates NOTIFY templatesChanged)
+    Q_PROPERTY(QList<QObject*> activesTemplates READ getActivesTemplates WRITE setActivesTemplates NOTIFY activeTemplatesChanged)
 public:
     Parameters();
     ~Parameters();
@@ -32,16 +33,21 @@ public:
 
     QList<QObject*> getTemplates();
     void setTemplates(QList<QObject*> templates);
+    QList<QObject *> getActivesTemplates() const;
+    void setActivesTemplates(const QList<QObject *> &activesTemplates);
+    void rebuildActivesTemplates();
 private:
     QList<QObject*>   m_templates;
+    QList<QObject*>   m_activesTemplates;
+
     void addTemplate(QString name);
     void addTemplate(Value const &value);
-
     void init();
     void readTemplateDir();
     void Unserialize();
 signals:
     void templatesChanged();
+    void activeTemplatesChanged();
 };
 
 #endif // CPARAMETERS_H
