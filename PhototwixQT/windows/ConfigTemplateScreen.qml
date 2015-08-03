@@ -8,7 +8,8 @@ import "../resources/controls"
 Rectangle {
     id: configTemplateScreen
 
-    anchors.fill : parent
+    height: parent.height
+    width: parent.width
 
     property double aspectRation : 1.5 //TODO, replace with camera aspect ration
 
@@ -61,7 +62,7 @@ Rectangle {
                 onClicked:
                 {
                     parameters.Serialize();
-                    mainTabView.currentIndex = 2
+                    mainRectangle.state = "CONFIG"
                 }
             }
         }
@@ -185,7 +186,6 @@ Rectangle {
                             onPressed: {
                                 templatePhotoPosition.z = ++configTemplateScreenTemplate.highestZ; //set element to top
                                 parent.setFrameColor();
-                                //console.debug("px:", modelData.x, "py:", modelData.y, "x:", templatePhotoPosition.x, "y:", templatePhotoPosition.y, "maxx:", currentEditedTemplate.width, "maxy:", currentEditedTemplate.height)
                             }
                             onEntered: {
                                 currentFrameNumber = modelData.number;

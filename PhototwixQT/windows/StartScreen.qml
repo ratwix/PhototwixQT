@@ -6,8 +6,9 @@ import "../resources/controls"
 
 Rectangle {
     id: startScreen
-    color: "red"
-    anchors.fill : parent
+    color: "transparent"
+    height: parent.height
+    width: parent.width
 
     Column {
         spacing: 10
@@ -45,8 +46,7 @@ Rectangle {
 
                             onPressed: {
                                 applicationWindows.currentPhotoTemplate = parameters.addPhotoToGallerie("Test", model.modelData)
-                                //applicationWindows.currentPhotoTemplate = model.modelData
-                                mainTabView.currentIndex = 1
+                                 mainRectangle.state = "TAKE_PHOTO"
                             }
                         }
                     }
@@ -73,6 +73,22 @@ Rectangle {
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+
+    }
+
+    Image {
+        source: "../resources/images/config.png"
+        anchors.right: parent.right
+        anchors.top : parent.top
+        height: 60
+        fillMode: Image.PreserveAspectFit
+        MouseArea {
+            anchors.fill: parent
+
+            onPressed: {
+                mainRectangle.state = "CONFIG"
             }
         }
     }

@@ -8,7 +8,8 @@ import "../resources/controls"
 Rectangle {
     id: configScreen
     color: "green"
-    anchors.fill : parent
+    height: parent.height
+    width: parent.width
 
 
     signal currentEditedTemplateChange(url currentUrl) //TODO: changer avec un objet C++ template
@@ -68,7 +69,7 @@ Rectangle {
                         label: "Config"
                         onClicked: {
                             applicationWindows.currentEditedTemplate = model.modelData
-                            mainTabView.currentIndex = 3
+                            mainRectangle.state = "CONFIG_TEMPLATE"
                         }
                     }
                 }
@@ -79,5 +80,20 @@ Rectangle {
 
         model: parameters.templates
         delegate: fileDelegate
+    }
+
+    Image {
+        source: "../resources/images/back_button.png"
+        anchors.right: parent.right
+        anchors.top : parent.top
+        height: 60
+        fillMode: Image.PreserveAspectFit
+        MouseArea {
+            anchors.fill: parent
+
+            onPressed: {
+                mainRectangle.state = "START"
+            }
+        }
     }
 }

@@ -12,5 +12,7 @@
         <file>resources/images/cardboardSelected.png</file>
         <file>windows/ConfigScreen.qml</file>
         <file>windows/ConfigTemplateScreen.qml</file>
+        <file>resources/images/config.png</file>
+        <file>resources/images/back_button.png</file>
     </qresource>
 </RCC>

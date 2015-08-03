@@ -11,7 +11,7 @@ ApplicationWindow {
     id: applicationWindows
     title: "Phototwix V5"
     visible: true
-//    visibility: Window.FullScreen
+    //visibility: Window.FullScreen
 
     height: 900
     width: 1600
@@ -21,51 +21,99 @@ ApplicationWindow {
         color: "#212126"
         anchors.fill: parent
     }
+
     //property to comunicate between differentScreen
     property Template currentEditedTemplate
     property Photo    currentPhotoTemplate
     property var currentActiveTemplates : parameters.activesTemplates
 
-    TabView {
-        id: mainTabView
-        visible: false
+    Rectangle {
+        id: mainRectangle
         anchors.fill: parent
-        //tabsVisible: false
-        frameVisible: false
+        visible: false
+        color:"transparent"
 
-        Tab {
-            title: "Start Screen"
-            StartScreen {
-                id: startScreen
-            }
+        state:"START"
 
+        StartScreen {
+            id: startScreen
+            x:applicationWindows.width
+            y:0
         }
 
-        Tab {
-            title: "Take Photo Screen"
-            TakePhotoScreen {
-                id: takePhotoScreen
-            }
+        TakePhotoScreen {
+            id: takePhotoScreen
+            x:applicationWindows.width
+            y:0
         }
 
-        Tab {
-            title: "Config Screen"
-            ConfigScreen {
-                id: configScreen
-            }
+        ConfigScreen {
+            id: configScreen
+            x:applicationWindows.width
+            y:0
         }
 
-        Tab {
-            title: "Config Template Screen"
-            ConfigTemplateScreen {
-                id: configTemplateScreen
-            }
+        ConfigTemplateScreen {
+            id: configTemplateScreen
+            x:applicationWindows.width
+            y:0
         }
+
+
+        states: [
+            State {
+                name: "START"
+                PropertyChanges { target: startScreen; x:0}
+            },
+            State {
+                name: "TAKE_PHOTO"
+                PropertyChanges { target: takePhotoScreen; x:0}
+            },
+            State {
+                name: "CONFIG"
+                PropertyChanges { target: configScreen; x:0}
+            },
+            State {
+                name: "CONFIG_TEMPLATE"
+                PropertyChanges { target: configTemplateScreen; x:0}
+            }
+        ]
+
+        transitions: [
+          Transition {
+              from: "START"; to: "TAKE_PHOTO"
+              ParallelAnimation {
+                  PropertyAnimation { target: startScreen
+                                      properties: "x"
+                                      easing.type: Easing.Linear
+                                      duration: 500 }
+                  PropertyAnimation { target: takePhotoScreen
+                                      properties: "x"
+                                      easing.type: Easing.OutBounce
+                                      duration: 2000 }
+              }
+          },
+          Transition {
+                from: "TAKE_PHOTO"; to: "START"
+                ParallelAnimation {
+                    PropertyAnimation { target: takePhotoScreen
+                                        properties: "x"
+                                        easing.type: Easing.Linear
+                                        duration: 500 }
+                    PropertyAnimation { target: startScreen
+                                        properties: "x"
+                                        easing.type: Easing.OutCirc
+                                        duration: 1000 }
+                }
+            }
+        ]
+
     }
+
 
     property var splashWindow : Splash {
         onTimeout: {
-            mainTabView.visible = true
+            mainRectangle.visible = true
         }
     }
 }

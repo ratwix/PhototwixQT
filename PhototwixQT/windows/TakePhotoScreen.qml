@@ -4,7 +4,8 @@ import QtQuick.Window 2.1
 Rectangle {
     id: takePhotoScreen
     color: "blue"
-    anchors.fill : parent
+    height: parent.height
+    width: parent.width
 
     Image {
         id: photoScreenTemplate
@@ -13,8 +14,22 @@ Rectangle {
         source: applicationWindows.currentPhotoTemplate.currentTemplate.url
         sourceSize.height: parent.height * 0.9
         cache: true
-        asynchronous: true
+        asynchronous: false
         antialiasing: true
+    }
 
+    Image {
+        source: "../resources/images/back_button.png"
+        anchors.right: parent.right
+        anchors.top : parent.top
+        height: 60
+        fillMode: Image.PreserveAspectFit
+        MouseArea {
+            anchors.fill: parent
+
+            onPressed: {
+                mainRectangle.state = "START"
+            }
+        }
     }
 }
