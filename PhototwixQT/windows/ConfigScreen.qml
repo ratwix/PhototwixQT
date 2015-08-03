@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtQuick.Controls 1.3
+import QtQuick.Controls 1.4
 
 import "../resources/controls"
 
@@ -31,7 +31,13 @@ Rectangle {
                     spacing: 10
                     anchors.verticalCenter: parent.verticalCenter
 
+                    BusyIndicator {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        running: templateImage.status === Image.Loading
+                    }
+
                     Image {
+                        id:templateImage
                         anchors.horizontalCenter: parent.horizontalCenter
                         source: model.modelData.url
                         sourceSize.height: 150

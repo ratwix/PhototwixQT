@@ -6,7 +6,6 @@
         <file>windows/TakePhotoScreen.qml</file>
         <file>windows/StartScreen.qml</file>
         <file>resources/controls/ButtonImage.qml</file>
-        <file>resources/controls/BusyIndicator.qml</file>
         <file>resources/images/box-shadow.png</file>
         <file>resources/images/cardboard.png</file>
         <file>resources/controls/ButtonSelectorImage.qml</file>
