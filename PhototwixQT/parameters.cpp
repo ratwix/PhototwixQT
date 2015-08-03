@@ -9,6 +9,7 @@
 #include "clog.h"
 #include "rapidjson/document.h"
 #include <sys/stat.h>
+#include <photogallery.h>
 
 using namespace std;
 using namespace rapidjson;
@@ -82,6 +83,8 @@ void Parameters::unactiveTemplate(QString name) {
  * * Charge les nouveaux templates              //TODO
  */
 void Parameters::init() {
+    m_photogallery = new PhotoGallery();
+
     Unserialize();
 
     //Read all .png and .jpg files in tempalte directory
@@ -182,6 +185,17 @@ void Parameters::Serialize() {
     jsonFile.close();
 }
 
+Photo* Parameters::addPhotoToGallerie(QString name, QObject *temp)
+{
+    if (Template *t = dynamic_cast<Template*>(temp)) {
+        CLog::Write(CLog::Warning, "Creation d'une nouvelle photo " + name.toStdString());
+        return m_photogallery->addPhoto(name, t);
+    } else {
+        CLog::Write(CLog::Warning, "Can't cast template");
+    }
+    return NULL;
+}
+
 void Parameters::Unserialize() {
     ifstream jsonFile(CONFIG_FILE, ios::in);
 
@@ -232,3 +246,14 @@ void Parameters::rebuildActivesTemplates()
     }
 
 }
+
+PhotoGallery *Parameters::getPhotogallery() const
+{
+    return m_photogallery;
+}
+
+void Parameters::setPhotogallery(PhotoGallery *photogallery)
+{
+    m_photogallery = photogallery;
+}
+

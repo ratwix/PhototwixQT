@@ -6,7 +6,10 @@ SOURCES += main.cpp \
     template.cpp \
     parameters.cpp \
     clog.cpp \
-    templatephotoposition.cpp
+    templatephotoposition.cpp \
+    photo.cpp \
+    photopart.cpp \
+    photogallery.cpp
 
 RESOURCES += qml.qrc
 
@@ -49,4 +52,7 @@ HEADERS += \
     rapidjson/reader.h \
     rapidjson/stringbuffer.h \
     rapidjson/writer.h \
-    templatephotoposition.h
+    templatephotoposition.h \
+    photo.h \
+    photopart.h \
+    photogallery.h

@@ -3,7 +3,7 @@ import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 
-import com.phototwix.template 1.0
+import com.phototwix.components 1.0
 
 import "./windows"
 
@@ -23,7 +23,7 @@ ApplicationWindow {
     }
     //property to comunicate between differentScreen
     property Template currentEditedTemplate
-    property Template currentPhotoTemplate
+    property Photo    currentPhotoTemplate
     property var currentActiveTemplates : parameters.activesTemplates
 
     TabView {

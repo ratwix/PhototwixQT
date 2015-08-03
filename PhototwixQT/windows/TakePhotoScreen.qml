@@ -10,7 +10,7 @@ Rectangle {
         id: photoScreenTemplate
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
-        source: applicationWindows.currentPhotoTemplate.url
+        source: applicationWindows.currentPhotoTemplate.currentTemplate.url
         sourceSize.height: parent.height * 0.9
         cache: true
         asynchronous: true

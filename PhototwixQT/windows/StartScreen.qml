@@ -20,11 +20,13 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
 
             ListView {
+                id:chooseTemplateListView
                 anchors.fill: parent
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
                 orientation: Qt.Horizontal
                 spacing: 10
+
 
                 Component {
                     id: activeTemplateDelegate
@@ -42,13 +44,12 @@ Rectangle {
                             anchors.fill: parent
 
                             onPressed: {
-                                applicationWindows.currentPhotoTemplate = model.modelData
+                                applicationWindows.currentPhotoTemplate = parameters.addPhotoToGallerie("Test", model.modelData)
+                                //applicationWindows.currentPhotoTemplate = model.modelData
                                 mainTabView.currentIndex = 1
                             }
                         }
                     }
-
-
                 }
 
                 model: currentActiveTemplates
