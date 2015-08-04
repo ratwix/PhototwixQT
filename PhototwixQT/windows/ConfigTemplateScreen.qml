@@ -11,8 +11,6 @@ Rectangle {
     height: parent.height
     width: parent.width
 
-    property double aspectRation : 1.5 //TODO, replace with camera aspect ration
-
     property var currentFrame: undefined
     property int currentFrameNumber : 0
 
@@ -82,7 +80,7 @@ Rectangle {
         Image {
             id: currentEditedTemplate
 
-            source: applicationWindows.currentEditedTemplate.url
+            source: applicationWindows.currentEditedTemplate ? applicationWindows.currentEditedTemplate.url : ""
 
             asynchronous: true
             cache: false
@@ -99,7 +97,7 @@ Rectangle {
                 id:templatePhotoPositionsRepeater
                 anchors.fill: parent
 
-                model: applicationWindows.currentEditedTemplate.templatePhotoPositions
+                model: applicationWindows.currentEditedTemplate ? applicationWindows.currentEditedTemplate.templatePhotoPositions : ""
 
                 Rectangle {
                     id:templatePhotoPosition
@@ -107,7 +105,7 @@ Rectangle {
                     x: currentEditedTemplate.width * modelData.x
                     z:10
                     height: currentEditedTemplate.height * modelData.height
-                    width: height * aspectRation
+                    width: height * applicationWindows.cameraRation
                     rotation: modelData.rotate
                     color: "#800000FF"
                     smooth: true

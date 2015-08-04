@@ -26,6 +26,8 @@ ApplicationWindow {
     property Template currentEditedTemplate
     property Photo    currentPhotoTemplate
     property var currentActiveTemplates : parameters.activesTemplates
+    property int nbSecPhoto: 4
+    property double cameraRation: 1.5
 
     Rectangle {
         id: mainRectangle

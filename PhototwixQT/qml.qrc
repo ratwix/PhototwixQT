@@ -14,5 +14,11 @@
         <file>windows/ConfigTemplateScreen.qml</file>
         <file>resources/images/config.png</file>
         <file>resources/images/back_button.png</file>
+        <file>resources/images/blue_button.png</file>
+        <file>resources/images/green_button.png</file>
+        <file>resources/images/grey_button.png</file>
+        <file>resources/images/red_button.png</file>
+        <file>resources/controls/Countdown.qml</file>
+        <file>resources/controls/CountdownLight.qml</file>
     </qresource>
 </RCC>
