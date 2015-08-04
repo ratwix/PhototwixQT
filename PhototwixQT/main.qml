@@ -94,6 +94,13 @@ ApplicationWindow {
                                       easing.type: Easing.OutBounce
                                       duration: 2000 }
               }
+
+              onRunningChanged: {
+                  if (mainRectangle.state == "TAKE_PHOTO" && (!running)) {
+                      //TODO : démarer le process de photo
+                      takePhotoScreen.startPhotoProcess()
+                  }
+              }
           },
           Transition {
                 from: "TAKE_PHOTO"; to: "START"
@@ -110,6 +117,11 @@ ApplicationWindow {
             }
         ]
 
+        onStateChanged: {
+            if (state == "TAKE_PHOTO") {
+                takePhotoScreen.init()
+            }
+        }
     }
 
 

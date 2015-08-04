@@ -46,7 +46,7 @@ Rectangle {
 
                             onPressed: {
                                 applicationWindows.currentPhotoTemplate = parameters.addPhotoToGallerie("Test", model.modelData)
-                                 mainRectangle.state = "TAKE_PHOTO"
+                                mainRectangle.state = "TAKE_PHOTO"
                             }
                         }
                     }

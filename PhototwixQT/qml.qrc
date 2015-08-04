@@ -20,5 +20,8 @@
         <file>resources/images/red_button.png</file>
         <file>resources/controls/Countdown.qml</file>
         <file>resources/controls/CountdownLight.qml</file>
+        <file>resources/sounds/beep-07.wav</file>
+        <file>resources/sounds/beep-08b.wav</file>
+        <file>resources/sounds/camera-shutter-click-01.wav</file>
     </qresource>
 </RCC>

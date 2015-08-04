@@ -9,6 +9,13 @@ Rectangle {
     height: parent.height
     width: parent.width
 
+    function init() {
+        countdown.init()
+    }
+
+    function startPhotoProcess() {
+        countdown.start()
+    }
 
     Camera {
         id: camera
@@ -73,6 +80,12 @@ Rectangle {
         Countdown {
             id: countdown
             anchors.fill: parent
+            onEndCount: {
+                var d = new Date();
+                var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
+                var imagePath = "d:\\phototwix-" + date + ".jpg" //TODO : modifier cet element. Doit etre un jpg
+                camera.imageCapture.captureToLocation(imagePath)
+            }
         }
     }
 
@@ -92,37 +105,16 @@ Rectangle {
         }
     }
 
-    Timer { //TODO : integrer le timer a Countdown et emettre des signaux onStart et onFinish
-        id:coundown
-        interval: 300; running: false; repeat: true; triggeredOnStart: true
-
-        property variant initialTime
-
-        onRunningChanged: {
-            if (running == true) {
-                //photo1.startPhotoProcess()
-                initialTime = Date.now()
-            }
-        }
-
-        onTriggered: {
-            var nbSec = Math.round(((Date.now() - initialTime) / 1000))
-
-            countdown.updateStatus(nbSec)
-
-
-            if (nbSec == nbSecPhoto) {
-                coundown.stop()
-                var d = new Date();
-
-                var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
-
-                var imagePath = "d:\\phototwix-" + date + ".png" //TODO : modifier cet element
-
-                camera.imageCapture.captureToLocation(imagePath)
-            }
+    ButtonImage {
+        label: "TEST"
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        onClicked: {
+            countdown.start()
         }
     }
+
+
 
 
 }
