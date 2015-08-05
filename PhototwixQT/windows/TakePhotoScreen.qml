@@ -1,7 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Window 2.1
+import QtQml.Models 2.2
 import QtMultimedia 5.4
 import "../resources/controls"
+import "../resources/renderer"
 
 Rectangle {
     id: takePhotoScreen
@@ -9,8 +11,21 @@ Rectangle {
     height: parent.height
     width: parent.width
 
+    QtObject {
+        id:p
+        property int cameraHeight : 0
+        property int cameraWidth : 0
+        property int currentPhoto : 0
+        property int nb_photos : photoPartModel.count
+    }
+
     function init() {
         countdown.init()
+    }
+
+    function startGlobalPhotoProcess() {
+        p.currentPhoto = 0;
+        takePhotoScreen.startPhotoProcess();
     }
 
     function startPhotoProcess() {
@@ -22,11 +37,10 @@ Rectangle {
         captureMode: Camera.CaptureStillImage
 
         imageCapture {
-            onImageCaptured: {
-                //TODO jouer le son
-            }
             onImageSaved: {
-                //photo1.endPhotoProcess("file:///" + camera.imageCapture.capturedImagePath)
+                var path = "file:///" + camera.imageCapture.capturedImagePath
+                applicationWindows.currentPhotoTemplate.photoPartList[p.currentPhoto].path = path;
+                photoPartRepeater.itemAt(p.currentPhoto).endPhotoProcess(path)
             }
         }
 
@@ -45,10 +59,20 @@ Rectangle {
                 var cres = camera.viewfinder.resolution;  //Choose the best resolution available
 
                 applicationWindows.cameraRation = cres.width / cres.height;
+                p.cameraHeight = cres.height
+                p.cameraWidth = cres.width
 
                 console.log("Current " + cres.width + ":" + cres.height + " ration:" + applicationWindows.cameraRation);
             }
         }
+    }
+
+    VideoOutput {
+            id: cameraVideoOutput
+            height: p.cameraHeight
+            width: p.cameraWidth
+            source: camera
+            visible: false
     }
 
     Item {
@@ -58,12 +82,40 @@ Rectangle {
         height: parent.height * 0.90
         width: parent.width
 
+
+        DelegateModel {
+            id: photoPartModel
+            model:applicationWindows.currentPhotoTemplate ? applicationWindows.currentPhotoTemplate.photoPartList : undefined
+            delegate: PhotoShootRenderer {
+                y: photoScreenTemplate.y + photoScreenTemplate.height * modelData.photoPosition.y
+                x: photoScreenTemplate.x + photoScreenTemplate.width * modelData.photoPosition.x
+                height: photoScreenTemplate.height * modelData.photoPosition.height
+                width: photoScreenTemplate.width * modelData.photoPosition.width
+                rotation: modelData.photoPosition.rotate
+                photoIndex: modelData.photoPosition.number
+                onProcessEnd: {
+                    p.currentPhoto++;
+                    if (p.currentPhoto < p.nb_photos) { //We reshoot if some photos miss
+                        takePhotoScreen.startPhotoProcess();
+                    }
+                }
+            }
+        }
+
+        Repeater {
+            id:photoPartRepeater
+            anchors.fill: parent
+            model:photoPartModel
+        }
+
+
         Image { //Back template
             id: photoScreenTemplate
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
             source: applicationWindows.currentPhotoTemplate ? applicationWindows.currentPhotoTemplate.currentTemplate.url : ""
-            sourceSize.height: parent.height * 0.95
+            height: parent.height * 0.95
+            width: sourceSize.width / sourceSize.height * height
             cache: true
             asynchronous: false
             antialiasing: true
@@ -80,7 +132,12 @@ Rectangle {
         Countdown {
             id: countdown
             anchors.fill: parent
-            onEndCount: {
+
+            onStartCount: { //debut de prise d'une photo
+                photoPartRepeater.itemAt(p.currentPhoto).startPhotoProcess()
+            }
+
+            onEndCount: { //fin de prise d'une photo
                 var d = new Date();
                 var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
                 var imagePath = "d:\\phototwix-" + date + ".jpg" //TODO : modifier cet element. Doit etre un jpg
@@ -110,11 +167,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         onClicked: {
-            countdown.start()
+            startGlobalPhotoProcess();
         }
     }
-
-
-
-
 }

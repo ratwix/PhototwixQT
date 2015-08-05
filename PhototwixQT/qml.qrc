@@ -23,5 +23,6 @@
         <file>resources/sounds/beep-07.wav</file>
         <file>resources/sounds/beep-08b.wav</file>
         <file>resources/sounds/camera-shutter-click-01.wav</file>
+        <file>resources/renderer/PhotoShootRenderer.qml</file>
     </qresource>
 </RCC>

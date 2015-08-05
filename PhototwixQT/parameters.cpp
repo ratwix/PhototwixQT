@@ -188,7 +188,7 @@ void Parameters::Serialize() {
 Photo* Parameters::addPhotoToGallerie(QString name, QObject *temp)
 {
     if (Template *t = dynamic_cast<Template*>(temp)) {
-        CLog::Write(CLog::Warning, "Creation d'une nouvelle photo " + name.toStdString());
+        CLog::Write(CLog::Info, "Creation d'une nouvelle photo " + name.toStdString());
         return m_photogallery->addPhoto(name, t);
     } else {
         CLog::Write(CLog::Warning, "Can't cast template");

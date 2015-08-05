@@ -121,7 +121,6 @@ Rectangle {
 
         onRunningChanged: {
             if (running == true) {
-                //photo1.startPhotoProcess()
                 countdownElementPrivate.previusStatus = 0;
                 initialTime = Date.now()
                 countdownElement.startCount()

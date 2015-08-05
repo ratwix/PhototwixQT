@@ -12,6 +12,7 @@ class PhotoGallery : public QObject
     Q_PROPERTY(QList<QObject*> photoList READ photoList WRITE setPhotoList NOTIFY photoListChanged)
 public:
     PhotoGallery();
+    ~PhotoGallery();
     Q_INVOKABLE Photo* addPhoto(QString name, Template *t);
 
 

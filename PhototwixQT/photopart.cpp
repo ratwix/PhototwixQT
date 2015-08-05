@@ -5,6 +5,13 @@ PhotoPart::PhotoPart()
 
 }
 
+PhotoPart::PhotoPart(TemplatePhotoPosition *tpp):
+    m_path("")
+{
+    CLog::Write(CLog::Debug, "Add new photo part to photo");
+    m_photoPosition = tpp;
+}
+
 TemplatePhotoPosition *PhotoPart::photoPosition() const
 {
     return m_photoPosition;
@@ -21,7 +28,9 @@ QUrl PhotoPart::path() const
 
 void PhotoPart::setPath(const QUrl &path)
 {
+    CLog::Write(CLog::Debug, "Ecriture du path" + path.toString().toStdString());
     m_path = path;
+    emit pathChanged();
 }
 
 

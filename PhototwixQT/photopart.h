@@ -9,8 +9,10 @@ class PhotoPart : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUrl path READ path WRITE setPath NOTIFY pathChanged)
+    Q_PROPERTY(TemplatePhotoPosition* photoPosition READ photoPosition WRITE setPhotoPosition NOTIFY photoPositionChanged)
 public:
     PhotoPart();
+    PhotoPart(TemplatePhotoPosition *tpp);
 
     TemplatePhotoPosition *photoPosition() const;
     void setPhotoPosition(TemplatePhotoPosition *photoPosition);
@@ -23,6 +25,7 @@ private:
     TemplatePhotoPosition*  m_photoPosition;
 signals:
     void                    pathChanged();
+    void                    photoPositionChanged();
 public slots:
 };
 

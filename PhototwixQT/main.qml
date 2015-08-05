@@ -29,6 +29,7 @@ ApplicationWindow {
     property int nbSecPhoto: 4
     property double cameraRation: 1.5
 
+
     Rectangle {
         id: mainRectangle
         anchors.fill: parent
@@ -97,8 +98,7 @@ ApplicationWindow {
 
               onRunningChanged: {
                   if (mainRectangle.state == "TAKE_PHOTO" && (!running)) {
-                      //TODO : démarer le process de photo
-                      takePhotoScreen.startPhotoProcess()
+                      takePhotoScreen.startGlobalPhotoProcess();
                   }
               }
           },

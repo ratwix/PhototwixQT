@@ -15,11 +15,13 @@ class Photo : public QObject
     Q_OBJECT
     Q_PROPERTY(QUrl finalResult READ finalResult WRITE setFinalResult NOTIFY finalResultChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QList<QObject*> photoPartList READ photoPartList WRITE setPhotoPartList NOTIFY photoPartListChanged)
+    Q_PROPERTY(QList<QObject*> photoPartList READ photoPartList WRITE setPhotoPartList NOTIFY photoPartListChange)
     Q_PROPERTY(int nbPrint READ nbPrint WRITE setNbPrint NOTIFY nbPrintChanged)
     Q_PROPERTY(Template* currentTemplate READ currentTemplate WRITE setCurrentTemplate NOTIFY currentTemplateChanged)
 public:
     Photo();
+    Photo(QString name, Template *t);
+    ~Photo();
 
     QUrl finalResult() const;
     void setFinalResult(const QUrl &finalResult);
@@ -47,9 +49,9 @@ private:
 signals:
     void finalResultChanged();
     void nameChanged();
-    void photoPartListChanged();
     void nbPrintChanged();
     void currentTemplateChanged();
+    void photoPartListChange();
 
 public slots:
 };
