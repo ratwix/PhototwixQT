@@ -32,6 +32,32 @@ Rectangle {
         countdown.start()
     }
 
+    function endGlobalPhotoProcess() {
+        var photoHeighP = 6;
+        var photoHeighP = 6;
+        var dpi = 300;
+
+        function saveImage(result) {
+            var d = new Date();
+            var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
+            var imageName = "phototwix-" + date + ".png"
+            var path = applicationDirPath + "/photos/" + imageName;
+            result.saveToFile(path);
+        }
+
+        if (takePhotoScreenPhotoSizedBlock.height > takePhotoScreenPhotoSizedBlock.width) { //Photo in portrait
+            var captureHeight = photoHeighP * dpi;
+            var captureWidth = takePhotoScreenPhotoSizedBlock.width / takePhotoScreenPhotoSizedBlock.height * captureHeight;
+            takePhotoScreenPhotoSizedBlock.grabToImage(saveImage, Qt.size(captureWidth, captureHeight));
+        } else { //Photo in landscape
+            var captureWidth = photoHeighP * dpi;
+            var captureHeight = takePhotoScreenPhotoSizedBlock.height / takePhotoScreenPhotoSizedBlock.width * captureWidth;
+            takePhotoScreenPhotoSizedBlock.grabToImage(saveImage, Qt.size(captureWidth, captureHeight));
+        }
+
+
+    }
+
     Camera {
         id: camera
         captureMode: Camera.CaptureStillImage
@@ -82,48 +108,58 @@ Rectangle {
         height: parent.height * 0.90
         width: parent.width
 
+        Rectangle {
+            id:takePhotoScreenPhotoSizedBlock
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: parent.height * 0.95
+            width: photoScreenTemplate.sourceSize.width / photoScreenTemplate.sourceSize.height * height
 
-        DelegateModel {
-            id: photoPartModel
-            model:applicationWindows.currentPhotoTemplate ? applicationWindows.currentPhotoTemplate.photoPartList : undefined
-            delegate: PhotoShootRenderer {
-                y: photoScreenTemplate.y + photoScreenTemplate.height * modelData.photoPosition.y
-                x: photoScreenTemplate.x + photoScreenTemplate.width * modelData.photoPosition.x
-                height: photoScreenTemplate.height * modelData.photoPosition.height
-                width: photoScreenTemplate.width * modelData.photoPosition.width
-                rotation: modelData.photoPosition.rotate
-                photoIndex: modelData.photoPosition.number
-                onProcessEnd: {
-                    p.currentPhoto++;
-                    if (p.currentPhoto < p.nb_photos) { //We reshoot if some photos miss
-                        takePhotoScreen.startPhotoProcess();
+
+            DelegateModel {
+                id: photoPartModel
+                model:applicationWindows.currentPhotoTemplate ? applicationWindows.currentPhotoTemplate.photoPartList : undefined
+                delegate: PhotoShootRenderer {
+                    y: photoScreenTemplate.y + photoScreenTemplate.height * modelData.photoPosition.y
+                    x: photoScreenTemplate.x + photoScreenTemplate.width * modelData.photoPosition.x
+                    height: photoScreenTemplate.height * modelData.photoPosition.height
+                    width: photoScreenTemplate.width * modelData.photoPosition.width
+                    rotation: modelData.photoPosition.rotate
+                    photoIndex: modelData.photoPosition.number
+                    onProcessEnd: {
+                        p.currentPhoto++;
+                        if (p.currentPhoto < p.nb_photos) { //All photos are not taken, shoot again
+                            takePhotoScreen.startPhotoProcess();
+                        } else {  //finis all photos
+                            endGlobalPhotoProcess();
+                        }
                     }
                 }
             }
-        }
 
-        Repeater {
-            id:photoPartRepeater
-            anchors.fill: parent
-            model:photoPartModel
-        }
+            Repeater {
+                id:photoPartRepeater
+                anchors.fill: parent
+                model:photoPartModel
+            }
 
 
-        Image { //Back template
-            id: photoScreenTemplate
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            source: applicationWindows.currentPhotoTemplate ? applicationWindows.currentPhotoTemplate.currentTemplate.url : ""
-            height: parent.height * 0.95
-            width: sourceSize.width / sourceSize.height * height
-            cache: true
-            asynchronous: false
-            antialiasing: true
+            Image { //Back template
+                id: photoScreenTemplate
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: applicationWindows.currentPhotoTemplate ? applicationWindows.currentPhotoTemplate.currentTemplate.url : ""
+                height: parent.height
+                width: parent.width
+                cache: true
+                asynchronous: false
+                antialiasing: true
+            }
         }
     }
 
     Item {
-        id:takePhotoScreenCountdownBlock
+        id:takePhotoScreenBottomBlock
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15
         anchors.top: takePhotoScreenPhotoBlock.bottom
@@ -148,7 +184,8 @@ Rectangle {
     }
 
 
-    Image {
+
+    Image { //TODO : a supprimer
         source: "../resources/images/back_button.png"
         anchors.right: parent.right
         anchors.top : parent.top
@@ -160,15 +197,6 @@ Rectangle {
             onPressed: {
                 mainRectangle.state = "START"
             }
-        }
-    }
-
-    ButtonImage {
-        label: "TEST"
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        onClicked: {
-            startGlobalPhotoProcess();
         }
     }
 }

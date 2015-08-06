@@ -92,5 +92,11 @@ Rectangle {
             }
         }
     }
+
+    EditPhotoControl {
+        id:editPhotoControl
+        width: 200
+        height: parent.height
+    }
 }
 
