@@ -140,7 +140,8 @@ Rectangle {
             onEndCount: { //fin de prise d'une photo
                 var d = new Date();
                 var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
-                var imagePath = "d:\\phototwix-" + date + ".jpg" //TODO : modifier cet element. Doit etre un jpg
+                var imageName = "phototwix-" + date + ".jpg" //TODO : modifier cet element. Doit etre un jpg
+                var imagePath = applicationDirPath + "/photos/single/" + imageName;
                 camera.imageCapture.captureToLocation(imagePath)
             }
         }

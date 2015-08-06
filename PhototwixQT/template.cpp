@@ -14,7 +14,9 @@ Template::Template(QString name, Parameters *parameters)
     m_parameters = parameters;
     setName(name);
     m_active = false;
-    setUrl("file:///" + QGuiApplication::applicationDirPath() + "/" + TEMPLATE_PATH + "/" + name);
+    QString path = QString(("file:///" + TEMPLATE_PATH2 + "/" + name.toStdString()).c_str());
+
+    setUrl(QUrl(path));
 }
 
 Template::Template(Value const &value, Parameters *parameters) {

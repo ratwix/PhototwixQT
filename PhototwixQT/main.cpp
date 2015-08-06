@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    Parameters            parameters;
+    Parameters            parameters(QGuiApplication::applicationDirPath()); //todo ajouter le path pour uniformisation
 
 
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());

@@ -25,8 +25,9 @@ class Parameters : public QObject
     Q_PROPERTY(QList<QObject*> templates READ getTemplates WRITE setTemplates NOTIFY templatesChanged)
     Q_PROPERTY(QList<QObject*> activesTemplates READ getActivesTemplates WRITE setActivesTemplates NOTIFY activeTemplatesChanged)
     Q_PROPERTY(PhotoGallery* photoGallery READ getPhotogallery WRITE setPhotogallery NOTIFY photoGalleryChanged)
+    Q_PROPERTY(QUrl applicationDirPath READ getApplicationDirPath WRITE setApplicationDirPath NOTIFY applicationDirPathChanged)
 public:
-    Parameters();
+    Parameters(QUrl appDirPath);
     ~Parameters();
 
     Q_INVOKABLE void activeTemplate(QString name);
@@ -45,20 +46,26 @@ public:
     PhotoGallery *getPhotogallery() const;
     void setPhotogallery(PhotoGallery *photogallery);
 
+    QUrl getApplicationDirPath() const;
+    void setApplicationDirPath(const QUrl &applicationDirPath);
+
 private:
     QList<QObject*>     m_templates;
     QList<QObject*>     m_activesTemplates;
     PhotoGallery*       m_photogallery;
+    QUrl                m_applicationDirPath;
 
     void addTemplate(QString name);
     void addTemplate(Value const &value);
     void init();
     void readTemplateDir();
     void Unserialize();
+
 signals:
     void templatesChanged();
     void activeTemplatesChanged();
     void photoGalleryChanged();
+    void applicationDirPathChanged();
 };
 
 #endif // CPARAMETERS_H

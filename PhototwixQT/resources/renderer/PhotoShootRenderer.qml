@@ -9,12 +9,14 @@ Flipable {
     property bool flipped: false
     property int  photoIndex: 0
     property bool photoTaked: false
+    property double destRotation
 
     signal processEnd()
 
     function startPhotoProcess() {
         flipped = true;
         photoTaked = true;
+        destRotation = -rotation;
     }
 
     function endPhotoProcess(photoResult) {
@@ -70,7 +72,7 @@ Flipable {
     }
 
     transform: Rotation {
-        id: rotation
+        id: rotationTransformer
         origin.x: photoShootRenderer.width/2
         origin.y: photoShootRenderer.height/2
         axis.x: 0; axis.y: 1; axis.z: 0     // set axis.y to 1 to rotate around y-axis
@@ -79,13 +81,15 @@ Flipable {
 
     states: State {
         name: "back"
-        PropertyChanges { target: rotation; angle: 180 }
+        PropertyChanges { target: rotationTransformer; angle: 180 }
+        PropertyChanges { target: photoShootRenderer; rotation: destRotation}
         when: photoShootRenderer.flipped
     }
 
     transitions: Transition {
         ParallelAnimation {
-            NumberAnimation { target: rotation; property: "angle"; duration: 400 }
+            NumberAnimation { target: rotationTransformer; property: "angle"; duration: 400 }
+            NumberAnimation { target: photoShootRenderer; property: "rotation"; duration: 400 }
             SequentialAnimation {
                 NumberAnimation { target: photoShootRenderer; property: "scale"; to: 0.8; duration: 200 }
                 NumberAnimation { target: photoShootRenderer; property: "scale"; to: 1.0; duration: 200 }

@@ -19,8 +19,9 @@ inline bool file_exists (const std::string& name) {
   return (stat (name.c_str(), &buffer) == 0);
 }
 
-Parameters::Parameters()
+Parameters::Parameters(QUrl appDirPath)
 {
+    m_applicationDirPath = appDirPath;
     CLog::Write(CLog::Info, "C++ : Initialisation des parametres");
     init();
 }
@@ -173,6 +174,9 @@ void Parameters::Serialize() {
     //write to file
     std::ofstream jsonFile;
 
+    //string jsonurl = string(m_applicationDirPath.toString().toStdString() + CONFIG_FILE);
+    //CLog::Write(CLog::Debug, "JSon String " + jsonurl);
+
     jsonFile.open(CONFIG_FILE);
     jsonFile << sb.GetString();
 
@@ -197,6 +201,7 @@ Photo* Parameters::addPhotoToGallerie(QString name, QObject *temp)
 }
 
 void Parameters::Unserialize() {
+    //string jsonurl = string(m_applicationDirPath.toString().toStdString() + CONFIG_FILE);
     ifstream jsonFile(CONFIG_FILE, ios::in);
 
     if (!jsonFile) {
@@ -256,4 +261,13 @@ void Parameters::setPhotogallery(PhotoGallery *photogallery)
 {
     m_photogallery = photogallery;
 }
+QUrl Parameters::getApplicationDirPath() const
+{
+    return m_applicationDirPath;
+}
 
+void Parameters::setApplicationDirPath(const QUrl &applicationDirPath)
+{
+    CLog::Write(CLog::Debug, QUrl("Application dir path " + applicationDirPath.toString()).toString().toStdString());
+    m_applicationDirPath = applicationDirPath;
+}
