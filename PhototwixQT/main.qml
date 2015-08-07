@@ -16,6 +16,8 @@ ApplicationWindow {
     height: 900
     width: 1600
 
+    property string backColor: "#212126"
+
     //Fond d'ecran
     Rectangle {
         color: "#212126"
@@ -70,7 +72,10 @@ ApplicationWindow {
             },
             State {
                 name: "TAKE_PHOTO"
-                PropertyChanges { target: takePhotoScreen; x:0}
+                PropertyChanges { target: takePhotoScreen;
+                                    x:0
+                                    state:"PHOTO_SHOOT"
+                                }
             },
             State {
                 name: "CONFIG"

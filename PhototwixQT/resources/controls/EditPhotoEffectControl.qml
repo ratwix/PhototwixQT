@@ -22,10 +22,11 @@ Rectangle {
 
     ListModel {
         id:effectButtonModel
+        ListElement { name: "Couleur"; image: "../images/effets/couleur.png"}
         ListElement { name: "Noir et blanc"; image: "../images/effets/black_white.png"}
         ListElement { name: "Sepia"; image: "../images/effets/sepia.png"}
         ListElement { name: "Chaud"; image: "../images/effets/warm.png"}
-        ListElement { name: "Froid"; image: "../images/effets/cold.png"} //TODO: inserer un pointeur sur la fonction javascript, mais ne fonctionne pas
+        ListElement { name: "Froid"; image: "../images/effets/cold.png"}
     }
 
     DelegateModel {
@@ -52,6 +53,9 @@ Rectangle {
 
     function applyEffect(effectName) {
         switch(effectName) {
+            case "Couleur":
+                couleur();
+                break;
             case "Noir et blanc":
                 grayscale();
                 break;
@@ -83,6 +87,10 @@ Rectangle {
 
     function cold() {
         console.log("cold")
+    }
+
+    function couleur() {
+        console.log("couleur")
     }
 }
 

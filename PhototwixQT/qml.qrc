@@ -24,11 +24,17 @@
         <file>resources/sounds/beep-08b.wav</file>
         <file>resources/sounds/camera-shutter-click-01.wav</file>
         <file>resources/renderer/PhotoShootRenderer.qml</file>
-        <file>resources/controls/EditPhotoControl.qml</file>
+        <file>resources/controls/EditPhotoEffectControl.qml</file>
         <file>resources/controls/EditPhotoEffectButton.qml</file>
         <file>resources/images/effets/black_white.png</file>
         <file>resources/images/effets/cold.png</file>
         <file>resources/images/effets/sepia.png</file>
         <file>resources/images/effets/warm.png</file>
+        <file>resources/controls/EditPhotoActionControl.qml</file>
+        <file>resources/controls/EditPhotoActionButton.qml</file>
+        <file>resources/images/delete.png</file>
+        <file>resources/images/home.png</file>
+        <file>resources/images/print.png</file>
+        <file>resources/images/effets/couleur.png</file>
     </qresource>
 </RCC>

@@ -35,9 +35,10 @@ Rectangle {
                     Image {
                         id: templateSelect
                         source: modelData.url
-                        sourceSize.height: takePhotoGroup.height * 0.8
+                        height: takePhotoGroup.height * 0.9
+                        fillMode: Image.PreserveAspectFit
                         cache: true
-                        asynchronous: true
+                        asynchronous: false
                         antialiasing: true
 
                         MouseArea {
@@ -54,6 +55,10 @@ Rectangle {
 
                 model: currentActiveTemplates
                 delegate: activeTemplateDelegate
+
+                Component.onCompleted: {
+                    positionViewAtIndex(count / 2 + 1, ListView.Center) //TODO marche pas
+                }
             }
         }
 
@@ -91,12 +96,6 @@ Rectangle {
                 mainRectangle.state = "CONFIG"
             }
         }
-    }
-
-    EditPhotoControl {
-        id:editPhotoControl
-        width: 200
-        height: parent.height
     }
 }
 

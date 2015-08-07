@@ -7,9 +7,11 @@ import "../resources/renderer"
 
 Rectangle {
     id: takePhotoScreen
-    color: "blue"
+    color: "transparent"
     height: parent.height
     width: parent.width
+
+    state:"PHOTO_SHOOT"
 
     QtObject {
         id:p
@@ -37,12 +39,13 @@ Rectangle {
         var photoHeighP = 6;
         var dpi = 300;
 
-        function saveImage(result) {
+        function saveImage(result) { //TODO: Faire un call asynchrone avec un worker script
             var d = new Date();
             var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
             var imageName = "phototwix-" + date + ".png"
             var path = applicationDirPath + "/photos/" + imageName;
             result.saveToFile(path);
+            state = "PHOTO_EDIT" //TODO changer le changement d'etat une fois le call asynchrone fait
         }
 
         if (takePhotoScreenPhotoSizedBlock.height > takePhotoScreenPhotoSizedBlock.width) { //Photo in portrait
@@ -54,8 +57,6 @@ Rectangle {
             var captureHeight = takePhotoScreenPhotoSizedBlock.height / takePhotoScreenPhotoSizedBlock.width * captureWidth;
             takePhotoScreenPhotoSizedBlock.grabToImage(saveImage, Qt.size(captureWidth, captureHeight));
         }
-
-
     }
 
     Camera {
@@ -107,6 +108,7 @@ Rectangle {
         anchors.topMargin: 10
         height: parent.height * 0.90
         width: parent.width
+        anchors.left:editPhotoEffectControl.right
 
         Rectangle {
             id:takePhotoScreenPhotoSizedBlock
@@ -167,7 +169,10 @@ Rectangle {
 
         Countdown {
             id: countdown
-            anchors.fill: parent
+            height: parent.height
+            width: parent.width
+            x:0
+            y:0
 
             onStartCount: { //debut de prise d'une photo
                 photoPartRepeater.itemAt(p.currentPhoto).startPhotoProcess()
@@ -181,9 +186,72 @@ Rectangle {
                 camera.imageCapture.captureToLocation(imagePath)
             }
         }
+
+        EditPhotoActionControl {
+            id:editPhotoActionControl
+            height: parent.height
+            width: parent.width
+            x:0
+            y:takePhotoScreenBottomBlock.height + takePhotoScreenBottomBlock.anchors.bottomMargin
+        }
+    }
+
+    EditPhotoEffectControl {
+        id:editPhotoEffectControl
+        width: 200
+        height: parent.height
+        anchors.top: parent.top
+        x:-200
+        visible: false
     }
 
 
+    states: [
+        State {
+            name: "PHOTO_SHOOT"
+        },
+        State {
+            name: "PHOTO_EDIT"
+            PropertyChanges { target: editPhotoEffectControl
+                              visible: true
+                              x:0
+            }
+            PropertyChanges { target: countdown
+                              y: takePhotoScreenBottomBlock.height + takePhotoScreenBottomBlock.anchors.bottomMargin
+            }
+            PropertyChanges { target: editPhotoActionControl
+                              y: 0
+            }
+            PropertyChanges { target: takePhotoScreenBottomBlock
+                              anchors.bottomMargin: 0
+            }
+        }
+
+    ]
+
+    transitions: [
+      Transition {
+          from: "PHOTO_SHOOT"; to: "PHOTO_EDIT"
+          ParallelAnimation {
+              PropertyAnimation { target: editPhotoEffectControl
+                                  properties: "x"
+                                  easing.type: Easing.Linear
+                                  duration: 250 }
+              SequentialAnimation {
+                  PropertyAnimation { target: countdown
+                                      properties: "y"
+                                      easing.type: Easing.Linear
+                                      duration: 125 }
+                  PropertyAnimation { target: editPhotoActionControl
+                                      properties: "y"
+                                      easing.type: Easing.Linear
+                                      duration: 125 }
+              }
+          }
+      }
+    ]
+
+/*
 
     Image { //TODO : a supprimer
         source: "../resources/images/back_button.png"
@@ -199,4 +267,18 @@ Rectangle {
             }
         }
     }
+
+    ButtonImage { //TODO : a supprimer
+        label:"Test State"
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        onClicked: {
+            if (takePhotoScreen.state == "PHOTO_SHOOT") {
+                takePhotoScreen.state = "PHOTO_EDIT"
+            } else {
+                takePhotoScreen.state = "PHOTO_SHOOT"
+            }
+        }
+    }
+    */
 }
