@@ -4,6 +4,7 @@
 #include <QtQml>
 
 #include "parameters.h"
+#include "filereader.h"
 #include "clog.h"
 
 int main(int argc, char *argv[])
@@ -15,10 +16,12 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     Parameters            parameters(QGuiApplication::applicationDirPath()); //todo ajouter le path pour uniformisation
+    FileReader            fileReader;
 
 
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     engine.rootContext()->setContextProperty("parameters", &parameters);
+    engine.rootContext()->setContextProperty("fileReader", &fileReader);
 
     //Enregistrement des types de donnée
     qmlRegisterType<Template>("com.phototwix.components", 1, 0, "Template");
