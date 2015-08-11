@@ -5,12 +5,9 @@ Item {
     property variant itemSource
     property real    value:1.0
 
-    Colorize {
+    EffectSepiaShader {
         anchors.fill: parent
         source: itemSource
-        hue: 0.1
-        saturation: 0.25
-        lightness: 0.1
-        opacity: value
+        amount: 1.0
     }
 }

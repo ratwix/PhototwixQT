@@ -25,8 +25,8 @@ Rectangle {
         ListElement { name: "Couleur"; image: "../images/effets/couleur.png"}
         ListElement { name: "Noir et blanc"; image: "../images/effets/black_white.png"}
         ListElement { name: "Sepia"; image: "../images/effets/sepia.png"}
-        ListElement { name: "Chaud"; image: "../images/effets/warm.png"}
-        ListElement { name: "Froid"; image: "../images/effets/cold.png"}
+        ListElement { name: "X-Pro"; image: "../images/effets/warm.png"}
+        ListElement { name: "Willow"; image: "../images/effets/cold.png"}
     }
 
     DelegateModel {
@@ -62,11 +62,11 @@ Rectangle {
             case "Sepia":
                 sepia();
                 break;
-            case "Chaud":
-                warm();
+            case "X-Pro":
+                xpro();
                 break;
-            case "Froid":
-                cold();
+            case "Willow":
+                willow();
                 break;
             default:
                 break;
@@ -84,12 +84,14 @@ Rectangle {
         applicationWindows.effectSource = "grayscale"
     }
 
-    function warm() {
-        console.log("warm")
+    function xpro() {
+        console.log("xpro")
+        applicationWindows.effectSource = "xpro2"
     }
 
-    function cold() {
-        console.log("cold")
+    function willow() {
+        console.log("willow")
+        applicationWindows.effectSource = "willow"
     }
 
     function couleur() {

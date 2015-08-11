@@ -4,7 +4,6 @@ import QtMultimedia 5.4
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
 
-import "../../script/effects.js" as MyEffectScript
 
 Flipable {
     id: photoShootRenderer
@@ -32,6 +31,8 @@ Flipable {
     function resetFilters() {
         filter_black_white.visible = false;
         filter_sepia.visible = false;
+        filter_xpro2.visible = false;
+        filter_willow.visible = false;
     }
 
     front: Rectangle {
@@ -70,6 +71,20 @@ Flipable {
             anchors.fill: parent
         }
 
+        EffectXPRO2 {
+            id:filter_xpro2
+            visible: false
+            itemSource: photoPreview
+            anchors.fill: parent
+        }
+
+        EffectWillow {
+            id:filter_willow
+            visible: false
+            itemSource: photoPreview
+            anchors.fill: parent
+        }
+
         Text {
             id:currentLabel
             anchors.centerIn: parent
@@ -90,6 +105,14 @@ Flipable {
 
         if (effectSource == "sepia") {
             filter_sepia.visible = true;
+        }
+
+        if (effectSource == "xpro2") {
+            filter_xpro2.visible = true;
+        }
+
+        if (effectSource == "willow") {
+            filter_willow.visible = true;
         }
     }
 

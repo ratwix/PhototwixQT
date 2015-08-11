@@ -38,5 +38,8 @@
         <file>resources/images/effets/couleur.png</file>
         <file>resources/renderer/EffectSepia.qml</file>
         <file>resources/renderer/EffectGrayscale.qml</file>
+        <file>resources/renderer/EffectXPRO2.qml</file>
+        <file>resources/renderer/EffectSepiaShader.qml</file>
+        <file>resources/renderer/EffectWillow.qml</file>
     </qresource>
 </RCC>
