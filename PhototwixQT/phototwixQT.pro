@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     templatephotoposition.cpp \
     photo.cpp \
     photopart.cpp \
-    photogallery.cpp
+    photogallery.cpp \
+    filereader.cpp
 
 RESOURCES += qml.qrc
 
@@ -55,4 +56,5 @@ HEADERS += \
     templatephotoposition.h \
     photo.h \
     photopart.h \
-    photogallery.h
+    photogallery.h \
+    filereader.h

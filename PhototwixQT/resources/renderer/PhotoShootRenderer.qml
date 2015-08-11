@@ -2,6 +2,9 @@ import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
 import QtMultimedia 5.4
 import QtQuick 2.4
+import QtGraphicalEffects 1.0
+
+import "../../script/effects.js" as MyEffectScript
 
 Flipable {
     id: photoShootRenderer
@@ -10,6 +13,7 @@ Flipable {
     property int  photoIndex: 0
     property bool photoTaked: false
     property double destRotation
+    property string effectSource : applicationWindows.effectSource
 
     signal processEnd()
 
@@ -17,11 +21,17 @@ Flipable {
         flipped = true;
         photoTaked = true;
         destRotation = -rotation;
+        resetFilters();
     }
 
     function endPhotoProcess(photoResult) {
         console.log(photoResult);
         photoPreview.source = photoResult;
+    }
+
+    function resetFilters() {
+        filter_black_white.visible = false;
+        filter_sepia.visible = false;
     }
 
     front: Rectangle {
@@ -32,17 +42,32 @@ Flipable {
         Image {
             id: photoPreview
             anchors.fill: parent
-            visible: false
-            mirror: true
+            mirror: false //TODO: a mettre dans les options
+            smooth: true
             onStatusChanged: {
                 if (photoPreview.status == Image.Ready) {
-                    photoPreview.visible = true
+                    //effectHolder.visible = true
+                    //shaderEffectSource.visible = true
                     photoTaked = true; //photo is taked, wait to switch finish
                     flipped = false;
                     currentLabel.visible = false;
 
                 }
             }
+        }
+
+        EffectGrayscale {
+            id:filter_black_white
+            visible: false
+            itemSource: photoPreview
+            anchors.fill: parent
+        }
+
+        EffectSepia {
+            id:filter_sepia
+            visible: false
+            itemSource: photoPreview
+            anchors.fill: parent
         }
 
         Text {
@@ -53,12 +78,26 @@ Flipable {
         }
     }
 
+    onEffectSourceChanged: { //effectManagement
+        resetFilters();
+        if (effectSource == "color") {
+
+        }
+
+        if (effectSource == "grayscale") {
+            filter_black_white.visible = true;
+        }
+
+        if (effectSource == "sepia") {
+            filter_sepia.visible = true;
+        }
+    }
+
 
     back: Rectangle {
         anchors.fill: parent
         id:videoPreviewArea
         color:"orange"
-
 
         ShaderEffectSource { //Duplication de la camera
             id:videoPreview

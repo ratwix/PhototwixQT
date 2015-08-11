@@ -45,8 +45,9 @@ Rectangle {
                             id: templateSelectMouseArea
                             anchors.fill: parent
 
-                            onPressed: {
+                            onClicked: {
                                 applicationWindows.currentPhotoTemplate = parameters.addPhotoToGallerie("Test", model.modelData)
+                                applicationWindows.effectSource = "EffectPassThrough.qml"
                                 mainRectangle.state = "TAKE_PHOTO"
                             }
                         }

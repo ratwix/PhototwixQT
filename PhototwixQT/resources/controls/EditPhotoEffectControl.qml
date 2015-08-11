@@ -75,10 +75,13 @@ Rectangle {
 
     function sepia() {
         console.log("sepia")
+        applicationWindows.effectSource = "sepia"
     }
 
     function grayscale() {
         console.log("grayscale")
+        //applicationWindows.effectSource = "EffectBlackAndWhite.qml"
+        applicationWindows.effectSource = "grayscale"
     }
 
     function warm() {
@@ -91,6 +94,7 @@ Rectangle {
 
     function couleur() {
         console.log("couleur")
+        applicationWindows.effectSource = "color"
     }
 }
 

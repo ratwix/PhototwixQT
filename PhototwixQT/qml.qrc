@@ -36,5 +36,7 @@
         <file>resources/images/home.png</file>
         <file>resources/images/print.png</file>
         <file>resources/images/effets/couleur.png</file>
+        <file>resources/renderer/EffectSepia.qml</file>
+        <file>resources/renderer/EffectGrayscale.qml</file>
     </qresource>
 </RCC>

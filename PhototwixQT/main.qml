@@ -30,6 +30,7 @@ ApplicationWindow {
     property var currentActiveTemplates : parameters.activesTemplates
     property int nbSecPhoto: 4
     property double cameraRation: 1.5
+    property string effectSource : "color"
 
 
     Rectangle {
