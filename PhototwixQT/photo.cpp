@@ -91,6 +91,16 @@ void Photo::setCurrentTemplate(Template *currentTemplate)
 {
     m_currentTemplate = currentTemplate;
 }
+QUrl Photo::finalResultSD() const
+{
+    return m_finalResultSD;
+}
+
+void Photo::setFinalResultSD(const QUrl &finalResultSD)
+{
+    m_finalResultSD = finalResultSD;
+}
+
 
 
 

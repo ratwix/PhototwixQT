@@ -14,6 +14,7 @@ class Photo : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUrl finalResult READ finalResult WRITE setFinalResult NOTIFY finalResultChanged)
+    Q_PROPERTY(QUrl finalResultSD READ finalResultSD WRITE setFinalResultSD NOTIFY finalResultSDChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QList<QObject*> photoPartList READ photoPartList WRITE setPhotoPartList NOTIFY photoPartListChange)
     Q_PROPERTY(int nbPrint READ nbPrint WRITE setNbPrint NOTIFY nbPrintChanged)
@@ -40,14 +41,19 @@ public:
     Template *currentTemplate() const;
     void setCurrentTemplate(Template *currentTemplate);
 
+    QUrl finalResultSD() const;
+    void setFinalResultSD(const QUrl &finalResultSD);
+
 private:
     QUrl                m_finalResult;
+    QUrl                m_finalResultSD;
     QString             m_name;
     QList<QObject*>     m_photoPartList;
     int                 m_nbPrint;
     Template*           m_currentTemplate;
 signals:
     void finalResultChanged();
+    void finalResultSDChanged();
     void nameChanged();
     void nbPrintChanged();
     void currentTemplateChanged();

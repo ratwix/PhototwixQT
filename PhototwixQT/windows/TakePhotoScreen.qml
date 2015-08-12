@@ -36,7 +36,6 @@ Rectangle {
 
     function endGlobalPhotoProcess() {
         var photoHeighP = 6;
-        var photoHeighP = 6;
         var dpi = 300;
 
         function saveImage(result) { //TODO: Faire un call asynchrone avec un worker script
@@ -45,9 +44,21 @@ Rectangle {
             var imageName = "phototwix-" + date + ".png"
             var path = applicationDirPath + "/photos/" + imageName;
             result.saveToFile(path);
+            applicationWindows.currentPhoto.name = d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear() + " " + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"; //save image name
+            applicationWindows.currentPhoto.finalResult = path; //save image path
             state = "PHOTO_EDIT" //TODO changer le changement d'etat une fois le call asynchrone fait
         }
 
+        function saveImageSD(result) { //TODO: Faire un call asynchrone avec un worker script
+            var d = new Date();
+            var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
+            var imageName = "phototwix-" + date + ".png"
+            var path = applicationDirPath + "/photos/sd/" + imageName;
+            result.saveToFile(path);
+            applicationWindows.currentPhoto.finalResultSD = path; //save image path
+        }
+
+        //HQ
         if (takePhotoScreenPhotoSizedBlock.height > takePhotoScreenPhotoSizedBlock.width) { //Photo in portrait
             var captureHeight = photoHeighP * dpi;
             var captureWidth = takePhotoScreenPhotoSizedBlock.width / takePhotoScreenPhotoSizedBlock.height * captureHeight;
@@ -56,6 +67,17 @@ Rectangle {
             var captureWidth = photoHeighP * dpi;
             var captureHeight = takePhotoScreenPhotoSizedBlock.height / takePhotoScreenPhotoSizedBlock.width * captureWidth;
             takePhotoScreenPhotoSizedBlock.grabToImage(saveImage, Qt.size(captureWidth, captureHeight));
+        }
+
+        //SD
+        if (takePhotoScreenPhotoSizedBlock.height > takePhotoScreenPhotoSizedBlock.width) { //Photo in portrait
+            var captureHeight = photoHeighP * dpi / 5;
+            var captureWidth = takePhotoScreenPhotoSizedBlock.width / takePhotoScreenPhotoSizedBlock.height * captureHeight;
+            takePhotoScreenPhotoSizedBlock.grabToImage(saveImageSD, Qt.size(captureWidth, captureHeight));
+        } else { //Photo in landscape
+            var captureWidth = photoHeighP * dpi / 5;
+            var captureHeight = takePhotoScreenPhotoSizedBlock.height / takePhotoScreenPhotoSizedBlock.width * captureWidth;
+            takePhotoScreenPhotoSizedBlock.grabToImage(saveImageSD, Qt.size(captureWidth, captureHeight));
         }
     }
 
@@ -66,7 +88,7 @@ Rectangle {
         imageCapture {
             onImageSaved: {
                 var path = "file:///" + camera.imageCapture.capturedImagePath
-                applicationWindows.currentPhotoTemplate.photoPartList[p.currentPhoto].path = path;
+                applicationWindows.currentPhoto.photoPartList[p.currentPhoto].path = path;
                 photoPartRepeater.itemAt(p.currentPhoto).endPhotoProcess(path)
             }
         }
@@ -120,7 +142,7 @@ Rectangle {
 
             DelegateModel {
                 id: photoPartModel
-                model:applicationWindows.currentPhotoTemplate ? applicationWindows.currentPhotoTemplate.photoPartList : undefined
+                model:applicationWindows.currentPhoto ? applicationWindows.currentPhoto.photoPartList : undefined
                 delegate: PhotoShootRenderer {
                     y: photoScreenTemplate.y + photoScreenTemplate.height * modelData.photoPosition.y
                     x: photoScreenTemplate.x + photoScreenTemplate.width * modelData.photoPosition.x
@@ -150,7 +172,7 @@ Rectangle {
                 id: photoScreenTemplate
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: applicationWindows.currentPhotoTemplate ? applicationWindows.currentPhotoTemplate.currentTemplate.url : ""
+                source: applicationWindows.currentPhoto ? applicationWindows.currentPhoto.currentTemplate.url : ""
                 height: parent.height
                 width: parent.width
                 cache: true
@@ -184,6 +206,7 @@ Rectangle {
                 var imageName = "phototwix-" + date + ".jpg" //TODO : modifier cet element. Doit etre un jpg
                 var imagePath = applicationDirPath + "/photos/single/" + imageName;
                 camera.imageCapture.captureToLocation(imagePath)
+                //TODO: ajouter l'image a l'image part
             }
         }
 
@@ -250,35 +273,4 @@ Rectangle {
           }
       }
     ]
-
-/*
-
-    Image { //TODO : a supprimer
-        source: "../resources/images/back_button.png"
-        anchors.right: parent.right
-        anchors.top : parent.top
-        height: 60
-        fillMode: Image.PreserveAspectFit
-        MouseArea {
-            anchors.fill: parent
-
-            onPressed: {
-                mainRectangle.state = "START"
-            }
-        }
-    }
-
-    ButtonImage { //TODO : a supprimer
-        label:"Test State"
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        onClicked: {
-            if (takePhotoScreen.state == "PHOTO_SHOOT") {
-                takePhotoScreen.state = "PHOTO_EDIT"
-            } else {
-                takePhotoScreen.state = "PHOTO_SHOOT"
-            }
-        }
-    }
-    */
 }

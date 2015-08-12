@@ -24,7 +24,6 @@ Flipable {
     }
 
     function endPhotoProcess(photoResult) {
-        console.log(photoResult);
         photoPreview.source = photoResult;
     }
 
@@ -47,8 +46,6 @@ Flipable {
             smooth: true
             onStatusChanged: {
                 if (photoPreview.status == Image.Ready) {
-                    //effectHolder.visible = true
-                    //shaderEffectSource.visible = true
                     photoTaked = true; //photo is taked, wait to switch finish
                     flipped = false;
                     currentLabel.visible = false;

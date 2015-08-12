@@ -1,0 +1,1 @@
+* Créer les repertoires de destinatino des photos et template si ils existent pas

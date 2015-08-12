@@ -46,8 +46,8 @@ Rectangle {
                             anchors.fill: parent
 
                             onClicked: {
-                                applicationWindows.currentPhotoTemplate = parameters.addPhotoToGallerie("Test", model.modelData)
-                                applicationWindows.effectSource = "EffectPassThrough.qml"
+                                applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", model.modelData)
+                                applicationWindows.effectSource = "color"
                                 mainRectangle.state = "TAKE_PHOTO"
                             }
                         }

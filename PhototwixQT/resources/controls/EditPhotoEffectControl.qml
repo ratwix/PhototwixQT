@@ -74,28 +74,22 @@ Rectangle {
     }
 
     function sepia() {
-        console.log("sepia")
         applicationWindows.effectSource = "sepia"
     }
 
     function grayscale() {
-        console.log("grayscale")
-        //applicationWindows.effectSource = "EffectBlackAndWhite.qml"
         applicationWindows.effectSource = "grayscale"
     }
 
     function xpro() {
-        console.log("xpro")
         applicationWindows.effectSource = "xpro2"
     }
 
     function willow() {
-        console.log("willow")
         applicationWindows.effectSource = "willow"
     }
 
     function couleur() {
-        console.log("couleur")
         applicationWindows.effectSource = "color"
     }
 }
