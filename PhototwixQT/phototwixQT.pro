@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     photo.cpp \
     photopart.cpp \
     photogallery.cpp \
-    filereader.cpp
+    filereader.cpp \
+    common.cpp
 
 RESOURCES += qml.qrc
 

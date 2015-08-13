@@ -1,3 +1,4 @@
+#include <QQmlEngine>
 #include <sstream>
 #include <string>
 #include "photo.h"
@@ -32,6 +33,8 @@ Photo::Photo(QString name, Template *t)
 
 Photo::~Photo()
 {
+    CLog::Write(CLog::Debug, "Delete Photo " + m_finalResult.toString().toStdString());
+
     QList<QObject*>::iterator it;
 
     for (it = m_photoPartList.begin(); it != m_photoPartList.end(); it++) {
@@ -49,6 +52,7 @@ QUrl Photo::finalResult() const
 void Photo::setFinalResult(const QUrl &finalResult)
 {
     m_finalResult = finalResult;
+    emit finalResultChanged();
 }
 QString Photo::name() const
 {
@@ -93,20 +97,20 @@ void Photo::setCurrentTemplate(Template *currentTemplate)
 }
 QUrl Photo::finalResultSD() const
 {
+    CLog::Write(CLog::Debug, "Get Photo SD : " + m_finalResultSD.toString().toStdString());
     return m_finalResultSD;
 }
 
 void Photo::setFinalResultSD(const QUrl &finalResultSD)
 {
     m_finalResultSD = finalResultSD;
+    emit finalResultSDChanged();
 }
-
-
-
 
 void Photo::addPhotoPart(TemplatePhotoPosition *t)
 {
     PhotoPart* pp = new PhotoPart(t);
+    QQmlEngine::setObjectOwnership(pp, QQmlEngine::CppOwnership);
     m_photoPartList.append(pp);
 }
 

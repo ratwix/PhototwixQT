@@ -85,6 +85,7 @@ void Parameters::unactiveTemplate(QString name) {
  */
 void Parameters::init() {
     m_photogallery = new PhotoGallery();
+    m_photogallerylist.append(m_photogallery);
 
     Unserialize();
 
@@ -193,7 +194,10 @@ Photo* Parameters::addPhotoToGallerie(QString name, QObject *temp)
 {
     if (Template *t = dynamic_cast<Template*>(temp)) {
         CLog::Write(CLog::Info, "Creation d'une nouvelle photo " + name.toStdString());
-        return m_photogallery->addPhoto(name, t);
+        Photo *p = m_photogallery->addPhoto(name, t);
+        emit photoGalleryChanged();
+        emit photoGalleryListChanged();
+        return p;
     } else {
         CLog::Write(CLog::Warning, "Can't cast template");
     }
@@ -271,3 +275,14 @@ void Parameters::setApplicationDirPath(const QUrl &applicationDirPath)
     CLog::Write(CLog::Debug, QUrl("Application dir path " + applicationDirPath.toString()).toString().toStdString());
     m_applicationDirPath = applicationDirPath;
 }
+QList<QObject *> Parameters::getPhotogallerylist() const
+{
+    CLog::Write(CLog::Debug, "Get Photo Gallery " + itos(m_photogallerylist.length()));
+    return m_photogallerylist;
+}
+
+void Parameters::setPhotogallerylist(const QList<QObject *> &photogallerylist)
+{
+    m_photogallerylist = photogallerylist;
+}
+
