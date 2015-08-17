@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <sstream>
+#include <QQmlEngine>
 #include "template.h"
 
 Template::Template()
@@ -26,6 +27,7 @@ Template::Template(Value const &value, Parameters *parameters) {
 
 Template::~Template()
 {
+    CLog::Write(CLog::Debug, "Delete Template");
     //Free templatesPhotoPosition
     QList<QObject*>::iterator it;
 
@@ -137,7 +139,7 @@ void Template::addTemplatePhotoPosition(const Value &value)
     CLog::Write(CLog::Info, sstm.str());
 
     TemplatePhotoPosition *t = new TemplatePhotoPosition(value);
-
+    QQmlEngine::setObjectOwnership(t, QQmlEngine::CppOwnership);
     m_templatePhotoPositions.append(t);
     t->setNumber(m_templatePhotoPositions.count());
 }
@@ -148,7 +150,7 @@ void Template::addTemplatePhotoPosition() {
     CLog::Write(CLog::Info, sstm.str());
 
     TemplatePhotoPosition *t = new TemplatePhotoPosition();
-
+    QQmlEngine::setObjectOwnership(t, QQmlEngine::CppOwnership);
     m_templatePhotoPositions.append(t);
 
     t->setNumber(m_templatePhotoPositions.count());

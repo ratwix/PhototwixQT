@@ -130,7 +130,6 @@ ApplicationWindow {
         }
     }
 
-
     property var splashWindow : Splash {
         onTimeout: {
             mainRectangle.visible = true

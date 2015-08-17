@@ -5,6 +5,7 @@
 #include <dirent.h>
 #include <iostream>
 #include <fstream>
+#include <QQmlEngine>
 
 #include "clog.h"
 #include "rapidjson/document.h"
@@ -28,6 +29,7 @@ Parameters::Parameters(QUrl appDirPath)
 
 Parameters::~Parameters()
 {
+    CLog::Write(CLog::Debug, "Delete Parameters");
     //Free templates
     QList<QObject*>::iterator it;
 
@@ -52,6 +54,7 @@ void Parameters::addTemplate(QString name) {
     if (!find) {
         CLog::Write(CLog::Info, "Add Template " + name.toStdString());
         Template *t = new Template(name, this);
+        QQmlEngine::setObjectOwnership(t, QQmlEngine::CppOwnership);
         m_templates.append(t);
     }
 }
@@ -61,6 +64,7 @@ void Parameters::addTemplate(Value const &value) {
     //TODO : check if template file exists, or remove it
     if (file_exists(string(TEMPLATE_PATH) + "/" + value["template_name"].GetString())) {
         Template *t = new Template(value, this);
+        QQmlEngine::setObjectOwnership(t, QQmlEngine::CppOwnership);
         m_templates.append(t);
     } else {
         CLog::Write(CLog::Info, "Template file not found " + string(value["template_name"].GetString()));

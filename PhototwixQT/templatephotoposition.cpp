@@ -22,6 +22,11 @@ TemplatePhotoPosition::TemplatePhotoPosition()
     setXphoto(0);
 }
 
+TemplatePhotoPosition::~TemplatePhotoPosition()
+{
+   CLog::Write(CLog::Debug, "Delete TemplatePhotoPosition");
+}
+
 TemplatePhotoPosition::TemplatePhotoPosition(const Value &value)
 {
     Unserialize(value);

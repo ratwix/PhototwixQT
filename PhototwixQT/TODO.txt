@@ -19,9 +19,7 @@ Actions
 
 Administration
 - Camera, choix et choix de resolution
+- 
 
 Hardware
 - Flash
-
-Bug
-- Créer les répertoire de destination pour eviter un bug

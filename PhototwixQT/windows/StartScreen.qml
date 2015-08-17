@@ -14,7 +14,9 @@ Rectangle {
     /**
       * Top part : template Selection
       */
-    ListView {
+
+
+    ChooseTemplateControl {
         id:chooseTemplateListView
         height: parent.height * 0.5
         width: parent.width
@@ -22,104 +24,24 @@ Rectangle {
         anchors.top:parent.top
         anchors.topMargin: 20
         anchors.leftMargin: 20
-
-        orientation: Qt.Horizontal
-        spacing: 10
-
-
-        Component {
-            id: activeTemplateDelegate
-
-            Image {
-                id: templateSelect
-                source: modelData.url
-                height: chooseTemplateListView.height * 0.9
-                fillMode: Image.PreserveAspectFit
-                cache: true
-                asynchronous: false
-                antialiasing: true
-
-                MouseArea {
-                    id: templateSelectMouseArea
-                    anchors.fill: parent
-
-                    onClicked: {
-                        applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", model.modelData)
-                        applicationWindows.effectSource = "color"
-                        mainRectangle.state = "TAKE_PHOTO"
-                    }
-                }
-            }
-        }
-
-        model: currentActiveTemplates
-        delegate: activeTemplateDelegate
-
-        Component.onCompleted: {
-            positionViewAtIndex(count / 2 + 1, ListView.Center) //TODO marche pas
-        }
     }
 
     /**
       * Bottom part, album
       */
 
-/*
-    DelegateModel {
-        id: albumVisualModel
-        model: parameters.photoGalleryList
-        delegate: AlbumDelegate {}
+    GalleryControl {
+        id:galleryControl
+        anchors.fill: parent;
     }
 
-    PathView {
-        id: photosPathView;
-        model: albumVisualModel.parts.stack
-        pathItemCount: 5
-        //visible: !busyIndicator.visible
-        anchors.centerIn: parent;
-        anchors.verticalCenterOffset: -30
-        path: Path {
-            PathAttribute { name: 'z'; value: 9999.0 }
-            PathLine { x: 1; y: 1 }
-            PathAttribute { name: 'z'; value: 0.0 }
-        }
-    }
-*/
-
-    Item {
-        Package.name: 'album'
-        id: albumWrapper;
-        //width: height - 20;
-        height: applicationWindows.height * 0.45
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        DelegateModel {
-            id: visualModel
-            delegate: PhotoDelegate2 {}
-            model: parameters.photoGallery.photoList
-        }
-
-        PathView {
-            id: photosPathView;
-            model: visualModel
-            pathItemCount: 5
-            //visible: !busyIndicator.visible
-            anchors.centerIn: parent;
-            anchors.verticalCenterOffset: -30
-            path: Path {
-                PathAttribute { name: 'z'; value: 9999.0 }
-                PathLine { x: 1; y: 1 }
-                PathAttribute { name: 'z'; value: 0.0 }
-            }
-        }
-    }
 
     /**
       * Option access menu
       */
 
     Image {
+        id:configButton
         source: "../resources/images/config.png"
         anchors.right: parent.right
         anchors.top : parent.top
@@ -132,6 +54,7 @@ Rectangle {
                 mainRectangle.state = "CONFIG"
             }
         }
+        visible: galleryControl.state == "stacked"
     }
 }
 

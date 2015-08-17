@@ -12,6 +12,10 @@ PhotoPart::PhotoPart(TemplatePhotoPosition *tpp):
     m_photoPosition = tpp;
 }
 
+PhotoPart::~PhotoPart() {
+    CLog::Write(CLog::Debug, "Delete Photopart");
+}
+
 TemplatePhotoPosition *PhotoPart::photoPosition() const
 {
     return m_photoPosition;

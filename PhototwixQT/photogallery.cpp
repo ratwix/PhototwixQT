@@ -9,7 +9,7 @@ PhotoGallery::PhotoGallery()
 PhotoGallery::~PhotoGallery()
 {
     //Free photos
-    CLog::Write(CLog::Debug, "Delete Photo Gallery");
+    CLog::Write(CLog::Debug, "Delete PhotoGallery");
 
 
     QList<QObject*>::iterator it;

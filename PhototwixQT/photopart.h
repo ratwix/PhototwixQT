@@ -13,6 +13,7 @@ class PhotoPart : public QObject
 public:
     PhotoPart();
     PhotoPart(TemplatePhotoPosition *tpp);
+    ~PhotoPart();
 
     TemplatePhotoPosition *photoPosition() const;
     void setPhotoPosition(TemplatePhotoPosition *photoPosition);

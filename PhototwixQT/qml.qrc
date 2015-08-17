@@ -42,7 +42,8 @@
         <file>resources/renderer/EffectSepiaShader.qml</file>
         <file>resources/renderer/EffectWillow.qml</file>
         <file>resources/controls/AlbumDelegate.qml</file>
-        <file>resources/controls/PhotoDelegate.qml</file>
         <file>resources/controls/PhotoDelegate2.qml</file>
+        <file>resources/controls/ChooseTemplateControl.qml</file>
+        <file>resources/controls/GalleryControl.qml</file>
     </qresource>
 </RCC>

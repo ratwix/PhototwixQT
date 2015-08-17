@@ -3,15 +3,20 @@
 #include <string>
 #include "photo.h"
 
-Photo::Photo()
+Photo::Photo():
+    m_finalResult(""),
+    m_finalResultSD("")
 {
 
 }
 
-Photo::Photo(QString name, Template *t)
+Photo::Photo(QString name, Template *t):
+    m_finalResult(""),
+    m_finalResultSD("")
 {
     m_name = name;
     m_currentTemplate = t;
+
     //For all photo template position, add a new photopart
 
     QList<QObject*>::iterator it;
