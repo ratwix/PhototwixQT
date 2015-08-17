@@ -5,14 +5,16 @@
 
 Photo::Photo():
     m_finalResult(""),
-    m_finalResultSD("")
+    m_finalResultSD(""),
+    m_nbPrint(0)
 {
 
 }
 
 Photo::Photo(QString name, Template *t):
     m_finalResult(""),
-    m_finalResultSD("")
+    m_finalResultSD(""),
+    m_nbPrint(0)
 {
     m_name = name;
     m_currentTemplate = t;
@@ -110,6 +112,46 @@ void Photo::setFinalResultSD(const QUrl &finalResultSD)
 {
     m_finalResultSD = finalResultSD;
     emit finalResultSDChanged();
+}
+
+void Photo::Serialize(PrettyWriter<StringBuffer> &writer) const
+{
+    writer.StartObject();
+
+    writer.Key("finalResult");
+    writer.String(m_finalResult.toString().toStdString().c_str());
+
+    writer.Key("finalResultSD");
+    writer.String(m_finalResultSD.toString().toStdString().c_str());
+
+    writer.Key("name");
+    writer.String(m_name.toStdString().c_str());
+
+    writer.Key("nbPrint");
+    writer.Int(m_nbPrint);
+
+    writer.Key("currentTemplate");
+    writer.String(m_currentTemplate->getName().toStdString().c_str());
+
+    QList<QObject*>::const_iterator it;
+    writer.Key("photosPart");
+    writer.StartArray();
+
+    for (it = m_photoPartList.begin(); it != m_photoPartList.end(); it++) {
+        PhotoPart *pp = dynamic_cast<PhotoPart*>(*it);
+        if (pp != 0) {
+            pp->Serialize(writer);
+        }
+    }
+
+    writer.EndArray();
+
+    writer.EndObject();
+}
+
+void Photo::Unserialize(const Value &value)
+{
+
 }
 
 void Photo::addPhotoPart(TemplatePhotoPosition *t)

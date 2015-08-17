@@ -21,6 +21,7 @@ public:
     QUrl path() const;
     void setPath(const QUrl &path);
 
+    void Serialize(PrettyWriter<StringBuffer>& writer) const;
 private:
     QUrl                    m_path;
     TemplatePhotoPosition*  m_photoPosition;

@@ -89,7 +89,7 @@ void Parameters::unactiveTemplate(QString name) {
  */
 void Parameters::init() {
     m_photogallery = new PhotoGallery();
-    m_photogallerylist.append(m_photogallery);
+    m_photogallery->setApplicationDirPath(m_applicationDirPath);
 
     Unserialize();
 
@@ -279,14 +279,5 @@ void Parameters::setApplicationDirPath(const QUrl &applicationDirPath)
     CLog::Write(CLog::Debug, QUrl("Application dir path " + applicationDirPath.toString()).toString().toStdString());
     m_applicationDirPath = applicationDirPath;
 }
-QList<QObject *> Parameters::getPhotogallerylist() const
-{
-    CLog::Write(CLog::Debug, "Get Photo Gallery " + itos(m_photogallerylist.length()));
-    return m_photogallerylist;
-}
 
-void Parameters::setPhotogallerylist(const QList<QObject *> &photogallerylist)
-{
-    m_photogallerylist = photogallerylist;
-}
 

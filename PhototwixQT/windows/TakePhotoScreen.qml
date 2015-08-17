@@ -37,6 +37,7 @@ Rectangle {
     function endGlobalPhotoProcess() {
         var photoHeighP = 6;
         var dpi = 300;
+        var firstsave = 0;
 
         function saveImage(result) { //TODO: Faire un call asynchrone avec un worker script
             var d = new Date();
@@ -47,6 +48,11 @@ Rectangle {
             applicationWindows.currentPhoto.name = d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear() + " " + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"; //save image name
             applicationWindows.currentPhoto.finalResult = path; //save image path
             state = "PHOTO_EDIT" //TODO changer le changement d'etat une fois le call asynchrone fait
+            if (firstsave == 0) {
+                firstsave = 1;
+            } else {
+                parameters.photoGallery.Serialize();
+            }
         }
 
         function saveImageSD(result) { //TODO: Faire un call asynchrone avec un worker script
@@ -56,6 +62,11 @@ Rectangle {
             var path = applicationDirPath + "/photos/sd/" + imageName;
             result.saveToFile(path);
             applicationWindows.currentPhoto.finalResultSD = path; //save image path
+            if (firstsave == 0) {
+                firstsave = 1;
+            } else {
+                parameters.photoGallery.Serialize();
+            }
         }
 
         //HQ
@@ -79,6 +90,8 @@ Rectangle {
             var captureHeight = takePhotoScreenPhotoSizedBlock.height / takePhotoScreenPhotoSizedBlock.width * captureWidth;
             takePhotoScreenPhotoSizedBlock.grabToImage(saveImageSD, Qt.size(captureWidth, captureHeight));
         }
+
+        //Serialize gallery after new insertion
     }
 
     Camera {

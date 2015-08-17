@@ -9,6 +9,7 @@ Rectangle {
         id: imageLight
         height: parent.height
         fillMode: Image.PreserveAspectFit
+        antialiasing: true
         source: "../images/grey_button.png"
     }
 

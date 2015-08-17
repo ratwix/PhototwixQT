@@ -25,7 +25,6 @@ class Parameters : public QObject
     Q_PROPERTY(QList<QObject*> templates READ getTemplates WRITE setTemplates NOTIFY templatesChanged)
     Q_PROPERTY(QList<QObject*> activesTemplates READ getActivesTemplates WRITE setActivesTemplates NOTIFY activeTemplatesChanged)
     Q_PROPERTY(PhotoGallery* photoGallery READ getPhotogallery WRITE setPhotogallery NOTIFY photoGalleryChanged)
-    Q_PROPERTY(QList<QObject*> photoGalleryList READ getPhotogallerylist WRITE setPhotogallerylist NOTIFY photoGalleryListChanged)
     Q_PROPERTY(QUrl applicationDirPath READ getApplicationDirPath WRITE setApplicationDirPath NOTIFY applicationDirPathChanged)
 
 public:
@@ -51,13 +50,9 @@ public:
     QUrl getApplicationDirPath() const;
     void setApplicationDirPath(const QUrl &applicationDirPath);
 
-    QList<QObject *> getPhotogallerylist() const;
-    void setPhotogallerylist(const QList<QObject *> &photogallerylist);
-
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates; //TODO: workaround to display a list of photo gallery
-    QList<QObject*>      m_photogallerylist;
     PhotoGallery*        m_photogallery;
     QUrl                 m_applicationDirPath;
 

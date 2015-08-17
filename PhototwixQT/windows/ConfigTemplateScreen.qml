@@ -81,7 +81,7 @@ Rectangle {
             id: currentEditedTemplate
 
             source: applicationWindows.currentEditedTemplate ? applicationWindows.currentEditedTemplate.url : ""
-
+            antialiasing: true
             asynchronous: true
             cache: false
             anchors.horizontalCenter: parent.horizontalCenter

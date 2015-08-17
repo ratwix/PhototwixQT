@@ -6,6 +6,7 @@ Rectangle {
 
     Image {
         anchors.fill: parent
+        antialiasing: true
         fillMode: Image.Stretch
         source: effectImage
     }

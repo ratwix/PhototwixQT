@@ -44,6 +44,8 @@ public:
     QUrl finalResultSD() const;
     void setFinalResultSD(const QUrl &finalResultSD);
 
+    void Serialize(PrettyWriter<StringBuffer>& writer) const;
+
 private:
     QUrl                m_finalResult;
     QUrl                m_finalResultSD;
@@ -51,6 +53,9 @@ private:
     QList<QObject*>     m_photoPartList;
     int                 m_nbPrint;
     Template*           m_currentTemplate;
+
+    void                Unserialize(Value const &value);
+
 signals:
     void finalResultChanged();
     void finalResultSDChanged();

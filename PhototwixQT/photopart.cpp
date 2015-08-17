@@ -37,6 +37,14 @@ void PhotoPart::setPath(const QUrl &path)
     emit pathChanged();
 }
 
+void PhotoPart::Serialize(PrettyWriter<StringBuffer> &writer) const
+{
+    writer.StartObject();
+    writer.Key("photoPartUrl");
+    writer.String(m_path.toString().toStdString().c_str());
+    writer.EndObject();
+}
+
 
 
 

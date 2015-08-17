@@ -21,6 +21,8 @@ QML_IMPORT_PATH =
 # Default rules for deployment.
 include(deployment.pri)
 
+QMAKE_CXXFLAGS += -std=c++11
+
 HEADERS += \
     template.h \
     parameters.h \

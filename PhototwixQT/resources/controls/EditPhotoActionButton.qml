@@ -18,6 +18,8 @@ Item {
         Image {
             id: logo
             source: imagePath
+            antialiasing: true
+            smooth: true
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height * 0.6

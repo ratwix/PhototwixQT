@@ -19,10 +19,7 @@ Window {
     Image {
         id: splashImage
         source: "../resources/images/logo.png"
-        MouseArea {
-            anchors.fill: parent
-            onClicked: Qt.quit()
-        }
+        antialiasing: true;
     }
 
     //! [timer]

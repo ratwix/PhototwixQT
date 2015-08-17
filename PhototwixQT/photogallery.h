@@ -2,6 +2,7 @@
 #define PHOTOGALLERY_H
 
 #include <QObject>
+#include <thread>
 #include "template.h"
 #include "photo.h"
 
@@ -14,14 +15,21 @@ public:
     PhotoGallery();
     ~PhotoGallery();
     Q_INVOKABLE Photo* addPhoto(QString name, Template *t);
-
+    Q_INVOKABLE void Serialize();
 
     QList<QObject*> photoList() const;
     void setPhotoList(const QList<QObject *> &photoList);
 
+    QUrl applicationDirPath() const;
+    void setApplicationDirPath(const QUrl &applicationDirPath);
+
 private:
     QList<QObject*> m_photoList; //List of all photos in Gallery. List of Photo class
+    QUrl            m_applicationDirPath;
 
+    void            SerializeThread();
+    void            Unserialize();
+    std::thread     m_t;
 signals:
     void photoListChanged();
 
