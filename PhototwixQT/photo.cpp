@@ -220,5 +220,3 @@ void Photo::addPhotoPart(TemplatePhotoPosition *t)
 
 
 
-
-

@@ -96,6 +96,16 @@ Item {
         snapMode: ListView.SnapOneItem
     }
 
+    EditPhotoActionControl {
+        id:controlButton
+        height: parent.height
+        width: parent.width * 0.05
+        anchors.right: parent.right
+        anchors.top: parent.top
+        state: "viewPhoto"
+        opacity: 0.0
+    }
+
     /**
       * States and Transition Management
       */
@@ -115,6 +125,7 @@ Item {
         PropertyChanges { target: photosListView; interactive: true }
         PropertyChanges { target: photosShade; opacity: 1 }
         PropertyChanges { target: backButton; y: -backButton.height - 8 }
+        PropertyChanges { target: controlButton; opacity: 1.0 }
     }
     ]
 

@@ -36,6 +36,22 @@ Photo* PhotoGallery::addPhoto(QString name, Template *t)
     return p;
 }
 
+void PhotoGallery::removePhoto(QString name)
+{
+    QList<QObject*>::iterator it;
+
+    for (it = m_photoList.begin(); it != m_photoList.end(); it++) {
+        if (Photo *p = dynamic_cast<Photo*>(*it)) {
+            if (name == p->name()) {
+                m_photoList.removeOne(p);
+                delete p;
+                emit photoListChanged();
+                break;
+            }
+        }
+    }
+}
+
 void PhotoGallery::addPhoto(const Value &value, QList<QObject*> &templates)
 {
     //Find the right template
@@ -43,9 +59,7 @@ void PhotoGallery::addPhoto(const Value &value, QList<QObject*> &templates)
         QString tmp = QString(value["currentTemplate"].GetString());
 
         Template *tmp_dest = 0;
-        QList<QObject*>::const_iterator begin = templates.begin();
-        QList<QObject*>::const_iterator end = templates.end();
-        for (QList<QObject*>::const_iterator it = begin; it != end; it++) {
+        for (QList<QObject*>::const_iterator it = templates.begin(); it != templates.end(); it++) {
             if (Template *t = dynamic_cast<Template*>(*it)) {
                 if (tmp == t->getName()) {
                     tmp_dest = t;

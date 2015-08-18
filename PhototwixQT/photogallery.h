@@ -15,6 +15,8 @@ public:
     PhotoGallery();
     ~PhotoGallery();
     Q_INVOKABLE Photo* addPhoto(QString name, Template *t);
+    Q_INVOKABLE void   removePhoto(QString name);
+
     Q_INVOKABLE void Serialize();
                 void Unserialize(QList<QObject*> &templates);
     QList<QObject*> photoList() const;

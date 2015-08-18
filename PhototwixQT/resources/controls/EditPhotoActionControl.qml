@@ -1,13 +1,14 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
 Rectangle {
     id:actionControl
     color:"white"
 
-    height:300
-    width:700
+    state:"editPhoto"
 
-    Row {
+    Grid {
+        id:gridButton
+        columns: 3
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         spacing: 30
@@ -40,14 +41,45 @@ Rectangle {
     function home() {
         console.log("home")
         mainRectangle.state = "START"
+        if (galleryControl) {
+            galleryControl.state = "stacked"
+        }
     }
 
     function delete_photo() {
         console.log("delete")
+        if (state == "viewPhoto") {
+            var name = parameters.photoGallery.photoList[photosGridView.currentIndex].name;
+            console.debug("Delete1 " + name);
+            parameters.photoGallery.removePhoto(name);
+            mainRectangle.state = "START"
+            galleryControl.state = "inGrid"
+        } else if (state == "editPhoto") {
+            var name = currentPhoto.name;
+            console.debug("Delete2 " + currentPhoto.name);
+            parameters.photoGallery.removePhoto(name);
+            mainRectangle.state = "START"
+            galleryControl.state = "stacked"
+            currentPhoto = undefined;
+        }
     }
 
     function print_photo() {
         console.log("print")
     }
+
+    states: [
+        State {
+            name: "editPhoto"
+        },
+        State {
+            name: "viewPhoto"
+            PropertyChanges { target: gridButton
+                              columns: 1
+            }
+
+        }
+
+    ]
 }
 

@@ -225,6 +225,7 @@ Rectangle {
 
         EditPhotoActionControl {
             id:editPhotoActionControl
+            state:"editPhoto"
             height: parent.height
             width: parent.width
             x:0

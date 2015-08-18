@@ -10,7 +10,9 @@ ListView {
 
     orientation: Qt.Horizontal
     spacing: 10
-
+    preferredHighlightBegin: 150 - 15 //TODO : meilleur alignement Component.onCompleted: positionViewAtIndex(count - 1, ListView.Beginning)
+    preferredHighlightEnd: 150 + 15
+    highlightRangeMode: ListView.StrictlyEnforceRange
 
     Component {
         id: activeTemplateDelegate

@@ -16,11 +16,11 @@ ApplicationWindow {
     height: 900
     width: 1600
 
-    property string backColor: "#212126"
+    property string backColor: "#d5d6d8" //"#212126"
 
     //Fond d'ecran
     Rectangle {
-        color: "#212126"
+        color: backColor
         anchors.fill: parent
     }
 

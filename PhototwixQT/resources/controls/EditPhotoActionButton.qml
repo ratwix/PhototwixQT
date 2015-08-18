@@ -3,8 +3,8 @@ import QtQuick 2.0
 Item {
     id: container
 
-    height: actionControl.height * 0.95
-    width: height
+    height: actionControl.height < actionControl.width ? actionControl.height * 0.90 : actionControl.width * 0.90
+    width: actionControl.height > actionControl.width ? actionControl.width * 0.90 : actionControl.height * 0.90
 
     property url imagePath: "value"
     signal clicked
