@@ -36,6 +36,38 @@ Photo* PhotoGallery::addPhoto(QString name, Template *t)
     return p;
 }
 
+void PhotoGallery::addPhoto(const Value &value, QList<QObject*> &templates)
+{
+    //Find the right template
+    if (value.HasMember("currentTemplate")) {
+        QString tmp = QString(value["currentTemplate"].GetString());
+
+        Template *tmp_dest = 0;
+        QList<QObject*>::const_iterator begin = templates.begin();
+        QList<QObject*>::const_iterator end = templates.end();
+        for (QList<QObject*>::const_iterator it = begin; it != end; it++) {
+            if (Template *t = dynamic_cast<Template*>(*it)) {
+                if (tmp == t->getName()) {
+                    tmp_dest = t;
+                    break;
+                }
+            }
+        }
+
+        if (tmp_dest != 0) {
+            Photo *photo = new Photo(value, tmp_dest);
+            m_photoList.append(photo);
+            QQmlEngine::setObjectOwnership(photo, QQmlEngine::CppOwnership);
+        } else {
+            CLog::Write(CLog::Debug, "No dest template found");
+        }
+
+    } else {
+        CLog::Write(CLog::Debug, "No current template");
+    }
+}
+
+
 void PhotoGallery::Serialize()
 {
     m_t = std::thread(&PhotoGallery::SerializeThread, this);
@@ -73,6 +105,44 @@ void PhotoGallery::SerializeThread()
 
     jsonFile.close();
 }
+
+void PhotoGallery::Unserialize(QList<QObject*> &templates)
+{
+    ifstream jsonFile(GALLERY_FILE, ios::in);
+
+    if (!jsonFile) {
+        CLog::Write(CLog::Info, "JSON gallery File not exist");
+        return;
+    }
+
+    std::string str;
+
+    jsonFile.seekg(0, std::ios::end);
+    str.reserve(jsonFile.tellg());
+    jsonFile.seekg(0, std::ios::beg);
+
+    str.assign((std::istreambuf_iterator<char>(jsonFile)),
+                std::istreambuf_iterator<char>());
+
+    CLog::Write(CLog::Debug, "Fichier json gallery : " + str);
+
+    Document document;
+    document.Parse(str.c_str());
+    jsonFile.close();
+
+
+    if (document.HasMember("photos")) {
+        const Value& photos = document["photos"];
+        if (photos.IsArray()) {
+            for (SizeType i = 0; i < photos.Size(); i++) {
+                addPhoto(photos[i], templates);
+            }
+        }
+    }
+
+    emit photoListChanged();
+}
+
 
 QList<QObject *> PhotoGallery::photoList() const
 {

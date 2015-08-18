@@ -38,6 +38,15 @@ Photo::Photo(QString name, Template *t):
     }
 }
 
+Photo::Photo(const Value &value, Template *t):
+    m_finalResult(""),
+    m_finalResultSD(""),
+    m_nbPrint(0)
+{
+    m_currentTemplate = t;
+    Unserialize(value, t);
+}
+
 Photo::~Photo()
 {
     CLog::Write(CLog::Debug, "Delete Photo " + m_finalResult.toString().toStdString());
@@ -149,9 +158,54 @@ void Photo::Serialize(PrettyWriter<StringBuffer> &writer) const
     writer.EndObject();
 }
 
-void Photo::Unserialize(const Value &value)
+void Photo::Unserialize(const Value &value, Template *t)
 {
+    if (value.HasMember("finalResult")) {
+        m_finalResult = QString(value["finalResult"].GetString());
+    }
 
+    if (value.HasMember("finalResultSD")) {
+        m_finalResultSD = QString(value["finalResultSD"].GetString());
+    }
+
+    if (value.HasMember("name")) {
+        m_name = QString(value["name"].GetString());
+    }
+
+    if (value.HasMember("nbPrint")) {
+        m_nbPrint = value["nbPrint"].GetInt();
+    }
+
+    //Add all photo part
+    if (t) {
+        QList<QObject *> tppList = t->templatePhotoPositions();
+        for (QList<QObject *>::iterator it = tppList.begin(); it != tppList.end(); it++) {
+            QObject *tppo = (*it);
+            if (TemplatePhotoPosition* tpp = dynamic_cast<TemplatePhotoPosition*>(tppo)) {
+                addPhotoPart(tpp);
+            } else {
+                CLog::Write(CLog::Warning, "Unable to cast TemplatePhotoPosition");
+            }
+
+        }
+    }
+
+    //Add all photo part URL
+    if (value.HasMember("photosPart")) {
+        const Value& photoPart = value["photosPart"];
+        if (photoPart.IsArray()) {
+            for (SizeType i = 0; i < photoPart.Size(); i++) {
+                if (i <= m_photoPartList.length()) {
+                    if (PhotoPart *pp = dynamic_cast<PhotoPart *>(m_photoPartList[i])) {
+                        if (photoPart[i].HasMember("photoPartUrl")) {
+                            string url = photoPart[i]["photoPartUrl"].GetString();
+                            pp->setPath(QUrl(QString(url.c_str())));
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Photo::addPhotoPart(TemplatePhotoPosition *t)

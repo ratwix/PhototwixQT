@@ -22,6 +22,7 @@ class Photo : public QObject
 public:
     Photo();
     Photo(QString name, Template *t);
+    Photo(const Value &value, Template *t);
     ~Photo();
 
     QUrl finalResult() const;
@@ -54,7 +55,7 @@ private:
     int                 m_nbPrint;
     Template*           m_currentTemplate;
 
-    void                Unserialize(Value const &value);
+    void                Unserialize(Value const &value, Template *t);
 
 signals:
     void finalResultChanged();

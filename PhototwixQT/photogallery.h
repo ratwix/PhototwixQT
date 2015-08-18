@@ -16,7 +16,7 @@ public:
     ~PhotoGallery();
     Q_INVOKABLE Photo* addPhoto(QString name, Template *t);
     Q_INVOKABLE void Serialize();
-
+                void Unserialize(QList<QObject*> &templates);
     QList<QObject*> photoList() const;
     void setPhotoList(const QList<QObject *> &photoList);
 
@@ -26,9 +26,8 @@ public:
 private:
     QList<QObject*> m_photoList; //List of all photos in Gallery. List of Photo class
     QUrl            m_applicationDirPath;
-
     void            SerializeThread();
-    void            Unserialize();
+    void            addPhoto(Value const &value, QList<QObject*> &templates);
     std::thread     m_t;
 signals:
     void photoListChanged();

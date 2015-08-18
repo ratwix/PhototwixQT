@@ -83,9 +83,6 @@ void Parameters::unactiveTemplate(QString name) {
  * @brief Parameters::ini
  *
  * Méthode d'initialisation des paramètres
- * * Charge la base de parametres actuels       //TODO
- * * Charge la base de photos actuels           //TODO
- * * Charge les nouveaux templates              //TODO
  */
 void Parameters::init() {
     m_photogallery = new PhotoGallery();
@@ -93,10 +90,13 @@ void Parameters::init() {
 
     Unserialize();
 
+    m_photogallery->Unserialize(m_templates); //unserialize current gallery
+
     //Read all .png and .jpg files in tempalte directory
     readTemplateDir();
     Serialize();
     rebuildActivesTemplates();
+
 }
 
 /**
