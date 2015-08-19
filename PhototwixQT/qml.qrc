@@ -45,5 +45,7 @@
         <file>resources/controls/PhotoDelegate2.qml</file>
         <file>resources/controls/ChooseTemplateControl.qml</file>
         <file>resources/controls/GalleryControl.qml</file>
+        <file>resources/controls/FreePhotoPicker.qml</file>
+        <file>resources/controls/PricePhotoPicker.qml</file>
     </qresource>
 </RCC>

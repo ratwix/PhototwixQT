@@ -72,7 +72,7 @@ Rectangle {
         property int highestZ: 0
 
 
-        color: "yellow"
+        color: applicationWindows.backColor
         anchors.right: parent.right
         height: parent.height
         width: parent.width - configTemplateScreenButtons.width

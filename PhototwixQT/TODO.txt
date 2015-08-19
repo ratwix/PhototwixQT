@@ -1,25 +1,10 @@
-Home page :
-- Centrer les templates choisis
-
-Gallerie :
-- Implementer la gallerie
--- Home page
--- Liste des photos
--- Visualisation de la photo (avec suppression, impression et partage)
--- Serialisation et deserialisation
--- Copie USB
-
-
-Edition
-- Ajouter les effets 
-
-Actions
+- Action derrière les boutons du menu de config
+- Centrer les templates choisis sur la home page
+- Copie USB
 - Impression
-- Suppression
-
-Administration
-- Camera, choix et choix de resolution
-- 
-
-Hardware
-- Flash
+- Reduire champ de la camera
+- Ejouter des effets
+- Option : choix de la camera et resolution
+- Flash, bouton, affichage ecran led
+- Compilation sous Ubuntu
+- Construire la boite

@@ -27,6 +27,8 @@ class Parameters : public QObject
     Q_PROPERTY(PhotoGallery* photoGallery READ getPhotogallery WRITE setPhotogallery NOTIFY photoGalleryChanged)
     Q_PROPERTY(QUrl applicationDirPath READ getApplicationDirPath WRITE setApplicationDirPath NOTIFY applicationDirPathChanged)
     Q_PROPERTY(int nbprint READ getNbprint WRITE setNbprint NOTIFY nbPrintChanged)
+    Q_PROPERTY(int nbfreephotos READ getNbfreephotos WRITE setNbfreephotos NOTIFY nbfreephotoChanged)
+    Q_PROPERTY(float pricephoto READ getPricephoto WRITE setPricephoto NOTIFY pricephotoChanged)
 
 public:
     Parameters(QUrl appDirPath);
@@ -55,12 +57,20 @@ public:
     int getNbprint() const;
     void setNbprint(int nbprint);
 
+    int getNbfreephotos() const;
+    void setNbfreephotos(int nbfreephotos);
+
+    float getPricephoto() const;
+    void setPricephoto(float pricephoto);
+
 private:
     QList<QObject*>      m_templates;
-    QList<QObject*>      m_activesTemplates; //TODO: workaround to display a list of photo gallery
+    QList<QObject*>      m_activesTemplates;
     PhotoGallery*        m_photogallery;
     QUrl                 m_applicationDirPath;
     int                  m_nbprint;
+    int                  m_nbfreephotos;
+    float                m_pricephoto;
 
     void addTemplate(QString name);
     void addTemplate(Value const &value);
@@ -75,6 +85,8 @@ signals:
     void photoGalleryListChanged();
     void applicationDirPathChanged();
     void nbPrintChanged();
+    void nbfreephotoChanged();
+    void pricephotoChanged();
 };
 
 #endif // CPARAMETERS_H

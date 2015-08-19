@@ -86,6 +86,9 @@ void Parameters::unactiveTemplate(QString name) {
  * Méthode d'initialisation des paramètres
  */
 void Parameters::init() {
+    m_nbprint = 0;
+    m_nbfreephotos = 250;
+    m_pricephoto = 0.4;
     m_photogallery = new PhotoGallery();
     m_photogallery->setApplicationDirPath(m_applicationDirPath);
 
@@ -163,6 +166,14 @@ void Parameters::Serialize() {
     //save standard elements
 
         //save template definition
+        writer.Key("nbPrint");
+        writer.Int(m_nbprint);
+
+        writer.Key("nbFreePhoto");
+        writer.Int(m_nbfreephotos);
+
+        writer.Key("pricephoto");
+        writer.Double(m_pricephoto);
 
         writer.Key("templates");
         writer.StartArray();
@@ -213,6 +224,8 @@ void Parameters::printPhoto(QUrl url)
 {
     CLog::Write(CLog::Debug, "Print file : " + url.toString().toStdString());
     //TODO: print & manage
+    //On incremente le conteur
+    setNbprint(m_nbprint + 1);
 }
 
 void Parameters::Unserialize() {
@@ -238,6 +251,18 @@ void Parameters::Unserialize() {
     document.Parse(str.c_str());
 
     jsonFile.close();
+
+    if (document.HasMember("nbPrint")) {
+        m_nbprint = document["nbPrint"].GetInt();
+    }
+
+    if (document.HasMember("nbFreePhoto")) {
+        m_nbfreephotos = document["nbFreePhoto"].GetInt();
+    }
+
+    if (document.HasMember("pricephoto")) {
+        m_pricephoto = document["pricephoto"].GetDouble();
+    }
 
     if (document.HasMember("templates")) {
         const Value& templates = document["templates"];
@@ -293,8 +318,33 @@ int Parameters::getNbprint() const
 void Parameters::setNbprint(int nbprint)
 {
     m_nbprint = nbprint;
+    Serialize();
     emit nbPrintChanged();
 }
+int Parameters::getNbfreephotos() const
+{
+    return m_nbfreephotos;
+}
+
+void Parameters::setNbfreephotos(int nbfreephotos)
+{
+    m_nbfreephotos = nbfreephotos;
+    Serialize();
+    emit nbfreephotoChanged();
+}
+float Parameters::getPricephoto() const
+{
+    return m_pricephoto;
+}
+
+void Parameters::setPricephoto(float pricephoto)
+{
+    m_pricephoto = pricephoto;
+    Serialize();
+    emit pricephotoChanged();
+}
+
+
 
 
 
