@@ -39,6 +39,8 @@ public:
     Q_INVOKABLE void Serialize();
     Q_INVOKABLE Photo* addPhotoToGallerie(QString name, QObject *temp);
     Q_INVOKABLE void printPhoto(QUrl url);
+    Q_INVOKABLE void clearGallery();
+    Q_INVOKABLE void clearGalleryDeleteImages();
 
 
     QList<QObject*> getTemplates();
@@ -78,6 +80,7 @@ private:
     void readTemplateDir();
     void Unserialize();
     void createFolders();
+    void clearGallery(bool del);
 signals:
     void templatesChanged();
     void activeTemplatesChanged();

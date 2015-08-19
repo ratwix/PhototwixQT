@@ -1,11 +1,11 @@
 #include "parameters.h"
 
-#include <direct.h>
 #include <errno.h>
 #include <dirent.h>
 #include <iostream>
 #include <fstream>
 #include <QQmlEngine>
+#include <QDir>
 
 #include "clog.h"
 #include "rapidjson/document.h"
@@ -89,6 +89,8 @@ void Parameters::init() {
     m_nbprint = 0;
     m_nbfreephotos = 250;
     m_pricephoto = 0.4;
+
+    createFolders();
     m_photogallery = new PhotoGallery();
     m_photogallery->setApplicationDirPath(m_applicationDirPath);
 
@@ -228,6 +230,16 @@ void Parameters::printPhoto(QUrl url)
     setNbprint(m_nbprint + 1);
 }
 
+void Parameters::clearGallery()
+{
+    clearGallery(false);
+}
+
+void Parameters::clearGalleryDeleteImages()
+{
+    clearGallery(true);
+}
+
 void Parameters::Unserialize() {
     ifstream jsonFile(CONFIG_FILE, ios::in);
 
@@ -272,6 +284,49 @@ void Parameters::Unserialize() {
             }
         }
     }
+}
+
+void Parameters::createFolders()
+{
+    QDir d;
+
+    d.mkpath(QString(PHOTOS_PATH));
+    d.mkpath(QString(PHOTOSSD_PATH));
+    d.mkpath(QString(PHOTOSS_PATH));
+    d.mkpath(QString(PHOTOSD_PATH));
+    d.mkpath(QString(PHOTOSDS_PATH));
+}
+
+static void delAllFileInDirectory(const char* p) {
+    QString path(p);
+    QDir dir(path);
+    dir.setNameFilters(QStringList() << "*.*");
+    dir.setFilter(QDir::Files);
+    foreach(QString dirFile, dir.entryList())
+    {
+        dir.remove(dirFile);
+    }
+}
+
+void Parameters::clearGallery(bool del)
+{
+    for (QList<QObject *>::iterator it = m_photogallery->photoList().begin(); it != m_photogallery->photoList().end(); it++) {
+        if (Photo *p = dynamic_cast<Photo*>(*it)) {
+            m_photogallery->photoList().removeOne(p);
+            delete p;
+        }
+    }
+
+    if (del) {
+        delAllFileInDirectory(PHOTOS_PATH);
+        delAllFileInDirectory(PHOTOSSD_PATH);
+        delAllFileInDirectory(PHOTOSS_PATH);
+        delAllFileInDirectory(PHOTOSD_PATH);
+        delAllFileInDirectory(PHOTOSDS_PATH);
+    }
+
+
+    emit photoGalleryChanged();
 }
 
 void Parameters::rebuildActivesTemplates()
@@ -343,8 +398,3 @@ void Parameters::setPricephoto(float pricephoto)
     Serialize();
     emit pricephotoChanged();
 }
-
-
-
-
-

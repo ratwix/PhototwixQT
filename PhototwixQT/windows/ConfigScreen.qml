@@ -102,6 +102,7 @@ Rectangle {
             label:"Nettoyer la Gallerie"
             onClicked: {
                 console.debug("Reset photos");
+                parameters.clearGallery();
             }
         }
 
@@ -109,7 +110,8 @@ Rectangle {
             anchors.left: parent.left
             label:"Nettoyer et effacer la gallerie"
             onClicked: {
-                console.debug("Reset photos");
+                console.debug("Reset photos & delete");
+                parameters.clearGalleryDeleteImages();
             }
         }
     }
@@ -185,18 +187,31 @@ Rectangle {
         delegate: fileDelegate
     }
 
-    Image {
-        source: "../resources/images/back_button.png"
+
+
+    Rectangle {
+        id:homeButton
         anchors.right: parent.right
         anchors.top : parent.top
         height: 60
-        fillMode: Image.PreserveAspectFit
-        MouseArea {
-            anchors.fill: parent
+        width: 60
+        color:"#212126"
+        radius:height / 7
 
-            onPressed: {
-                mainRectangle.state = "START"
-            }
+        Image {
+            id: logo
+            antialiasing: true
+            smooth: true
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height * 0.6
+            fillMode: Image.PreserveAspectFit
+            source:"../resources/images/home.png"
+        }
+
+        MouseArea {
+            anchors { fill: parent;  }
+            onClicked: { mainRectangle.state = "START" }
         }
     }
 }

@@ -124,7 +124,7 @@ Rectangle {
                 p.cameraHeight = cres.height
                 p.cameraWidth = cres.width
 
-                console.log("Current " + cres.width + ":" + cres.height + " ration:" + applicationWindows.cameraRation);
+                console.log("Current " + cres.width + ":" + cres.height + " ratio:" + applicationWindows.cameraRation);
             }
         }
     }
