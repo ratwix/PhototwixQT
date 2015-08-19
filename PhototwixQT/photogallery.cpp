@@ -44,12 +44,28 @@ void PhotoGallery::removePhoto(QString name)
         if (Photo *p = dynamic_cast<Photo*>(*it)) {
             if (name == p->name()) {
                 m_photoList.removeOne(p);
+
+                //Move photo to "deleted" directory
+                string ip = string(PHOTOS_PATH);
+                string dest = p->finalResult().toString().replace(0, ip.length(), QString(PHOTOSD_PATH)).toStdString();
+                rename(p->finalResult().toString().toStdString().c_str(),
+                       dest.c_str());
+                //Move all photo part
+                for (QList<QObject*>::const_iterator it2 = p->photoPartList().begin(); it2 != p->photoPartList().end(); it2++) {
+                    if (PhotoPart const *pp = dynamic_cast<PhotoPart*>(*it2)) {
+                        string ip2 = string(PHOTOSS_PATH);
+                        string dest = pp->path().toString().replace(0, ip2.length(), QString(PHOTOSDS_PATH)).toStdString();
+                        rename(pp->path().toString().toStdString().c_str(),
+                               dest.c_str());
+                    }
+                }
                 delete p;
                 emit photoListChanged();
                 break;
             }
         }
     }
+    Serialize();
 }
 
 void PhotoGallery::addPhoto(const Value &value, QList<QObject*> &templates)

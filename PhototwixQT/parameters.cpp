@@ -10,6 +10,7 @@
 #include "clog.h"
 #include "rapidjson/document.h"
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <photogallery.h>
 
 using namespace std;
@@ -208,8 +209,13 @@ Photo* Parameters::addPhotoToGallerie(QString name, QObject *temp)
     return NULL;
 }
 
+void Parameters::printPhoto(QUrl url)
+{
+    CLog::Write(CLog::Debug, "Print file : " + url.toString().toStdString());
+    //TODO: print & manage
+}
+
 void Parameters::Unserialize() {
-    //string jsonurl = string(m_applicationDirPath.toString().toStdString() + CONFIG_FILE);
     ifstream jsonFile(CONFIG_FILE, ios::in);
 
     if (!jsonFile) {
@@ -279,5 +285,16 @@ void Parameters::setApplicationDirPath(const QUrl &applicationDirPath)
     CLog::Write(CLog::Debug, QUrl("Application dir path " + applicationDirPath.toString()).toString().toStdString());
     m_applicationDirPath = applicationDirPath;
 }
+int Parameters::getNbprint() const
+{
+    return m_nbprint;
+}
+
+void Parameters::setNbprint(int nbprint)
+{
+    m_nbprint = nbprint;
+    emit nbPrintChanged();
+}
+
 
 

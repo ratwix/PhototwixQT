@@ -41,7 +41,7 @@ Rectangle {
     function home() {
         console.log("home")
         mainRectangle.state = "START"
-        if (galleryControl) {
+        if (typeof galleryControl !== 'undefined') {
             galleryControl.state = "stacked"
         }
     }
@@ -59,13 +59,41 @@ Rectangle {
             console.debug("Delete2 " + currentPhoto.name);
             parameters.photoGallery.removePhoto(name);
             mainRectangle.state = "START"
-            galleryControl.state = "stacked"
+            if (typeof galleryControl !== 'undefined') {
+                galleryControl.state = "stacked"
+            }
             currentPhoto = undefined;
         }
     }
 
     function print_photo() {
-        console.log("print")
+        //TODO: afficher impression en cours pour 5 secondes
+        if (state == "viewPhoto") {
+            var url = parameters.photoGallery.photoList[photosGridView.currentIndex].finalResult;
+            console.debug("Print " + url);
+            parameters.printPhoto(url);
+        } else if (state == "editPhoto") { //Save image in a tmp directory to apply effects, then print the file
+            var photoHeighP = 6;
+            var dpi = 300;
+
+            function saveImage(result) {
+                var imageName = "tmp.png"
+                var url = applicationDirPath + "/" + imageName;
+                result.saveToFile(url);
+                console.debug("Print " + url);
+                parameters.printPhoto.removePhoto(url);
+            }
+
+            if (takePhotoScreenPhotoSizedBlock.height > takePhotoScreenPhotoSizedBlock.width) { //Photo in portrait
+                var captureHeight = photoHeighP * dpi;
+                var captureWidth = takePhotoScreenPhotoSizedBlock.width / takePhotoScreenPhotoSizedBlock.height * captureHeight;
+                takePhotoScreenPhotoSizedBlock.grabToImage(saveImage, Qt.size(captureWidth, captureHeight));
+            } else { //Photo in landscape
+                var captureWidth = photoHeighP * dpi;
+                var captureHeight = takePhotoScreenPhotoSizedBlock.height / takePhotoScreenPhotoSizedBlock.width * captureWidth;
+                takePhotoScreenPhotoSizedBlock.grabToImage(saveImage, Qt.size(captureWidth, captureHeight));
+            }
+        }
     }
 
     states: [

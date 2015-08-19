@@ -39,7 +39,7 @@ Rectangle {
         var dpi = 300;
         var firstsave = 0;
 
-        function saveImage(result) { //TODO: Faire un call asynchrone avec un worker script
+        function saveImage(result) {
             var d = new Date();
             var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
             var imageName = "phototwix-" + date + ".png"
@@ -55,7 +55,7 @@ Rectangle {
             }
         }
 
-        function saveImageSD(result) { //TODO: Faire un call asynchrone avec un worker script
+        function saveImageSD(result) {
             var d = new Date();
             var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
             var imageName = "phototwix-" + date + ".png"
