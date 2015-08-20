@@ -47,5 +47,9 @@
         <file>resources/controls/GalleryControl.qml</file>
         <file>resources/controls/FreePhotoPicker.qml</file>
         <file>resources/controls/PricePhotoPicker.qml</file>
+        <file>resources/controls/MessageScreen.qml</file>
+        <file>resources/controls/ConfirmScreen.qml</file>
+        <file>resources/images/Accept-icon.png</file>
+        <file>resources/images/Refuse-icon.png</file>
     </qresource>
 </RCC>

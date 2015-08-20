@@ -21,11 +21,14 @@ Rectangle {
             }
         }
 
+
         EditPhotoActionButton {
             id:deleteButton
             imagePath:"../images/delete.png"
             onClicked: {
-                delete_photo()
+                cbox.message = "Supprimer la photo ?"
+                cbox.acceptFunction = delete_photo
+                cbox.state = "show"
             }
         }
 
@@ -33,6 +36,9 @@ Rectangle {
             id:printButton
             imagePath:"../images/print.png"
             onClicked: {
+                mbox.message = "Impression en cours"
+                mbox.imageSource = "../images/print.png"
+                mbox.state = "show"
                 print_photo()
             }
         }
@@ -70,17 +76,25 @@ Rectangle {
         //TODO: afficher impression en cours pour 5 secondes
         if (state == "viewPhoto") {
             var url = parameters.photoGallery.photoList[photosGridView.currentIndex].finalResult;
-            console.debug("Print " + url);
+            console.log("Print " + url);
             parameters.printPhoto(url);
         } else if (state == "editPhoto") { //Save image in a tmp directory to apply effects, then print the file
             var photoHeighP = 6;
             var dpi = 300;
 
+            if (applicationWindows.effectSource == "color") {
+                //No need to regenerate image, just print
+                var url = applicationWindows.currentPhoto.finalResult;
+                console.log("Print " + url);
+                parameters.printPhoto(url);
+                return;
+            }
+            //else regenerate the image with effects
             function saveImage(result) {
                 var imageName = "tmp.png"
                 var url = applicationDirPath + "/" + imageName;
                 result.saveToFile(url);
-                console.debug("Print " + url);
+                console.log("Print " + url);
                 parameters.printPhoto.removePhoto(url);
             }
 

@@ -95,6 +95,36 @@ Rectangle {
                width: 150
                step:0.05
            }
+
+           Label {
+               height: 30
+               text: "Flip Camera"
+               font.pixelSize: 15
+           }
+
+           Switch {
+               onCheckedChanged: {
+                   parameters.flipcamera = checked;
+               }
+               Component.onCompleted: {
+                   checked = parameters.flipcamera;
+               }
+           }
+
+           Label {
+               height: 30
+               text: "Flip Camera Result"
+               font.pixelSize: 15
+           }
+
+           Switch {
+               onCheckedChanged: {
+                   parameters.flipresult = checked;
+               }
+               Component.onCompleted: {
+                   checked = parameters.flipresult;
+               }
+           }
         }
 
         ButtonImage {
@@ -102,7 +132,13 @@ Rectangle {
             label:"Nettoyer la Gallerie"
             onClicked: {
                 console.debug("Reset photos");
-                parameters.clearGallery();
+                cbox.message = "Vider la gallerie ?"
+                cbox.acceptFunction = function () {
+                    parameters.clearGallery();
+                    mbox.message = "La gallerie a été effacée"
+                    mbox.state = "show"
+                }
+                cbox.state = "show"
             }
         }
 
@@ -111,7 +147,13 @@ Rectangle {
             label:"Nettoyer et effacer la gallerie"
             onClicked: {
                 console.debug("Reset photos & delete");
-                parameters.clearGalleryDeleteImages();
+                cbox.message = "Vider la gallerie et supprimer les photos ?"
+                cbox.acceptFunction = function () {
+                    parameters.clearGalleryDeleteImages();
+                    mbox.message = "La gallerie et les photos ont étés effacés"
+                    mbox.state = "show"
+                }
+                cbox.state = "show"
             }
         }
     }
@@ -188,11 +230,12 @@ Rectangle {
     }
 
 
-
     Rectangle {
         id:homeButton
         anchors.right: parent.right
         anchors.top : parent.top
+        anchors.rightMargin: 10
+        anchors.topMargin: 10
         height: 60
         width: 60
         color:"#212126"
@@ -213,5 +256,13 @@ Rectangle {
             anchors { fill: parent;  }
             onClicked: { mainRectangle.state = "START" }
         }
+    }
+
+    MessageScreen {
+        id:mbox
+    }
+
+    ConfirmScreen {
+        id:cbox
     }
 }

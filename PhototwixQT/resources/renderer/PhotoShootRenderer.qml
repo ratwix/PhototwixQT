@@ -42,7 +42,7 @@ Flipable {
         Image {
             id: photoPreview
             anchors.fill: parent
-            mirror: false //TODO: a mettre dans les options
+            mirror: parameters.flipresult //TODO: a mettre dans les options
             smooth: true
             onStatusChanged: {
                 if (photoPreview.status == Image.Ready) {
@@ -126,8 +126,9 @@ Flipable {
             height: parent.height
             width: parent.width
             sourceItem: cameraVideoOutput
+            live:true
+            transform: Rotation { origin.x: videoPreview.width / 2; axis { x: 0; y: 1; z: 0 } angle: parameters.flipcamera ? 180 : 0 }
         }
-
     }
 
     transform: Rotation {

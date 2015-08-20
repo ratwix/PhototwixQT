@@ -242,6 +242,13 @@ Rectangle {
         visible: false
     }
 
+    MessageScreen {
+        id:mbox
+    }
+
+    ConfirmScreen {
+        id:cbox
+    }
 
     states: [
         State {

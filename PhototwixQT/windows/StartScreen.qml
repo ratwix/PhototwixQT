@@ -56,5 +56,13 @@ Rectangle {
         }
         visible: galleryControl.state == "stacked"
     }
+
+    MessageScreen {
+        id:mbox
+    }
+
+    ConfirmScreen {
+        id:cbox
+    }
 }
 

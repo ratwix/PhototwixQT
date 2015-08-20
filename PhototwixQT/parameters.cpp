@@ -89,6 +89,8 @@ void Parameters::init() {
     m_nbprint = 0;
     m_nbfreephotos = 250;
     m_pricephoto = 0.4;
+    m_flipcamera = false;
+    m_flipresult = false;
 
     createFolders();
     m_photogallery = new PhotoGallery();
@@ -176,6 +178,12 @@ void Parameters::Serialize() {
 
         writer.Key("pricephoto");
         writer.Double(m_pricephoto);
+
+        writer.Key("flipcamera");
+        writer.Bool(m_flipcamera);
+
+        writer.Key("flipresult");
+        writer.Bool(m_flipresult);
 
         writer.Key("templates");
         writer.StartArray();
@@ -276,6 +284,14 @@ void Parameters::Unserialize() {
         m_pricephoto = document["pricephoto"].GetDouble();
     }
 
+    if (document.HasMember("flipcamera")) {
+        m_flipcamera = document["flipcamera"].GetBool();
+    }
+
+    if (document.HasMember("flipresult")) {
+       m_flipresult = document["flipresult"].GetBool();
+    }
+
     if (document.HasMember("templates")) {
         const Value& templates = document["templates"];
         if (templates.IsArray()) {
@@ -310,12 +326,10 @@ static void delAllFileInDirectory(const char* p) {
 
 void Parameters::clearGallery(bool del)
 {
-    for (QList<QObject *>::iterator it = m_photogallery->photoList().begin(); it != m_photogallery->photoList().end(); it++) {
-        if (Photo *p = dynamic_cast<Photo*>(*it)) {
-            m_photogallery->photoList().removeOne(p);
-            delete p;
-        }
-    }
+    delete m_photogallery;
+    m_photogallery = new PhotoGallery();
+    m_photogallery->setApplicationDirPath(m_applicationDirPath);
+
 
     if (del) {
         delAllFileInDirectory(PHOTOS_PATH);
@@ -325,7 +339,8 @@ void Parameters::clearGallery(bool del)
         delAllFileInDirectory(PHOTOSDS_PATH);
     }
 
-
+    Serialize();
+    m_photogallery->Serialize();
     emit photoGalleryChanged();
 }
 
@@ -398,3 +413,27 @@ void Parameters::setPricephoto(float pricephoto)
     Serialize();
     emit pricephotoChanged();
 }
+bool Parameters::getFlipcamera() const
+{
+    return m_flipcamera;
+}
+
+void Parameters::setFlipcamera(bool flipcamera)
+{
+    m_flipcamera = flipcamera;
+    Serialize();
+    emit flipcameraChanged();
+}
+bool Parameters::getFlipresult() const
+{
+    return m_flipresult;
+}
+
+void Parameters::setFlipresult(bool flipresult)
+{
+    m_flipresult = flipresult;
+    Serialize();
+    emit flipresultChanged();
+}
+
+
