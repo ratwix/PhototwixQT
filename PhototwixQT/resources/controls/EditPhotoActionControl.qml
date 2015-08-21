@@ -42,14 +42,28 @@ Rectangle {
                 print_photo()
             }
         }
+
+        EditPhotoActionButton {
+            id:editButton
+            imagePath:"../images/paint_bucket.png"
+            onClicked: {
+                currentPhoto = parameters.photoGallery.photoList[photosListView.currentIndex];
+                applicationWindows.showEdit();
+
+            }
+            visible: false
+        }
     }
 
     function home() {
         console.log("home")
+        applicationWindows.resetStates()
+        /*
         mainRectangle.state = "START"
         if (typeof galleryControl !== 'undefined') {
             galleryControl.state = "stacked"
         }
+        */
     }
 
     function delete_photo() {
@@ -124,6 +138,10 @@ Rectangle {
             name: "viewPhoto"
             PropertyChanges { target: gridButton
                               columns: 1
+            }
+            PropertyChanges {
+                target: editButton
+                visible: true
             }
 
         }

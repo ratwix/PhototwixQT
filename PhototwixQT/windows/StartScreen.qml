@@ -11,6 +11,8 @@ Rectangle {
     height: parent.height
     width: parent.width
 
+    property alias galleryControlAlias: galleryControl
+
     /**
       * Top part : template Selection
       */

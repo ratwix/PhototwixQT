@@ -24,7 +24,7 @@ Flipable {
     }
 
     function endPhotoProcess(photoResult) {
-        photoPreview.source = photoResult;
+        photoPreview.source = "file:///" + photoResult;
     }
 
     function resetFilters() {
@@ -41,11 +41,12 @@ Flipable {
 
         Image {
             id: photoPreview
+            source:(modelData.path != "") ? "file:///" + modelData.path : ""
             anchors.fill: parent
-            mirror: parameters.flipresult //TODO: a mettre dans les options
+            mirror: parameters.flipresult
             smooth: true
             onStatusChanged: {
-                if (photoPreview.status == Image.Ready) {
+                if ((source != "") && (photoPreview.status == Image.Ready)) {
                     photoTaked = true; //photo is taked, wait to switch finish
                     flipped = false;
                     currentLabel.visible = false;
@@ -161,9 +162,10 @@ Flipable {
             }
         }
     }
-
+/*
     MouseArea {
         anchors.fill: parent
-        onClicked: photoProcess.flipped = !photoProcess.flipped
+        onClicked: photoShootRenderer.flipped = !photoShootRenderer.flipped
     }
+*/
 }

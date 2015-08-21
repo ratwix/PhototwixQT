@@ -51,5 +51,6 @@
         <file>resources/controls/ConfirmScreen.qml</file>
         <file>resources/images/Accept-icon.png</file>
         <file>resources/images/Refuse-icon.png</file>
+        <file>resources/images/paint_bucket.png</file>
     </qresource>
 </RCC>

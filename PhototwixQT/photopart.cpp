@@ -1,6 +1,7 @@
 #include "photopart.h"
 
-PhotoPart::PhotoPart()
+PhotoPart::PhotoPart():
+    m_path("")
 {
 
 }

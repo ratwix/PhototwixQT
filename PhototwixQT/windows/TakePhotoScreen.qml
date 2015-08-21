@@ -7,7 +7,7 @@ import "../resources/renderer"
 
 Rectangle {
     id: takePhotoScreen
-    color: "transparent"
+    color: applicationWindows.backColor
     height: parent.height
     width: parent.width
 
@@ -100,7 +100,7 @@ Rectangle {
 
         imageCapture {
             onImageSaved: {
-                var path = "file:///" + camera.imageCapture.capturedImagePath
+                var path = camera.imageCapture.capturedImagePath
                 applicationWindows.currentPhoto.photoPartList[p.currentPhoto].path = path;
                 photoPartRepeater.itemAt(p.currentPhoto).endPhotoProcess(path)
             }

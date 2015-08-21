@@ -32,6 +32,18 @@ ApplicationWindow {
     property double cameraRation: 1.5
     property string effectSource : "color"
 
+    //Go to home and reset all
+    property var resetStates: function () {
+        mainRectangle.state = "START"
+        takePhotoScreen.state = "PHOTO_SHOOT"
+        startScreen.galleryControlAlias.state = "stacked"
+    }
+
+    property var showEdit: function () {
+        //resetStates();
+        mainRectangle.state = "EDIT_PHOTO"
+        takePhotoScreen.state = "PHOTO_EDIT"
+    }
 
     Rectangle {
         id: mainRectangle
@@ -43,8 +55,16 @@ ApplicationWindow {
 
         StartScreen {
             id: startScreen
-            x:applicationWindows.width
+            x:0
             y:0
+        }
+
+        Rectangle {
+            id: startScreenHide
+            anchors.fill: parent
+            color:backColor
+            opacity: 0.0
+            visible: opacity > 0
         }
 
         TakePhotoScreen {
@@ -69,14 +89,19 @@ ApplicationWindow {
         states: [
             State {
                 name: "START"
-                PropertyChanges { target: startScreen; x:0}
             },
             State {
                 name: "TAKE_PHOTO"
+                PropertyChanges { target: startScreenHide;
+                                   opacity: 1.0
+                                }
                 PropertyChanges { target: takePhotoScreen;
                                     x:0
                                     state:"PHOTO_SHOOT"
                                 }
+            },
+            State {
+                name: "EDIT_PHOTO"; extend: 'TAKE_PHOTO'
             },
             State {
                 name: "CONFIG"
@@ -90,12 +115,12 @@ ApplicationWindow {
 
         transitions: [
           Transition {
-              from: "START"; to: "TAKE_PHOTO"
+              from: "START"; to: "TAKE_PHOTO,EDIT_PHOTO"
               ParallelAnimation {
-                  PropertyAnimation { target: startScreen
-                                      properties: "x"
+                  NumberAnimation { target: startScreenHide
+                                      properties: "opacity"
                                       easing.type: Easing.Linear
-                                      duration: 500 }
+                                      duration: 200 }
                   PropertyAnimation { target: takePhotoScreen
                                       properties: "x"
                                       easing.type: Easing.OutBounce
