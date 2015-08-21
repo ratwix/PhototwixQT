@@ -25,6 +25,8 @@ class Template : public QObject
     Q_PROPERTY(QUrl url READ getUrl WRITE setUrl NOTIFY urlChanged)
     Q_PROPERTY(bool active READ getActive WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(QList<QObject*> templatePhotoPositions READ templatePhotoPositions WRITE setTemplatePhotoPositions NOTIFY templatePhotoPositionsChanged)
+    Q_PROPERTY(bool printcutter READ getPrintcutter WRITE setPrintcutter NOTIFY printcutterChanged)
+    Q_PROPERTY(bool doubleprint READ getDoubleprint WRITE setDoubleprint NOTIFY doubleprintChanged)
 
 public:
     Template();
@@ -53,11 +55,19 @@ public:
     Q_INVOKABLE void addTemplatePhotoPosition();
     Q_INVOKABLE void deleteTemplatePhotoPosition(int i);
 
+    bool getPrintcutter() const;
+    void setPrintcutter(bool printcutter);
+
+    bool getDoubleprint() const;
+    void setDoubleprint(bool doubleprint);
+
 signals:
     void nameChanged(QString);
     void urlChanged(QUrl);
     void activeChanged();
     void templatePhotoPositionsChanged();
+    void printcutterChanged();
+    void doubleprintChanged();
 
 private:
     bool            m_active;
@@ -65,6 +75,8 @@ private:
     QUrl            m_url;
     QList<QObject*> m_templatePhotoPositions;
     Parameters      *m_parameters;
+    bool            m_printcutter;
+    bool            m_doubleprint;
 };
 
 #endif // TEMPLATE_H

@@ -8,6 +8,8 @@ Template::Template()
     m_parameters = 0;
     setName("error");
     m_active = false;
+    m_printcutter = false;
+    m_doubleprint = false;
 }
 
 Template::Template(QString name, Parameters *parameters)
@@ -15,6 +17,8 @@ Template::Template(QString name, Parameters *parameters)
     m_parameters = parameters;
     setName(name);
     m_active = false;
+    m_printcutter = false;
+    m_doubleprint = false;
     QString path = QString(("file:///" + TEMPLATE_PATH2 + "/" + name.toStdString()).c_str());
 
     setUrl(QUrl(path));
@@ -90,6 +94,12 @@ void Template::Serialize(PrettyWriter<StringBuffer> &writer) const {
     writer.Key("active");
     writer.Bool(m_active);
 
+    writer.Key("printcutter");
+    writer.Bool(m_printcutter);
+
+    writer.Key("doubleprint");
+    writer.Bool(m_doubleprint);
+
     //Serialisation des TemplatePhotoPosition
     QList<QObject*>::const_iterator it;
 
@@ -120,6 +130,14 @@ void Template::Unserialize(Value const &value) {
 
     if (value.HasMember("active")) {
         m_active = value["active"].GetBool();
+    }
+
+    if (value.HasMember("printcutter")) {
+        m_printcutter = value["printcutter"].GetBool();
+    }
+
+    if (value.HasMember("doubleprint")) {
+        m_doubleprint = value["doubleprint"].GetBool();
     }
 
     if (value.HasMember("templatesPhotoPositions")) {
@@ -175,3 +193,27 @@ void Template::deleteTemplatePhotoPosition(int i)
         }
     }
 }
+bool Template::getPrintcutter() const
+{
+    return m_printcutter;
+}
+
+void Template::setPrintcutter(bool printcutter)
+{
+    m_printcutter = printcutter;
+    m_parameters->Serialize();
+    emit printcutterChanged();
+}
+bool Template::getDoubleprint() const
+{
+    return m_doubleprint;
+}
+
+void Template::setDoubleprint(bool doubleprint)
+{
+    m_doubleprint = doubleprint;
+    m_parameters->Serialize();
+    emit doubleprintChanged();
+}
+
+

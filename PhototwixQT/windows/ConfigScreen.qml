@@ -204,13 +204,60 @@ Rectangle {
                 Column {
                     anchors.verticalCenter: parent.verticalCenter
                     spacing : 10
-                    Switch {
-                        id:templateActiveSwitch
-                        checked: model.modelData.active
-                        onCheckedChanged: {
-                            model.modelData.active = checked
+
+                    Grid {
+                        columns: 2
+                        columnSpacing: 10
+                        Label {
+                            height: 30
+                            text: "Active"
+                            font.pixelSize: 15
+                        }
+
+                        Switch {
+                            id:templateActiveSwitch
+                            onCheckedChanged: {
+                                model.modelData.active = checked
+                            }
+                            Component.onCompleted: {
+                                checked = model.modelData.active
+                            }
+                        }
+
+                        Label {
+                            height: 30
+                            text: "Cutter print"
+                            font.pixelSize: 15
+                        }
+
+                        Switch {
+                            id:templateCutterSwitch
+                            onCheckedChanged: {
+                                model.modelData.printcutter = checked
+                            }
+                            Component.onCompleted: {
+                                checked = model.modelData.printcutter
+                            }
+                        }
+
+                        Label {
+                            height: 30
+                            text: "Double print"
+                            font.pixelSize: 15
+                        }
+
+                        Switch {
+                            id:templateDoubleSwitch
+                            onCheckedChanged: {
+                                model.modelData.doubleprint = checked
+                            }
+                            Component.onCompleted: {
+                                checked = model.modelData.doubleprint
+                            }
                         }
                     }
+
+
 
                     ButtonImage {
                         label: "Config"

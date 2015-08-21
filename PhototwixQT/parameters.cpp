@@ -230,10 +230,11 @@ Photo* Parameters::addPhotoToGallerie(QString name, QObject *temp)
     return NULL;
 }
 
-void Parameters::printPhoto(QUrl url)
+void Parameters::printPhoto(QUrl url, bool doubleprint, bool cutprint)
 {
-    CLog::Write(CLog::Debug, "Print file : " + url.toString().toStdString());
+    CLog::Write(CLog::Debug, "Print file : " + url.toString().toStdString() + " double:" + (doubleprint ? "true":"false") + " cut:" + (cutprint?"true":"false"));
     //TODO: print & manage
+
     //On incremente le conteur
     setNbprint(m_nbprint + 1);
 }

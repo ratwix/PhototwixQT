@@ -1,10 +1,9 @@
-- Action derrière les boutons du menu de config
+- Resolution de la camera (pas oublier de changer le format du rendu video)
 - Centrer les templates choisis sur la home page
-- Copie USB
+- Copie USB <-- hotspot wifi
 - Impression
 - Reduire champ de la camera
 - Ejouter des effets
-- Option : choix de la camera et resolution
 - Flash, bouton, affichage ecran led
-- Compilation sous Ubuntu
+- Compilation sous Ubuntu (ou pas)
 - Construire la boite
