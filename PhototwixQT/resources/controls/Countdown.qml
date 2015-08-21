@@ -30,15 +30,18 @@ Rectangle {
     SoundEffect {
         id: beep1Sound
         source: "../sounds/beep-07.wav"
+        volume: parameters.volume
     }
 
     SoundEffect {
         id: beep2Sound
         source: "../sounds/beep-08b.wav"
+        volume: parameters.volume
     }
     SoundEffect {
         id: photoSound
         source: "../sounds/camera-shutter-click-01.wav"
+        volume: parameters.volume
     }
 
     function updateStatus(nb) {

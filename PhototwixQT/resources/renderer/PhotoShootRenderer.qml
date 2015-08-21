@@ -12,6 +12,7 @@ Flipable {
     property int  photoIndex: 0
     property bool photoTaked: false
     property double destRotation
+    property double xphoto : 0.0
     property string effectSource : applicationWindows.effectSource
 
     signal processEnd()
@@ -55,31 +56,42 @@ Flipable {
             }
         }
 
+        ShaderEffectSource { //Duplication de la camera
+            id:photoPreviewShader
+            anchors.fill: parent
+            sourceItem: photoPreview
+            hideSource: true
+            sourceRect:Qt.rect(photoPreview.width * xphoto,
+                               0,
+                               photoPreview.width - photoPreview.width * xphoto * 2,
+                               photoPreview.height);
+        }
+
         EffectGrayscale {
             id:filter_black_white
             visible: false
-            itemSource: photoPreview
+            itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectSepia {
             id:filter_sepia
             visible: false
-            itemSource: photoPreview
+            itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectXPRO2 {
             id:filter_xpro2
             visible: false
-            itemSource: photoPreview
+            itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectWillow {
             id:filter_willow
             visible: false
-            itemSource: photoPreview
+            itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
@@ -127,6 +139,10 @@ Flipable {
             height: parent.height
             width: parent.width
             sourceItem: cameraVideoOutput
+            sourceRect:Qt.rect(cameraVideoOutput.width * xphoto,
+                               0,
+                               cameraVideoOutput.width - cameraVideoOutput.width * xphoto * 2,
+                               cameraVideoOutput.height);
             live:true
             transform: Rotation { origin.x: videoPreview.width / 2; axis { x: 0; y: 1; z: 0 } angle: parameters.flipcamera ? 180 : 0 }
         }

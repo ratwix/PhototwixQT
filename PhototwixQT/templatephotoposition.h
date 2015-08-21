@@ -63,7 +63,7 @@ signals:
     void rotateChanged(qreal);
     void widthChanged(qreal);
     void heightChanged(qreal);
-    void xphotoChanged(qreal);
+    void xphotoChanged();
     void numberChanged(int);
 
 private:

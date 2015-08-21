@@ -1,9 +1,9 @@
 - Resolution de la camera (pas oublier de changer le format du rendu video)
-- Centrer les templates choisis sur la home page
-- Copie USB <-- hotspot wifi
+- Centrer les templates choisis sur la home page (a moitie fait)
+- Copie USB
 - Impression
-- Reduire champ de la camera
 - Ejouter des effets
-- Flash, bouton, affichage ecran led
-- Compilation sous Ubuntu (ou pas)
+- Flash, lumiere, bouton, affichage ecran led
+- Securiser par un mot de passe l'accès a la configuration
+- Compilation sous Ubuntu (ou pas), ca marche a moitié
 - Construire la boite

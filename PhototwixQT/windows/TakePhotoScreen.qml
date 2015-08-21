@@ -158,9 +158,10 @@ Rectangle {
                 model:applicationWindows.currentPhoto ? applicationWindows.currentPhoto.photoPartList : undefined
                 delegate: PhotoShootRenderer {
                     y: photoScreenTemplate.y + photoScreenTemplate.height * modelData.photoPosition.y
-                    x: photoScreenTemplate.x + photoScreenTemplate.width * modelData.photoPosition.x
+                    x: photoScreenTemplate.x + photoScreenTemplate.width * modelData.photoPosition.x + photoScreenTemplate.width * modelData.photoPosition.width * modelData.photoPosition.xphoto
+                    xphoto: modelData.photoPosition.xphoto
                     height: photoScreenTemplate.height * modelData.photoPosition.height
-                    width: photoScreenTemplate.width * modelData.photoPosition.width
+                    width: photoScreenTemplate.width * modelData.photoPosition.width - photoScreenTemplate.width * modelData.photoPosition.width * modelData.photoPosition.xphoto * 2
                     rotation: modelData.photoPosition.rotate
                     photoIndex: modelData.photoPosition.number
                     onProcessEnd: {

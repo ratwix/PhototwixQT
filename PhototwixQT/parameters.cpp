@@ -91,6 +91,7 @@ void Parameters::init() {
     m_pricephoto = 0.4;
     m_flipcamera = false;
     m_flipresult = false;
+    m_volume = 1.0;
 
     createFolders();
     m_photogallery = new PhotoGallery();
@@ -184,6 +185,9 @@ void Parameters::Serialize() {
 
         writer.Key("flipresult");
         writer.Bool(m_flipresult);
+
+        writer.Key("volume");
+        writer.Double(m_volume);
 
         writer.Key("templates");
         writer.StartArray();
@@ -291,6 +295,10 @@ void Parameters::Unserialize() {
 
     if (document.HasMember("flipresult")) {
        m_flipresult = document["flipresult"].GetBool();
+    }
+
+    if (document.HasMember("volume")) {
+       m_volume = document["volume"].GetDouble();
     }
 
     if (document.HasMember("templates")) {
@@ -436,5 +444,17 @@ void Parameters::setFlipresult(bool flipresult)
     Serialize();
     emit flipresultChanged();
 }
+float Parameters::getVolume() const
+{
+    return m_volume;
+}
+
+void Parameters::setVolume(float volume)
+{
+    m_volume = volume;
+    Serialize();
+    emit volumeChanged();
+}
+
 
 

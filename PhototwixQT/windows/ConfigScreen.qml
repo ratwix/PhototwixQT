@@ -125,6 +125,28 @@ Rectangle {
                    checked = parameters.flipresult;
                }
            }
+
+           Label {
+               height: 30
+               text: "Volume"
+               font.pixelSize: 15
+           }
+
+           Slider {
+               id:volumeSlider
+               minimumValue: 0.0
+               maximumValue: 1.0
+               stepSize: 0.1
+               tickmarksEnabled: true
+               updateValueWhileDragging: false
+               onValueChanged: {
+                   parameters.volume = value;
+               }
+
+               Component.onCompleted: {
+                   value = parameters.volume;
+               }
+           }
         }
 
         ButtonImage {

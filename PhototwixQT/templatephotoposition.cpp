@@ -153,5 +153,6 @@ qreal TemplatePhotoPosition::xphoto() const
 void TemplatePhotoPosition::setXphoto(const qreal &xphoto)
 {
     m_xphoto = xphoto;
+    emit xphotoChanged();
 }
 

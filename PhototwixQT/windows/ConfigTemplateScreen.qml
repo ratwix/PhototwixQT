@@ -111,7 +111,7 @@ Rectangle {
                     smooth: true
                     antialiasing: true
                     property bool renderFinish: false
-
+                    property alias sliderCameraCutterAlias: sliderCameraCutter
                     onXChanged: {
                         if (renderFinish) {
                             calculateCoord()
@@ -210,12 +210,64 @@ Rectangle {
                         }
 
                         function setFrameColor() {
-                            if (currentFrame)
+                            if (currentFrame) {
                                 currentFrame.color = "#800000FF";
+                                currentFrame.sliderCameraCutterAlias.visible = false;
+                            }
                             currentFrame = templatePhotoPosition;
                             currentFrame.color = "#80FF0000";
+                            sliderCameraCutter.visible = true;
                         }
 
+                    }
+
+                    //Slider to cut camera
+                    Slider {
+                        id:sliderCameraCutter
+                        anchors.top: parent.bottom
+                        anchors.left: parent.left
+                        width: parent.width / 2
+                        minimumValue: 0.0
+                        maximumValue: 0.5
+                        visible: false
+                        Component.onCompleted: {
+                            value = modelData.xphoto;
+                        }
+                        onValueChanged: {
+                            cutLine.requestPaint();
+                            modelData.xphoto = value;
+                        }
+                    }
+
+                    Canvas {
+                        id:cutLine
+                        anchors.fill: parent
+                        height: parent.height
+                        width:parent.width
+                        onPaint: {
+                            var context = getContext("2d");
+                            //Clear
+                            context.fillStyle = Qt.rgba(255, 255, 255, 1.0);
+                            context.strokeStyle = "green";
+                            context.lineWidth = 3;
+
+                            context.beginPath();
+                            context.clearRect(0, 0, cutLine.width, cutLine.height);
+                            context.fill();
+
+
+                            //Draw first line
+                            context.beginPath();
+                            context.moveTo(cutLine.width * sliderCameraCutter.value, 0);
+                            context.lineTo(cutLine.width * sliderCameraCutter.value, cutLine.height);
+                            context.stroke();
+
+                            //Draw second line
+                            context.beginPath();
+                            context.moveTo(cutLine.width - cutLine.width * sliderCameraCutter.value, 0);
+                            context.lineTo(cutLine.width - cutLine.width * sliderCameraCutter.value, cutLine.height);
+                            context.stroke();
+                        }
                     }
                 }
             }

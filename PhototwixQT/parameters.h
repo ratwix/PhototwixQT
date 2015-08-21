@@ -31,7 +31,7 @@ class Parameters : public QObject
     Q_PROPERTY(float pricephoto READ getPricephoto WRITE setPricephoto NOTIFY pricephotoChanged)
     Q_PROPERTY(bool flipcamera READ getFlipcamera WRITE setFlipcamera NOTIFY flipcameraChanged)
     Q_PROPERTY(bool flipresult READ getFlipresult WRITE setFlipresult NOTIFY flipresultChanged)
-
+    Q_PROPERTY(float volume READ getVolume WRITE setVolume NOTIFY volumeChanged)
 public:
     Parameters(QUrl appDirPath);
     ~Parameters();
@@ -73,6 +73,9 @@ public:
     bool getFlipresult() const;
     void setFlipresult(bool flipresult);
 
+    float getVolume() const;
+    void setVolume(float volume);
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -83,6 +86,7 @@ private:
     float                m_pricephoto;
     bool                 m_flipcamera;
     bool                 m_flipresult;
+    float                m_volume;
 
     void addTemplate(QString name);
     void addTemplate(Value const &value);
@@ -102,6 +106,7 @@ signals:
     void pricephotoChanged();
     void flipcameraChanged();
     void flipresultChanged();
+    void volumeChanged();
 };
 
 #endif // CPARAMETERS_H
