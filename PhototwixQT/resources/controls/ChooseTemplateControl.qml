@@ -9,10 +9,17 @@ ListView {
     id:chooseTemplateListView
 
     orientation: Qt.Horizontal
-    spacing: 10
+    spacing: 20
     preferredHighlightBegin: 150 - 15 //TODO : meilleur alignement Component.onCompleted: positionViewAtIndex(count - 1, ListView.Beginning)
     preferredHighlightEnd: 150 + 15
-    highlightRangeMode: ListView.StrictlyEnforceRange
+
+    highlight: Rectangle {
+        color:"#193259"
+        height: parent.height
+        width:  parent.width
+
+
+    }
 
     Component {
         id: activeTemplateDelegate
@@ -34,6 +41,8 @@ ListView {
                     applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", model.modelData)
                     applicationWindows.effectSource = "color"
                     mainRectangle.state = "TAKE_PHOTO"
+                    chooseTemplateListView.currentIndex = index
+                    chooseTemplateListView.positionViewAtBeginning()
                 }
             }
         }
@@ -45,4 +54,29 @@ ListView {
     Component.onCompleted: {
         positionViewAtIndex(count / 2 + 1, ListView.Center) //TODO marche pas
     }
+
+    Connections {
+        target: parameters.arduino
+        onPhotoButtonRelease: {
+            if ((mainRectangle.state == "START") &&                     //Quand on est sur l'ecran de départ
+                (takePhotoScreen.state == "PHOTO_SHOOT") &&
+                (startScreen.galleryControlAlias.state == "stacked") &&
+                (chooseTemplateListView.currentIndex != -1)) {
+
+                applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", currentActiveTemplates[chooseTemplateListView.currentIndex])
+                applicationWindows.effectSource = "color"
+                mainRectangle.state = "TAKE_PHOTO"
+            } else {
+                if ((mainRectangle.state != "START") && (takePhotoScreen.state == "PHOTO_SHOOT")) { //On ne revient pas au départ pendant la prise de photo
+
+                } else {
+                    applicationWindows.resetStates();
+                    mbox.state = "hide"
+                    cbox.state = "hide"
+                }
+            }
+        }
+    }
 }
+
+

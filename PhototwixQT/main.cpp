@@ -3,6 +3,7 @@
 #include <QQmlContext>
 #include <QtQml>
 
+#include "arduino.h"
 #include "parameters.h"
 #include "filereader.h"
 #include "clog.h"
@@ -15,7 +16,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    Parameters            parameters(QGuiApplication::applicationDirPath()); //todo ajouter le path pour uniformisation
+    Parameters            parameters(QGuiApplication::applicationDirPath());
     FileReader            fileReader;
 
 
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PhotoGallery>("com.phototwix.components", 1, 0, "PhotoGallery");
     qmlRegisterType<Photo>("com.phototwix.components", 1, 0, "Photo");
     qmlRegisterType<PhotoPart>("com.phototwix.components", 1, 0, "PhotoPart");
+    qmlRegisterType<Arduino>("com.phototwix.components", 1, 0, "Arduino");
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

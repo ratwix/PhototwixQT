@@ -13,6 +13,10 @@ Rectangle {
 
     state:"PHOTO_SHOOT"
 
+    MouseArea {
+        anchors.fill: parent
+    }
+
     QtObject {
         id:p
         property int cameraHeight : 0
@@ -27,6 +31,7 @@ Rectangle {
 
     function startGlobalPhotoProcess() {
         p.currentPhoto = 0;
+        parameters.arduino.flashSwitchOn();
         takePhotoScreen.startPhotoProcess();
     }
 
@@ -38,6 +43,8 @@ Rectangle {
         var photoHeighP = 6;
         var dpi = 300;
         var firstsave = 0;
+
+        parameters.arduino.flashSwitchOff();
 
         function saveImage(result) {
             var d = new Date();
@@ -231,6 +238,7 @@ Rectangle {
             width: parent.width
             x:0
             y:takePhotoScreenBottomBlock.height + takePhotoScreenBottomBlock.anchors.bottomMargin
+            opacity: 0.0
         }
     }
 
@@ -266,6 +274,7 @@ Rectangle {
             }
             PropertyChanges { target: editPhotoActionControl
                               y: 0
+                              opacity: 1.0
             }
             PropertyChanges { target: takePhotoScreenBottomBlock
                               anchors.bottomMargin: 0

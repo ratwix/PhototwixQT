@@ -17,6 +17,9 @@ Rectangle {
       * Top part : template Selection
       */
 
+    MouseArea {
+        anchors.fill: parent
+    }
 
     ChooseTemplateControl {
         id:chooseTemplateListView

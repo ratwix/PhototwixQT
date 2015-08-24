@@ -37,6 +37,8 @@ Parameters::~Parameters()
     for (it = m_templates.begin(); it != m_templates.end(); it++) {
         delete *it;
     }
+
+    delete m_arduino;
 }
 
 void Parameters::addTemplate(QString name) {
@@ -92,6 +94,8 @@ void Parameters::init() {
     m_flipcamera = false;
     m_flipresult = false;
     m_volume = 1.0;
+    m_arduino = new Arduino();
+    QQmlEngine::setObjectOwnership(m_arduino, QQmlEngine::CppOwnership);
 
     createFolders();
     m_photogallery = new PhotoGallery();
@@ -188,6 +192,15 @@ void Parameters::Serialize() {
 
         writer.Key("volume");
         writer.Double(m_volume);
+
+        writer.Key("flashBrightness");
+        writer.Int(m_flashBrightness);
+
+
+        m_arduino->setPhotoPrice(m_pricephoto);
+        m_arduino->setNbPhotoFree(m_nbfreephotos);
+        m_arduino->setNbPhotoPrint(m_nbprint);
+        m_arduino->flashSetIntensity(m_flashBrightness);
 
         writer.Key("templates");
         writer.StartArray();
@@ -299,6 +312,10 @@ void Parameters::Unserialize() {
 
     if (document.HasMember("volume")) {
        m_volume = document["volume"].GetDouble();
+    }
+
+    if (document.HasMember("flashBrightness")) {
+       m_flashBrightness = document["flashBrightness"].GetInt();
     }
 
     if (document.HasMember("templates")) {
@@ -455,6 +472,29 @@ void Parameters::setVolume(float volume)
     Serialize();
     emit volumeChanged();
 }
+Arduino *Parameters::getArduino() const
+{
+    return m_arduino;
+}
+
+void Parameters::setArduino(Arduino *arduino)
+{
+    m_arduino = arduino;
+}
+
+int Parameters::getFlashBrightness() const
+{
+    return m_flashBrightness;
+}
+
+void Parameters::setFlashBrightness(int flashBrightness)
+{
+    m_flashBrightness = flashBrightness;
+    Serialize();
+    emit flashBrightnessChanged();
+}
+
+
 
 
 

@@ -37,6 +37,7 @@ ApplicationWindow {
         mainRectangle.state = "START"
         takePhotoScreen.state = "PHOTO_SHOOT"
         startScreen.galleryControlAlias.state = "stacked"
+
     }
 
     property var showEdit: function () {
@@ -160,4 +161,6 @@ ApplicationWindow {
             mainRectangle.visible = true
         }
     }
+
+
 }

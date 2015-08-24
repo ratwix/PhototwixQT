@@ -178,10 +178,4 @@ Flipable {
             }
         }
     }
-/*
-    MouseArea {
-        anchors.fill: parent
-        onClicked: photoShootRenderer.flipped = !photoShootRenderer.flipped
-    }
-*/
 }

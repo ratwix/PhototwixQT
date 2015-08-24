@@ -99,6 +99,10 @@ Rectangle {
 
             if (applicationWindows.effectSource == "color") {
                 //No need to regenerate image, just print
+                if (applicationWindows.currentPhoto == null) {
+                    return;
+                }
+
                 var url = applicationWindows.currentPhoto.finalResult;
                 var doubleprint = applicationWindows.currentPhoto.currentTemplate.doubleprint;
                 var cutprint = applicationWindows.currentPhoto.currentTemplate.printcutter;
@@ -126,6 +130,18 @@ Rectangle {
                 var captureWidth = photoHeighP * dpi;
                 var captureHeight = takePhotoScreenPhotoSizedBlock.height / takePhotoScreenPhotoSizedBlock.width * captureWidth;
                 takePhotoScreenPhotoSizedBlock.grabToImage(saveImage, Qt.size(captureWidth, captureHeight));
+            }
+        }
+    }
+
+    Connections {
+        target: parameters.arduino
+        onPrintButtonRelease: {
+            if (actionControl.opacity > 0) {
+                console.debug("Print ok");
+                printButton.clicked();
+            } else {
+                console.debug("Click print : not on right screen");
             }
         }
     }

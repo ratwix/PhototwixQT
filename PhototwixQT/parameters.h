@@ -11,6 +11,7 @@
 #include "common.h"
 #include "template.h"
 #include "photogallery.h"
+#include "arduino.h"
 
 #include "rapidjson/prettywriter.h"
 
@@ -32,6 +33,9 @@ class Parameters : public QObject
     Q_PROPERTY(bool flipcamera READ getFlipcamera WRITE setFlipcamera NOTIFY flipcameraChanged)
     Q_PROPERTY(bool flipresult READ getFlipresult WRITE setFlipresult NOTIFY flipresultChanged)
     Q_PROPERTY(float volume READ getVolume WRITE setVolume NOTIFY volumeChanged)
+    Q_PROPERTY(Arduino* arduino READ getArduino WRITE setArduino NOTIFY arduinoChanged)
+    Q_PROPERTY(int flashBrightness READ getFlashBrightness WRITE setFlashBrightness NOTIFY flashBrightnessChanged)
+
 public:
     Parameters(QUrl appDirPath);
     ~Parameters();
@@ -76,6 +80,12 @@ public:
     float getVolume() const;
     void setVolume(float volume);
 
+    Arduino *getArduino() const;
+    void setArduino(Arduino *arduino);
+
+    int getFlashBrightness() const;
+    void setFlashBrightness(int flashBrightness);
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -87,6 +97,8 @@ private:
     bool                 m_flipcamera;
     bool                 m_flipresult;
     float                m_volume;
+    int                  m_flashBrightness;
+    Arduino*             m_arduino;
 
     void addTemplate(QString name);
     void addTemplate(Value const &value);
@@ -107,6 +119,8 @@ signals:
     void flipcameraChanged();
     void flipresultChanged();
     void volumeChanged();
+    void arduinoChanged();
+    void flashBrightnessChanged();
 };
 
 #endif // CPARAMETERS_H

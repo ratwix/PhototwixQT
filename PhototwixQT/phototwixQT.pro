@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets
+QT += qml quick widgets serialport
 
 SOURCES += main.cpp \
     template.cpp \
@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     photopart.cpp \
     photogallery.cpp \
     filereader.cpp \
-    common.cpp
+    common.cpp \
+    arduino.cpp
 
 RESOURCES += qml.qrc
 
@@ -60,4 +61,5 @@ HEADERS += \
     photo.h \
     photopart.h \
     photogallery.h \
-    filereader.h
+    filereader.h \
+    arduino.h

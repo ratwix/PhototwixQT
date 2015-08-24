@@ -14,6 +14,10 @@ Rectangle {
 
     signal currentEditedTemplateChange(url currentUrl) //TODO: changer avec un objet C++ template
 
+    MouseArea {
+        anchors.fill: parent
+    }
+
     //Actions
     Column {
         anchors.left: parent.left
@@ -145,6 +149,45 @@ Rectangle {
 
                Component.onCompleted: {
                    value = parameters.volume;
+               }
+           }
+
+           Label {
+               height: 30
+               text: "Test Flash"
+               font.pixelSize: 15
+           }
+
+           Switch {
+               checked: false;
+               onCheckedChanged: {
+                   if (checked) {
+                       parameters.arduino.flashSwitchOn();
+                   } else {
+                       parameters.arduino.flashSwitchOff();
+                   }
+                }
+           }
+
+           Label {
+               height: 30
+               text: "Flash"
+               font.pixelSize: 15
+           }
+
+           Slider {
+               id:flashSlider
+               minimumValue: 0
+               maximumValue: 255
+               stepSize: 10
+               tickmarksEnabled: true
+               updateValueWhileDragging: false
+               onValueChanged: {
+                   parameters.arduino.flashSetIntensity(value);
+               }
+
+               Component.onCompleted: {
+                   value = parameters.flashBrightness;
                }
            }
         }
@@ -297,7 +340,6 @@ Rectangle {
         model: parameters.templates
         delegate: fileDelegate
     }
-
 
     Rectangle {
         id:homeButton
