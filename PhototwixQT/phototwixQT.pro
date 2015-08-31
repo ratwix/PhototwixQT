@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets serialport
+QT += qml quick widgets serialport concurrent
 
 SOURCES += main.cpp \
     template.cpp \
@@ -63,3 +63,7 @@ HEADERS += \
     photogallery.h \
     filereader.h \
     arduino.h
+
+DISTFILES += \
+    print/get_printer_reg.bat \
+    print/print.bat

@@ -27,6 +27,7 @@ class Template : public QObject
     Q_PROPERTY(QList<QObject*> templatePhotoPositions READ templatePhotoPositions WRITE setTemplatePhotoPositions NOTIFY templatePhotoPositionsChanged)
     Q_PROPERTY(bool printcutter READ getPrintcutter WRITE setPrintcutter NOTIFY printcutterChanged)
     Q_PROPERTY(bool doubleprint READ getDoubleprint WRITE setDoubleprint NOTIFY doubleprintChanged)
+    Q_PROPERTY(bool landscape READ getLandscape WRITE setLandscape NOTIFY landscapeChanged)
 
 public:
     Template();
@@ -61,6 +62,9 @@ public:
     bool getDoubleprint() const;
     void setDoubleprint(bool doubleprint);
 
+    bool getLandscape() const;
+    void setLandscape(bool landscape);
+
 signals:
     void nameChanged(QString);
     void urlChanged(QUrl);
@@ -68,6 +72,7 @@ signals:
     void templatePhotoPositionsChanged();
     void printcutterChanged();
     void doubleprintChanged();
+    void landscapeChanged();
 
 private:
     bool            m_active;
@@ -77,6 +82,7 @@ private:
     Parameters      *m_parameters;
     bool            m_printcutter;
     bool            m_doubleprint;
+    bool            m_landscape;
 };
 
 #endif // TEMPLATE_H

@@ -44,7 +44,7 @@ public:
     Q_INVOKABLE void unactiveTemplate(QString name);
     Q_INVOKABLE void Serialize();
     Q_INVOKABLE Photo* addPhotoToGallerie(QString name, QObject *temp);
-    Q_INVOKABLE void printPhoto(QUrl url, bool doubleprint, bool cutprint);
+    Q_INVOKABLE void printPhoto(QUrl url, bool doubleprint, bool cutprint, bool landscape);
     Q_INVOKABLE void clearGallery();
     Q_INVOKABLE void clearGalleryDeleteImages();
 

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <QQmlEngine>
 #include <QDir>
+#include <QtConcurrent>
 
 #include "clog.h"
 #include "rapidjson/document.h"
@@ -247,10 +248,27 @@ Photo* Parameters::addPhotoToGallerie(QString name, QObject *temp)
     return NULL;
 }
 
-void Parameters::printPhoto(QUrl url, bool doubleprint, bool cutprint)
+extern void printThread(QUrl m_applicationDirPath, QUrl url, bool doubleprint, bool cutprint, bool landscape) {
+    if (system(NULL)) {
+        string cmd = m_applicationDirPath.toString().toStdString() + "/print/print.bat" +
+                " duplicate:" + (doubleprint ? "true":"false") +
+                " portrait:" + (landscape?"false":"true") +
+                " cutter:" + (cutprint?"true":"false") +
+                " " + url.toString().toStdString();
+        std::replace(cmd.begin(), cmd.end(), '/', '\\');
+        cmd = "start /min " + cmd + "";
+        CLog::Write(CLog::Debug, "Print cmd :" + cmd);
+        system(cmd.c_str());
+    }
+}
+
+void Parameters::printPhoto(QUrl url, bool doubleprint, bool cutprint, bool landscape)
 {
-    CLog::Write(CLog::Debug, "Print file : " + url.toString().toStdString() + " double:" + (doubleprint ? "true":"false") + " cut:" + (cutprint?"true":"false"));
+    CLog::Write(CLog::Debug, "Print file : " + url.toString().toStdString() + " double:" + (doubleprint ? "true":"false") + " cut:" + (cutprint?"true":"false") + " landscape:" + (landscape?"true":"false"));
     //TODO: print & manage
+
+    QtConcurrent::run(printThread, m_applicationDirPath, url, doubleprint, cutprint, landscape);
+    //printThread(m_applicationDirPath, url, doubleprint, cutprint, landscape);
 
     //On incremente le conteur
     setNbprint(m_nbprint + 1);

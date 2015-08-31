@@ -320,6 +320,22 @@ Rectangle {
                                 checked = model.modelData.doubleprint
                             }
                         }
+
+                        Label {
+                            height: 30
+                            text: "Landscape"
+                            font.pixelSize: 15
+                        }
+
+                        Switch {
+                            id:landscapeSwitch
+                            onCheckedChanged: {
+                                model.modelData.landscape = checked
+                            }
+                            Component.onCompleted: {
+                                checked = model.modelData.landscape
+                            }
+                        }
                     }
 
 

@@ -91,8 +91,9 @@ Rectangle {
             var url = parameters.photoGallery.photoList[photosListView.currentIndex].finalResult;
             var doubleprint = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.doubleprint;
             var cutprint = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.printcutter;
+            var landscape = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.landscape;
             console.log("Print " + url);
-            parameters.printPhoto(url, doubleprint, cutprint);
+            parameters.printPhoto(url, doubleprint, cutprint, landscape);
         } else if (state == "editPhoto") { //Save image in a tmp directory to apply effects, then print the file
             var photoHeighP = 6;
             var dpi = 300;
@@ -106,8 +107,9 @@ Rectangle {
                 var url = applicationWindows.currentPhoto.finalResult;
                 var doubleprint = applicationWindows.currentPhoto.currentTemplate.doubleprint;
                 var cutprint = applicationWindows.currentPhoto.currentTemplate.printcutter;
+                var landscape = applicationWindows.currentPhoto.currentTemplate.landscape;
                 console.log("Print " + url);
-                parameters.printPhoto(url, doubleprint, cutprint);
+                parameters.printPhoto(url, doubleprint, cutprint, landscape);
                 return;
             }
             //else regenerate the image with effects
@@ -116,10 +118,11 @@ Rectangle {
                 var url = applicationDirPath + "/" + imageName;
                 var doubleprint = applicationWindows.currentPhoto.currentTemplate.doubleprint;
                 var cutprint = applicationWindows.currentPhoto.currentTemplate.printcutter;
+                var landscape = applicationWindows.currentPhoto.currentTemplate.landscape;
 
                 result.saveToFile(url);
                 console.log("Print " + url);
-                parameters.printPhoto(url, doubleprint, cutprint);
+                parameters.printPhoto(url, doubleprint, cutprint, landscape);
             }
 
             if (takePhotoScreenPhotoSizedBlock.height > takePhotoScreenPhotoSizedBlock.width) { //Photo in portrait

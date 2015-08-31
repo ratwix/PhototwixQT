@@ -10,6 +10,7 @@ Template::Template()
     m_active = false;
     m_printcutter = false;
     m_doubleprint = false;
+    m_landscape = true;
 }
 
 Template::Template(QString name, Parameters *parameters)
@@ -19,6 +20,7 @@ Template::Template(QString name, Parameters *parameters)
     m_active = false;
     m_printcutter = false;
     m_doubleprint = false;
+    m_landscape = true;
     QString path = QString(("file:///" + TEMPLATE_PATH2 + "/" + name.toStdString()).c_str());
 
     setUrl(QUrl(path));
@@ -100,6 +102,9 @@ void Template::Serialize(PrettyWriter<StringBuffer> &writer) const {
     writer.Key("doubleprint");
     writer.Bool(m_doubleprint);
 
+    writer.Key("landscape");
+    writer.Bool(m_landscape);
+
     //Serialisation des TemplatePhotoPosition
     QList<QObject*>::const_iterator it;
 
@@ -138,6 +143,10 @@ void Template::Unserialize(Value const &value) {
 
     if (value.HasMember("doubleprint")) {
         m_doubleprint = value["doubleprint"].GetBool();
+    }
+
+    if (value.HasMember("landscape")) {
+        m_landscape = value["landscape"].GetBool();
     }
 
     if (value.HasMember("templatesPhotoPositions")) {
@@ -215,5 +224,17 @@ void Template::setDoubleprint(bool doubleprint)
     m_parameters->Serialize();
     emit doubleprintChanged();
 }
+bool Template::getLandscape() const
+{
+    return m_landscape;
+}
+
+void Template::setLandscape(bool landscape)
+{
+    m_landscape = landscape;
+    m_parameters->Serialize();
+    emit landscapeChanged();
+}
+
 
 
