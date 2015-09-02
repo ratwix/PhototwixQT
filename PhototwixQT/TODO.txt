@@ -1,9 +1,9 @@
+- Impression
 - Resolution de la camera (pas oublier de changer le format du rendu video)
+- Flash, lumiere, bouton, affichage ecran led
 - Centrer les templates choisis sur la home page (a moitie fait)
 - Copie USB
-- Impression
 - Ejouter des effets
-- Flash, lumiere, bouton, affichage ecran led
 - Securiser par un mot de passe l'accès a la configuration
 - Compilation sous Ubuntu (ou pas), ca marche a moitié
 - Construire la boite

@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
 import QtQml.Models 2.2
+import QtQuick.Particles 2.0
 
 import "../controls"
 
@@ -18,7 +19,28 @@ ListView {
         height: parent.height
         width:  parent.width
 
+        ParticleSystem {
+            anchors.fill: parent
+            ImageParticle {
+                groups: ["stars"]
+                anchors.fill: parent
+                source: "../images/star.png"
+            }
 
+            Emitter {
+                group: "stars"
+                emitRate: 100
+                lifeSpan: 2400
+                size: 24
+                sizeVariation: 8
+                anchors.fill: parent
+            }
+
+            Turbulence {
+                anchors.fill: parent
+                strength: 2
+            }
+        }
     }
 
     Component {

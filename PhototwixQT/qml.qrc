@@ -52,5 +52,6 @@
         <file>resources/images/Accept-icon.png</file>
         <file>resources/images/Refuse-icon.png</file>
         <file>resources/images/paint_bucket.png</file>
+        <file>resources/images/star.png</file>
     </qresource>
 </RCC>
