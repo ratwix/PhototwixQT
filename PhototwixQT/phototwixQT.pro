@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets serialport concurrent
+QT += qml quick widgets serialport concurrent core
 
 SOURCES += main.cpp \
     template.cpp \

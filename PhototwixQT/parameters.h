@@ -47,6 +47,7 @@ public:
     Q_INVOKABLE void printPhoto(QUrl url, bool doubleprint, bool cutprint, bool landscape);
     Q_INVOKABLE void clearGallery();
     Q_INVOKABLE void clearGalleryDeleteImages();
+    Q_INVOKABLE void addTemplateFromUrl(QUrl url);
 
 
     QList<QObject*> getTemplates();

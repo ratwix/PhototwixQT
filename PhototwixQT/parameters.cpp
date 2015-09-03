@@ -7,6 +7,7 @@
 #include <QQmlEngine>
 #include <QDir>
 #include <QtConcurrent>
+#include <QFile>
 
 #include "clog.h"
 #include "rapidjson/document.h"
@@ -69,9 +70,29 @@ void Parameters::addTemplate(Value const &value) {
     if (file_exists(string(TEMPLATE_PATH) + "/" + value["template_name"].GetString())) {
         Template *t = new Template(value, this);
         QQmlEngine::setObjectOwnership(t, QQmlEngine::CppOwnership);
-        m_templates.append(t);
+        QFileInfo fileInf(t->getUrl().toLocalFile());
+        if (fileInf.exists()) {
+            m_templates.append(t);
+        } else {
+            delete t;
+        }
     } else {
         CLog::Write(CLog::Info, "Template file not found " + string(value["template_name"].GetString()));
+    }
+}
+
+void Parameters::addTemplateFromUrl(QUrl url)
+{
+    QFileInfo fileInf(url.toLocalFile());
+    QString filename = fileInf.fileName();
+
+    //Copy file to local template directory
+    if (fileInf.exists()) {
+        QFile::copy(fileInf.absoluteFilePath(), m_applicationDirPath.toString() + "/templates/" + filename);
+        Template *t = new Template(filename, this);
+        QQmlEngine::setObjectOwnership(t, QQmlEngine::CppOwnership);
+        m_templates.append(t);
+        emit templatesChanged();
     }
 }
 
@@ -283,6 +304,8 @@ void Parameters::clearGalleryDeleteImages()
 {
     clearGallery(true);
 }
+
+
 
 void Parameters::Unserialize() {
     ifstream jsonFile(CONFIG_FILE, ios::in);
@@ -508,6 +531,7 @@ int Parameters::getFlashBrightness() const
 void Parameters::setFlashBrightness(int flashBrightness)
 {
     m_flashBrightness = flashBrightness;
+    m_arduino->flashSetIntensity(flashBrightness);
     Serialize();
     emit flashBrightnessChanged();
 }
