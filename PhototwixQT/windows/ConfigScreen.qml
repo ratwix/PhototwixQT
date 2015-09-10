@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
+import QtQuick.Dialogs 1.2
 
 import "../resources/controls"
 
@@ -183,7 +184,7 @@ Rectangle {
                tickmarksEnabled: true
                updateValueWhileDragging: false
                onValueChanged: {
-                   parameters.arduino.flashSetIntensity(value);
+                   parameters.flashBrightness = value;
                }
 
                Component.onCompleted: {
@@ -219,6 +220,30 @@ Rectangle {
                     mbox.state = "show"
                 }
                 cbox.state = "show"
+            }
+        }
+
+
+        ButtonImage {
+            anchors.left: parent.left
+            label:"Importer des visuels"
+            onClicked: {
+                importTemplateFileDialog.open()
+            }
+        }
+
+        FileDialog {
+            id: importTemplateFileDialog
+            title: "Import de template"
+            folder: shortcuts.home
+            visible:false
+            selectMultiple: true
+            nameFilters: [ "Images (*.jpg *.png)" ]
+            onAccepted: {
+                console.debug("Add templates: " + importTemplateFileDialog.fileUrls);
+                for (var i = 0; i < importTemplateFileDialog.fileUrls.length; i++) {
+                    parameters.addTemplateFromUrl(importTemplateFileDialog.fileUrls[i]);
+                }
             }
         }
     }
