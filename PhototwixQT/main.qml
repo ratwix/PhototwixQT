@@ -6,6 +6,7 @@ import QtQuick.Dialogs 1.2
 import com.phototwix.components 1.0
 
 import "./windows"
+import "./resources/controls"
 
 ApplicationWindow {
     id: applicationWindows
@@ -162,5 +163,7 @@ ApplicationWindow {
         }
     }
 
+    InputPanel {
 
+    }
 }

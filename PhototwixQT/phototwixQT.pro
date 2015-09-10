@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     photogallery.cpp \
     filereader.cpp \
     common.cpp \
-    arduino.cpp
+    arduino.cpp \
+    keyemitter.cpp
 
 RESOURCES += qml.qrc
 
@@ -62,7 +63,8 @@ HEADERS += \
     photopart.h \
     photogallery.h \
     filereader.h \
-    arduino.h
+    arduino.h \
+    keyemitter.h
 
 DISTFILES += \
     print/get_printer_reg.bat \

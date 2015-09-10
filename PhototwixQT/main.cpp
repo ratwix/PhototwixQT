@@ -7,6 +7,7 @@
 #include "parameters.h"
 #include "filereader.h"
 #include "clog.h"
+#include "keyemitter.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,11 +19,12 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     Parameters            parameters(QGuiApplication::applicationDirPath());
     FileReader            fileReader;
-
+    KeyEmitter            keyEmitter;
 
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     engine.rootContext()->setContextProperty("parameters", &parameters);
     engine.rootContext()->setContextProperty("fileReader", &fileReader);
+    engine.rootContext()->setContextProperty("keyEmitter", &keyEmitter);
 
     //Enregistrement des types de donnée
     qmlRegisterType<Template>("com.phototwix.components", 1, 0, "Template");

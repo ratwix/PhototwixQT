@@ -29,20 +29,35 @@ Rectangle {
 
     SoundEffect {
         id: beep1Sound
-        source: "../sounds/beep-07.wav"
+        source: "../sounds/bip1.wav"
         volume: parameters.volume
     }
 
     SoundEffect {
         id: beep2Sound
-        source: "../sounds/beep-08b.wav"
+        source: "../sounds/bip2.wav"
         volume: parameters.volume
     }
+
+    SoundEffect {
+        id: beep3Sound
+        source: "../sounds/bip3.wav"
+        volume: parameters.volume
+    }
+
+    SoundEffect {
+        id: beep4Sound
+        source: "../sounds/bip4.wav"
+        volume: parameters.volume
+    }
+
     SoundEffect {
         id: photoSound
-        source: "../sounds/camera-shutter-click-01.wav"
+        source: "../sounds/photo.wav"
         volume: parameters.volume
     }
+
+
 
     function updateStatus(nb) {
         if (nb < 1) {

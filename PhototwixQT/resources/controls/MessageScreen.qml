@@ -13,6 +13,10 @@ Rectangle {
     opacity: 0.0
     visible: opacity != 0.0
 
+    MouseArea {
+
+    }
+
     Text {
         width: parent.width
         height: parent.height * 0.4
@@ -72,4 +76,3 @@ Rectangle {
         }
     }
 }
-
