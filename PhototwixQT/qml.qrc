@@ -68,5 +68,6 @@
         <file>resources/controls/KeyButton.qml</file>
         <file>resources/controls/KeyPopup.qml</file>
         <file>resources/controls/KeyModel.qml</file>
+        <file>resources/controls/PasswordScreen.qml</file>
     </qresource>
 </RCC>

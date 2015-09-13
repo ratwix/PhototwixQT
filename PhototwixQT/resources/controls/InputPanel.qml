@@ -10,11 +10,14 @@ Item {
     id:root
     objectName: "inputPanel"
     width: parent.width
-    height: width / 4
+    height: width / 5
     // Report actual keyboard rectangle to input engine
     anchors.bottom: parent.bottom
 
     state: "SHOW"
+
+    signal esc()
+    signal enter()
 
     KeyModel {
         id:keyModel
@@ -67,22 +70,45 @@ Item {
     }
 
 
-    KeyButton {
-        id: keyboardKey
+    Row {
         height: pimpl.rowHeight
+        spacing: pimpl.horizontalSpacing
         anchors.left: keyboard.left
         anchors.bottom: keyboard.top
-        color: "#1e1b18"
-        width: 1.5 * pimpl.buttonWidth
-        font.family: "FontAwesome"
-        text: "\uf11c"
-        functionKey: true
-        onClicked: {
-            root.state = "SHOW"
+        KeyButton {
+            id: keyboardKey
+            height: pimpl.rowHeight
+            color: "#1e1b18"
+            width: 1.5 * pimpl.buttonWidth
+            font.family: "FontAwesome"
+            displayText: "\uf11c"
+            inputPanel: root
+            showPreview: false
+            onClicked: {
+                root.state = "SHOW"
+            }
         }
-        inputPanel: root
-        showPreview: false
+
+        KeyButton {
+            id: escKey
+            height: pimpl.rowHeight
+            color: "#1e1b18"
+            width: 1.5 * pimpl.buttonWidth
+            font.family: "FontAwesome"
+            displayText: "Esc"
+            text: "\x1B"
+            functionKey: true
+
+            inputPanel: root
+            showPreview: false
+
+            onClicked: {
+                root.esc()
+            }
+        }
     }
+
+
 
     Rectangle {
         id:keyboard
@@ -192,7 +218,7 @@ Item {
                     width: pimpl.buttonWidth
                     height: pimpl.rowHeight
                     text: ","
-                    onClicked: {}//TODO: InputEngine.sendKeyToFocusItem(text)
+                    //onClicked: {}//TODO: InputEngine.sendKeyToFocusItem(text)
                     inputPanel: root
                 }
                 KeyButton {
@@ -232,6 +258,9 @@ Item {
                     displayText: "Enter"
                     text: "\n"
                     inputPanel: root
+                    onPressed: {
+                        root.enter()
+                    }
                 }
             }
         }
@@ -245,6 +274,7 @@ Item {
         State {
             name: "HIDE"
             PropertyChanges { target: keyboard; anchors.top:root.bottom}
+            PropertyChanges { target: escKey; visible:false}
         },
 
         State {

@@ -56,7 +56,7 @@ Rectangle {
             anchors.fill: parent
 
             onPressed: {
-                mainRectangle.state = "CONFIG"
+                passScreen.state = "show"
             }
         }
         visible: galleryControl.state == "stacked"
@@ -68,6 +68,13 @@ Rectangle {
 
     ConfirmScreen {
         id:cbox
+    }
+
+    PasswordScreen {
+        id: passScreen
+        onSuccess: {
+            mainRectangle.state = "CONFIG"
+        }
     }
 }
 

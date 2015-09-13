@@ -11,6 +11,14 @@ Rectangle {
     height: parent.height
     width: parent.width
 
+    property alias camera: camera
+    property alias cameraVideoOutput: cameraVideoOutput
+
+    property variant frameRate
+    property variant resolution
+
+    property bool camera_ready: false
+
     state:"PHOTO_SHOOT"
 
     MouseArea {
@@ -117,14 +125,20 @@ Rectangle {
             if (cameraStatus == Camera.ActiveStatus) {
 
                 var fr = camera.supportedViewfinderFrameRateRanges();
+                frameRate = fr
                 console.log("Frame rate : " + JSON.stringify(fr));
 
 
                 var res = camera.supportedViewfinderResolutions(15);
+                resolution = res
                 console.log("Camera resolution : " + JSON.stringify(res));
 
-                camera.viewfinder.resolution = Qt.size(res[res.length - 1].width, res[res.length - 1].height);
-
+                if (!camera_ready) {
+                    camera.viewfinder.resolution = Qt.size(res[res.length - 1].width, res[res.length - 1].height)
+                    cameraVideoOutput.height = res[res.length - 1].height
+                    cameraVideoOutput.width = res[res.length - 1].width
+                    camera_ready = true
+                }
                 var cres = camera.viewfinder.resolution;  //Choose the best resolution available
 
                 applicationWindows.cameraRation = cres.width / cres.height;

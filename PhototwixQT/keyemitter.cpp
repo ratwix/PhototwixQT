@@ -113,15 +113,13 @@ KeyEmitter::keyMesage KeyEmitter::stringToKey(QString s)
     if (s[0] == ']') {res.key = Qt::Key_BraceRight; res.modifiers = Qt::NoModifier; res.text = "]";}
     if (s[0] == '|') {res.key = Qt::Key_Bar; res.modifiers = Qt::NoModifier; res.text = "|";}
     if (s[0] == '\\') {res.key = Qt::Key_Backslash; res.modifiers = Qt::NoModifier; res.text = "\\";}
-    if (s[0] == '£') {res.key = Qt::Key_sterling; res.modifiers = Qt::NoModifier; res.text = "£";}
-    if (s[0] == 'µ') {res.key = Qt::Key_mu; res.modifiers = Qt::NoModifier; res.text = "µ";}
-    if (s[0] == '§') {res.key = Qt::Key_paragraph; res.modifiers = Qt::NoModifier; res.text = "§";}
     if (s[0] == '<') {res.key = Qt::Key_Less; res.modifiers = Qt::NoModifier; res.text = "<";}
     if (s[0] == '>') {res.key = Qt::Key_Greater; res.modifiers = Qt::NoModifier; res.text = ">";}
     if (s[0] == '=') {res.key = Qt::Key_Equal; res.modifiers = Qt::NoModifier; res.text = "=";}
     if (s[0] == ' ') {res.key = Qt::Key_Space; res.modifiers = Qt::NoModifier; res.text = " ";}
     if (s[0] == '\n') {res.key = Qt::Key_Enter; res.modifiers = Qt::NoModifier; res.text = "\n";}
     if (s[0] == '\x7F') {res.key = Qt::Key_Backspace; res.modifiers = Qt::NoModifier; res.text = "\x7F";}
+    if (s[0] == '\x1B') {res.key = Qt::Key_Escape; res.modifiers = Qt::NoModifier; res.text = "\x1B";}
     return res;
 }
 

@@ -13,8 +13,8 @@ Item {
 
     ListModel {
         id:first
-        ListElement { letter: "q"; firstSymbol: "1"}
-        ListElement { letter: "w"; firstSymbol: "2"}
+        ListElement { letter: "a"; firstSymbol: "1"}
+        ListElement { letter: "z"; firstSymbol: "2"}
         ListElement { letter: "e"; firstSymbol: "3"}
         ListElement { letter: "r"; firstSymbol: "4"}
         ListElement { letter: "t"; firstSymbol: "5"}
@@ -26,7 +26,7 @@ Item {
     }
     ListModel {
         id:second
-        ListElement { letter: "a"; firstSymbol: "!"}
+        ListElement { letter: "q"; firstSymbol: "!"}
         ListElement { letter: "s"; firstSymbol: "@"}
         ListElement { letter: "d"; firstSymbol: "#"}
         ListElement { letter: "f"; firstSymbol: "$"}
@@ -35,15 +35,15 @@ Item {
         ListElement { letter: "j"; firstSymbol: "*"}
         ListElement { letter: "k"; firstSymbol: "?"}
         ListElement { letter: "l"; firstSymbol: "/"}
+        ListElement { letter: "m"; firstSymbol: "\\"}
     }
     ListModel {
         id:third
-        ListElement { letter: "z"; firstSymbol: "_"}
+        ListElement { letter: "w"; firstSymbol: "_"}
         ListElement { letter: "x"; firstSymbol: "\""}
         ListElement { letter: "c"; firstSymbol: "'"}
         ListElement { letter: "v"; firstSymbol: "("}
         ListElement { letter: "b"; firstSymbol: ")"}
         ListElement { letter: "n"; firstSymbol: "-"}
-        ListElement { letter: "m"; firstSymbol: "+"}
     }
 }
