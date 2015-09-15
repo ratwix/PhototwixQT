@@ -12,6 +12,8 @@ Package {
         width: parent.height
         height: parent.width
 
+        //visible:((albumDelegate.state != 'stacked') || (index > photosPathView.count - 7)) //Nb photo to show in the initial stack
+
         property double randomAngle: Math.random() * 50 - 24
         property double randomAngle2: Math.random() * 20 - 9
         rotation: photoWrapper.randomAngle

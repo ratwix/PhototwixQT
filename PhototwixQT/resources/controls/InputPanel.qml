@@ -56,7 +56,7 @@ Item {
      */
     function showKeyPopup(keyButton)
     {
-        console.log("showKeyPopup");
+        console.debug("showKeyPopup");
         keyPopup.popup(keyButton, root);
     }
 

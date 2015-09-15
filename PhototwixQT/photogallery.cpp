@@ -30,7 +30,7 @@ PhotoGallery::~PhotoGallery()
 Photo* PhotoGallery::addPhoto(QString name, Template *t)
 {
     Photo *p = new Photo(name, t);
-    m_photoList.append(p);
+    m_photoList.prepend(p);
     QQmlEngine::setObjectOwnership(p, QQmlEngine::CppOwnership);
     emit photoListChanged();
     return p;

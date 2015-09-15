@@ -14,10 +14,12 @@ ApplicationWindow {
     visible: true
     //visibility: Window.FullScreen
 
+
     height: 900
     width: 1600
 
     property string backColor: "#d5d6d8" //"#212126"
+    property string backTemplateColor: "#193259"
 
     //Fond d'ecran
     Rectangle {
@@ -54,12 +56,28 @@ ApplicationWindow {
 
         state:"START"
 
+        Image {
+            id: backgroundImage
+            anchors.fill: parent
+            fillMode:Image.Stretch
+            source: parameters.backgroundImage
+        }
+
         StartScreen {
             id: startScreen
             x:0
             y:0
         }
 
+        Image {
+            id: startScreenHide
+            anchors.fill: parent
+            fillMode:Image.Stretch
+            source: parameters.backgroundImage
+            opacity: 0.0
+            visible: opacity > 0
+        }
+/*
         Rectangle {
             id: startScreenHide
             anchors.fill: parent
@@ -67,7 +85,7 @@ ApplicationWindow {
             opacity: 0.0
             visible: opacity > 0
         }
-
+*/
         TakePhotoScreen {
             id: takePhotoScreen
             x:applicationWindows.width

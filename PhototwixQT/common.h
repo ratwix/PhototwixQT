@@ -10,6 +10,7 @@
 #define PHOTOSD_PATH        string(m_applicationDirPath.toString().toStdString() + "/photos/deleted").c_str()
 #define PHOTOSDS_PATH       string(m_applicationDirPath.toString().toStdString() + "/photos/deleted/single").c_str()
 #define TEMPLATE_PATH       string(m_applicationDirPath.toString().toStdString() + "/templates").c_str()
+#define BACKGROUND_PATH     string(m_applicationDirPath.toString().toStdString() + "/background").c_str()
 #define TEMPLATE_PATH2      string(parameters->getApplicationDirPath().toString().toStdString() + "/templates")
 
 #define CONFIG_FILE         string(m_applicationDirPath.toString().toStdString() + "/config.json").c_str()

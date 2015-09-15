@@ -96,6 +96,20 @@ void Parameters::addTemplateFromUrl(QUrl url)
     }
 }
 
+void Parameters::changeBackground(QUrl url) {
+    QFileInfo fileInf(url.toLocalFile());
+    QString filename = fileInf.fileName();
+
+    //Copy file to local template directory
+    if (fileInf.exists()) {
+        QFile::copy(fileInf.absoluteFilePath(), QString(BACKGROUND_PATH) + "/" + filename);
+        setBackgroundImage("file:///" + QString(BACKGROUND_PATH) + "/" + filename);
+    } else {
+        setBackgroundImage("");
+    }
+
+}
+
 void Parameters::activeTemplate(QString name) {
     CLog::Write(CLog::Info, "Enable Template " + name.toStdString());
 }
@@ -116,6 +130,7 @@ void Parameters::init() {
     m_flipcamera = false;
     m_flipresult = false;
     m_volume = 1.0;
+    m_backgroundImage = "";
     m_arduino = new Arduino();
     QQmlEngine::setObjectOwnership(m_arduino, QQmlEngine::CppOwnership);
 
@@ -218,6 +233,8 @@ void Parameters::Serialize() {
         writer.Key("flashBrightness");
         writer.Int(m_flashBrightness);
 
+        writer.Key("backgroundImage");
+        writer.String(m_backgroundImage.toStdString().c_str());
 
         m_arduino->setPhotoPrice(m_pricephoto);
         m_arduino->setNbPhotoFree(m_nbfreephotos);
@@ -359,6 +376,10 @@ void Parameters::Unserialize() {
        m_flashBrightness = document["flashBrightness"].GetInt();
     }
 
+    if (document.HasMember("backgroundImage")) {
+       m_backgroundImage = QString(document["backgroundImage"].GetString());
+    }
+
     if (document.HasMember("templates")) {
         const Value& templates = document["templates"];
         if (templates.IsArray()) {
@@ -378,6 +399,7 @@ void Parameters::createFolders()
     d.mkpath(QString(PHOTOSS_PATH));
     d.mkpath(QString(PHOTOSD_PATH));
     d.mkpath(QString(PHOTOSDS_PATH));
+    d.mkpath(QString(BACKGROUND_PATH));
 }
 
 static void delAllFileInDirectory(const char* p) {
@@ -535,8 +557,14 @@ void Parameters::setFlashBrightness(int flashBrightness)
     Serialize();
     emit flashBrightnessChanged();
 }
+QString Parameters::getBackgroundImage() const
+{
+    return m_backgroundImage;
+}
 
-
-
-
-
+void Parameters::setBackgroundImage(const QString &backgroundImage)
+{
+    m_backgroundImage = backgroundImage;
+    Serialize();
+    emit backgroundImageChange();
+}

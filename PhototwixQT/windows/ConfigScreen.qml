@@ -234,6 +234,23 @@ Rectangle {
             }
         }
 
+        ButtonImage {
+            id:buttonBackground
+            anchors.left: parent.left
+            label:"Fond d'écran"
+            onClicked: {
+                importBackgroundFileDialog.open()
+            }
+        }
+
+        ButtonImage {
+            anchors.left: buttonBackground.left
+            label:"Supprimer Fond d'écran"
+            onClicked: {
+                parameters.backgroundImage = ""
+            }
+        }
+
         FileDialog {
             id: importTemplateFileDialog
             title: "Import de template"
@@ -248,8 +265,21 @@ Rectangle {
                 }
             }
         }
-    }
 
+        FileDialog {
+            id: importBackgroundFileDialog
+            title: "Import Fond d'écran"
+            folder: shortcuts.home
+            visible:false
+            selectMultiple: false
+            nameFilters: [ "Images (*.jpg *.png)" ]
+            onAccepted: {
+                parameters.changeBackground(importBackgroundFileDialog.fileUrl);
+            }
+        }
+    }
+// Camera Resolution Management
+/*
     Grid {
         id:cameraObject
         anchors.top: col1.bottom
@@ -368,7 +398,7 @@ Rectangle {
             }
         }
     }
-
+*/
 
     //Liste des templates
     ListView {

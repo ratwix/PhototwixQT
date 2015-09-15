@@ -5,9 +5,9 @@ import QtMultimedia 5.4
 import "../resources/controls"
 import "../resources/renderer"
 
-Rectangle {
+Item {
     id: takePhotoScreen
-    color: applicationWindows.backColor
+    //color: applicationWindows.backColor
     height: parent.height
     width: parent.width
 
@@ -126,12 +126,12 @@ Rectangle {
 
                 var fr = camera.supportedViewfinderFrameRateRanges();
                 frameRate = fr
-                console.log("Frame rate : " + JSON.stringify(fr));
+                console.debug("Frame rate : " + JSON.stringify(fr));
 
 
                 var res = camera.supportedViewfinderResolutions(15);
                 resolution = res
-                console.log("Camera resolution : " + JSON.stringify(res));
+                console.debug("Camera resolution : " + JSON.stringify(res));
 
                 if (!camera_ready) {
                     camera.viewfinder.resolution = Qt.size(res[res.length - 1].width, res[res.length - 1].height)

@@ -49,15 +49,15 @@ Item {
     }
 
     function popup(keybutton, inputPanel) {
-        console.log("popup: " + inputPanel.objectName);
-        console.log("keybutton.text: " + keybutton.text);
+        console.debug("popup: " + inputPanel.objectName);
+        console.debug("keybutton.text: " + keybutton.text);
         width = keybutton.width * 1.4;
         height = keybutton.height * 1.4;
         var KeyButtonGlobalLeft = keybutton.mapToItem(inputPanel, 0, 0).x;
         var KeyButtonGlobalTop = keybutton.mapToItem(inputPanel, 0, 0).y;
         var PopupGlobalLeft = KeyButtonGlobalLeft - (width - keybutton.width) / 2;
         var PopupGlobalTop = KeyButtonGlobalTop - height - pimpl.verticalSpacing * 1.5;
-        console.log("Popup position left: " + KeyButtonGlobalLeft);
+        console.debug("Popup position left: " + KeyButtonGlobalLeft);
         var PopupLeft = root.parent.mapFromItem(inputPanel, PopupGlobalLeft, PopupGlobalTop).x;
         y = root.parent.mapFromItem(inputPanel, PopupGlobalLeft, PopupGlobalTop).y;
         if (PopupGlobalLeft < 0)

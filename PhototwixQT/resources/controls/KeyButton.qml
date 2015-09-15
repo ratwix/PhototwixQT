@@ -124,11 +124,11 @@ Item {
             if (root.state == "")
             {
                 root.state = "REPEATING"
-                console.log("switching to repeating");
+                console.debug("switching to repeating");
             }
             else if (root.state == "REPEATING")
             {
-                console.log("repeating");
+                console.debug("repeating");
             }
 
             if (!functionKey)
@@ -139,7 +139,7 @@ Item {
     }
 
     onInputPanelChanged: {
-        console.log("onInputPanelChanged: " + inputPanel.objectName);
+
     }
 
     /**
@@ -157,7 +157,7 @@ Item {
 
     onReleased: {
         state = ""
-        console.log("onReleased - functionKey = " + text)
+        console.debug("onReleased - functionKey = " + text)
         if (!functionKey)
         {
             keyEmitter.emitKey(text)

@@ -28,7 +28,6 @@ Rectangle {
         anchors.left: parent.left
         anchors.top:parent.top
         anchors.topMargin: 20
-        anchors.leftMargin: 20
     }
 
     /**

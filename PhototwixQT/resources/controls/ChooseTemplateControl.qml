@@ -6,86 +6,97 @@ import QtQuick.Particles 2.0
 
 import "../controls"
 
-ListView {
-    id:chooseTemplateListView
-
-    orientation: Qt.Horizontal
-    spacing: 20
-    preferredHighlightBegin: 150 - 15 //TODO : meilleur alignement Component.onCompleted: positionViewAtIndex(count - 1, ListView.Beginning)
-    preferredHighlightEnd: 150 + 15
-
-    highlight: Rectangle {
-        color:"#193259"
-        height: parent.height
-        width:  parent.width
-
-        ParticleSystem {
-            anchors.fill: parent
-            ImageParticle {
-                groups: ["stars"]
-                anchors.fill: parent
-                source: "../images/star.png"
-            }
-
-            Emitter {
-                group: "stars"
-                emitRate: 100
-                lifeSpan: 2400
-                size: 24
-                sizeVariation: 8
-                anchors.fill: parent
-            }
-
-            Turbulence {
-                anchors.fill: parent
-                strength: 2
-            }
-        }
-    }
+Item {
+    property int last_template_index: -1
 
     Component {
         id: activeTemplateDelegate
 
-        Image {
-            id: templateSelect
-            source: modelData.url
-            height: chooseTemplateListView.height * 0.9
-            fillMode: Image.PreserveAspectFit
-            cache: true
-            asynchronous: false
-            antialiasing: true
+        //Last template have particle system. This is this one that will be selected when press button
+        Item {
+            height: parent.height * 0.9
+            width: templateSelect.width
 
-            MouseArea {
-                id: templateSelectMouseArea
+            Rectangle {
+                color:applicationWindows.backTemplateColor
                 anchors.fill: parent
+                visible: index == last_template_index
+                ParticleSystem {
+                    anchors.fill: parent
+                    ImageParticle {
+                        groups: ["stars"]
+                        anchors.fill: parent
+                        source: "../images/star.png"
+                    }
 
-                onClicked: {
-                    applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", model.modelData)
-                    applicationWindows.effectSource = "color"
-                    mainRectangle.state = "TAKE_PHOTO"
-                    chooseTemplateListView.currentIndex = index
-                    chooseTemplateListView.positionViewAtBeginning()
+                    Emitter {
+                        group: "stars"
+                        emitRate: 100
+                        lifeSpan: 2400
+                        size: 24
+                        sizeVariation: 8
+                        anchors.fill: parent
+                    }
+
+                    Turbulence {
+                        anchors.fill: parent
+                        strength: 2
+                    }
+                }
+            }
+
+            Rectangle {
+                color:applicationWindows.backTemplateColor
+                anchors.fill: parent
+                visible: index != last_template_index
+            }
+
+            //Template image
+            Image {
+                id: templateSelect
+                source: modelData.url
+                height: parent.height
+                fillMode: Image.PreserveAspectFit
+                cache: true
+                asynchronous: false
+                antialiasing: true
+
+                MouseArea {
+                    id: templateSelectMouseArea
+                    anchors.fill: parent
+
+                    onClicked: {
+                        applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", model.modelData)
+                        applicationWindows.effectSource = "color"
+                        mainRectangle.state = "TAKE_PHOTO"
+                        last_template_index = index
+                    }
                 }
             }
         }
     }
 
-    model: currentActiveTemplates
-    delegate: activeTemplateDelegate
 
-    Component.onCompleted: {
-        positionViewAtIndex(count / 2 + 1, ListView.Center) //TODO marche pas
+    Row {
+        height: parent.height
+        anchors.horizontalCenter:parent.horizontalCenter
+        spacing: 20
+        Repeater {
+            model: currentActiveTemplates
+            delegate: activeTemplateDelegate
+        }
     }
 
+    //Arduino management
     Connections {
         target: parameters.arduino
         onPhotoButtonRelease: {
             if ((mainRectangle.state == "START") &&                     //Quand on est sur l'ecran de départ
                 (takePhotoScreen.state == "PHOTO_SHOOT") &&
                 (startScreen.galleryControlAlias.state == "stacked") &&
-                (chooseTemplateListView.currentIndex != -1)) {
+                (last_template_index != -1)) {
 
-                applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", currentActiveTemplates[chooseTemplateListView.currentIndex])
+                applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", currentActiveTemplates[last_template_index])
                 applicationWindows.effectSource = "color"
                 mainRectangle.state = "TAKE_PHOTO"
             } else {
@@ -100,5 +111,4 @@ ListView {
         }
     }
 }
-
 

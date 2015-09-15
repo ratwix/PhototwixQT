@@ -35,6 +35,7 @@ class Parameters : public QObject
     Q_PROPERTY(float volume READ getVolume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(Arduino* arduino READ getArduino WRITE setArduino NOTIFY arduinoChanged)
     Q_PROPERTY(int flashBrightness READ getFlashBrightness WRITE setFlashBrightness NOTIFY flashBrightnessChanged)
+    Q_PROPERTY(QString backgroundImage READ getBackgroundImage WRITE setBackgroundImage NOTIFY backgroundImageChange)
 
 public:
     Parameters(QUrl appDirPath);
@@ -48,6 +49,7 @@ public:
     Q_INVOKABLE void clearGallery();
     Q_INVOKABLE void clearGalleryDeleteImages();
     Q_INVOKABLE void addTemplateFromUrl(QUrl url);
+    Q_INVOKABLE void changeBackground(QUrl url);
 
 
     QList<QObject*> getTemplates();
@@ -87,6 +89,9 @@ public:
     int getFlashBrightness() const;
     void setFlashBrightness(int flashBrightness);
 
+    QString getBackgroundImage() const;
+    void setBackgroundImage(const QString &backgroundImage);
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -99,6 +104,7 @@ private:
     bool                 m_flipresult;
     float                m_volume;
     int                  m_flashBrightness;
+    QString              m_backgroundImage;
     Arduino*             m_arduino;
 
     void addTemplate(QString name);
@@ -122,6 +128,7 @@ signals:
     void volumeChanged();
     void arduinoChanged();
     void flashBrightnessChanged();
+    void backgroundImageChange();
 };
 
 #endif // CPARAMETERS_H

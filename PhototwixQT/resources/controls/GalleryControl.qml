@@ -26,14 +26,16 @@ Item {
         PathView {
             id: photosPathView;
             model: visualModel.parts.stack
-            pathItemCount: 5
+            pathItemCount: 10
             //visible: !busyIndicator.visible
             anchors.centerIn: parent;
             anchors.verticalCenterOffset: -30
             path: Path {
+                //startX: 0; startY: 0
                 PathAttribute { name: 'z'; value: 9999.0 }
                 PathLine { x: 1; y: 1 }
                 PathAttribute { name: 'z'; value: 0.0 }
+                //PathLine { x: 200; y: 0  }
             }
         }
     }
@@ -44,12 +46,22 @@ Item {
       * Grid display
       */
 
+    /*
     Rectangle {
         id: albumsShade;
         color: applicationWindows.backColor
         anchors.fill: parent
         opacity: 0.0
+    }
+    */
 
+    Image {
+        id: albumsShade
+        anchors.fill: parent
+        fillMode:Image.Stretch
+        source: parameters.backgroundImage
+        opacity: 0.0
+        visible: opacity > 0
     }
 
     GridView {

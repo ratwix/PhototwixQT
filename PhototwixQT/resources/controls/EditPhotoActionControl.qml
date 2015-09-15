@@ -121,7 +121,7 @@ Rectangle {
                 var landscape = applicationWindows.currentPhoto.currentTemplate.landscape;
 
                 result.saveToFile(url);
-                console.log("Print " + url);
+                console.debug("Print " + url);
                 parameters.printPhoto(url, doubleprint, cutprint, landscape);
             }
 
