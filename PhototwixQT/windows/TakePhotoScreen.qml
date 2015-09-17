@@ -56,11 +56,11 @@ Item {
 
         function saveImage(result) {
             var d = new Date();
-            var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
+            var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
             var imageName = "phototwix-" + date + ".png"
             var path = applicationDirPath + "/photos/" + imageName;
             result.saveToFile(path);
-            applicationWindows.currentPhoto.name = d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear() + " " + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"; //save image name
+            applicationWindows.currentPhoto.name = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"; //save image name
             applicationWindows.currentPhoto.finalResult = path; //save image path
             state = "PHOTO_EDIT" //TODO changer le changement d'etat une fois le call asynchrone fait
             if (firstsave == 0) {
@@ -72,7 +72,7 @@ Item {
 
         function saveImageSD(result) {
             var d = new Date();
-            var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
+            var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
             var imageName = "phototwix-" + date + ".png"
             var path = applicationDirPath + "/photos/sd/" + imageName;
             result.saveToFile(path);
@@ -237,7 +237,7 @@ Item {
 
             onEndCount: { //fin de prise d'une photo
                 var d = new Date();
-                var date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
+                var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
                 var imageName = "phototwix-" + date + ".jpg" //TODO : modifier cet element. Doit etre un jpg
                 var imagePath = applicationDirPath + "/photos/single/" + imageName;
                 camera.imageCapture.captureToLocation(imagePath)

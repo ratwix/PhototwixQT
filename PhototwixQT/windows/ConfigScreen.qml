@@ -14,7 +14,7 @@ Rectangle {
     width: parent.width
 
 
-    signal currentEditedTemplateChange(url currentUrl) //TODO: changer avec un objet C++ template
+    signal currentEditedTemplateChange(url currentUrl)
 
     MouseArea {
         anchors.fill: parent
@@ -243,6 +243,7 @@ Rectangle {
             }
         }
 
+        /*
         ButtonImage {
             anchors.left: buttonBackground.left
             label:"Supprimer Fond d'écran"
@@ -250,6 +251,7 @@ Rectangle {
                 parameters.backgroundImage = ""
             }
         }
+        */
 
         FileDialog {
             id: importTemplateFileDialog
@@ -279,7 +281,7 @@ Rectangle {
         }
     }
 // Camera Resolution Management
-/*
+    /*
     Grid {
         id:cameraObject
         anchors.top: col1.bottom
