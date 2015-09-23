@@ -9,6 +9,8 @@
 #include "clog.h"
 #include "keyemitter.h"
 
+
+
 int main(int argc, char *argv[])
 {
     //Définition du niveau de log
@@ -25,6 +27,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("parameters", &parameters);
     engine.rootContext()->setContextProperty("fileReader", &fileReader);
     engine.rootContext()->setContextProperty("keyEmitter", &keyEmitter);
+
+    CLog::Write(CLog::Debug, ("Application dir path "  + QGuiApplication::applicationDirPath()).toStdString());
 
     //Enregistrement des types de donnée
     qmlRegisterType<Template>("com.phototwix.components", 1, 0, "Template");

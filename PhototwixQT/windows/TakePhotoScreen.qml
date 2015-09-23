@@ -61,7 +61,7 @@ Item {
             var path = applicationDirPath + "/photos/" + imageName;
             result.saveToFile(path);
             applicationWindows.currentPhoto.name = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"; //save image name
-            applicationWindows.currentPhoto.finalResult = path; //save image path
+            applicationWindows.currentPhoto.finalResultS = path; //save image path
             state = "PHOTO_EDIT" //TODO changer le changement d'etat une fois le call asynchrone fait
             if (firstsave == 0) {
                 firstsave = 1;
@@ -76,7 +76,7 @@ Item {
             var imageName = "phototwix-" + date + ".png"
             var path = applicationDirPath + "/photos/sd/" + imageName;
             result.saveToFile(path);
-            applicationWindows.currentPhoto.finalResultSD = path; //save image path
+            applicationWindows.currentPhoto.finalResultSDS = path; //save image path
             if (firstsave == 0) {
                 firstsave = 1;
             } else {
@@ -114,9 +114,11 @@ Item {
         captureMode: Camera.CaptureStillImage
 
         imageCapture {
+            resolution: "1920x1080"
+
             onImageSaved: {
                 var path = camera.imageCapture.capturedImagePath
-                applicationWindows.currentPhoto.photoPartList[p.currentPhoto].path = path;
+                applicationWindows.currentPhoto.photoPartList[p.currentPhoto].pathS = path; //TODO: bug, type conversion on linux date to string add qrc://
                 photoPartRepeater.itemAt(p.currentPhoto).endPhotoProcess(path)
             }
         }
@@ -134,26 +136,25 @@ Item {
                 console.debug("Camera resolution : " + JSON.stringify(res));
 
                 if (!camera_ready) {
-                    camera.viewfinder.resolution = Qt.size(res[res.length - 1].width, res[res.length - 1].height)
-                    cameraVideoOutput.height = res[res.length - 1].height
-                    cameraVideoOutput.width = res[res.length - 1].width
+                    camera.viewfinder.resolution = "1920x1080"  //Qt.size(res[res.length - 1].width, res[res.length - 1].height)
+                    //cameraVideoOutput.height = res[res.length - 1].height
+                    //cameraVideoOutput.width = res[res.length - 1].width
                     camera_ready = true
                 }
-                var cres = camera.viewfinder.resolution;  //Choose the best resolution available
+                //var cres = camera.viewfinder.resolution;  //Choose the best resolution available
 
-                applicationWindows.cameraRation = cres.width / cres.height;
-                p.cameraHeight = cres.height
-                p.cameraWidth = cres.width
+                applicationWindows.cameraRation = 1920 / 1080;
+                p.cameraHeight = 1080 //cres.height
+                p.cameraWidth = 1900 //cres.width
 
-                console.log("Current " + cres.width + ":" + cres.height + " ratio:" + applicationWindows.cameraRation);
+                //console.log("Current " + cres.width + ":" + cres.height + " ratio:" + applicationWindows.cameraRation);
+                console.log("Current " + 1080 + ":" + 1920 + " ratio:" + applicationWindows.cameraRation);
             }
         }
     }
 
     VideoOutput {
             id: cameraVideoOutput
-            height: p.cameraHeight
-            width: p.cameraWidth
             source: camera
             visible: false
     }

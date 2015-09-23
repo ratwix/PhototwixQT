@@ -9,8 +9,8 @@
 #include <QByteArray>
 #include <QObject>
 
-#define MANUFACTURER          "PJRC.COM, LLC."
-
+//#define MANUFACTURER          "PJRC.COM, LLC."
+#define MANUFACTURER          "Teensyduino"
 #define PHOTO_BUTTON_PUSHED   'p'
 #define PHOTO_BUTTON_RELEASE  'q'
 

@@ -38,6 +38,16 @@ void PhotoPart::setPath(const QUrl &path)
     emit pathChanged();
 }
 
+QString PhotoPart::pathS() const
+{
+    return m_path.toString();
+}
+
+void PhotoPart::setPathS(const QString &path)
+{
+    setPath(QUrl(path));
+}
+
 void PhotoPart::Serialize(PrettyWriter<StringBuffer> &writer) const
 {
     writer.StartObject();

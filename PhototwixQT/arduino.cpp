@@ -172,6 +172,8 @@ void Arduino::openPort()
 
     if (serialPortName == "") {
         qDebug() << QObject::tr("Failed to serial port") << endl;
+    } else {
+        qDebug() << QObject::tr("Try to open port ") << serialPortName << endl;
     }
 
     //Open port

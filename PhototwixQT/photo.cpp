@@ -65,11 +65,22 @@ QUrl Photo::finalResult() const
     return m_finalResult;
 }
 
+QString Photo::finalResultS() const
+{
+    return m_finalResult.toString();
+}
+
 void Photo::setFinalResult(const QUrl &finalResult)
 {
     m_finalResult = finalResult;
     emit finalResultChanged();
 }
+
+void Photo::setFinalResultS(const QString &finalResult)
+{
+    setFinalResult(QUrl(finalResult));
+}
+
 QString Photo::name() const
 {
     return m_name;
@@ -79,6 +90,7 @@ void Photo::setName(const QString &name)
 {
     m_name = name;
 }
+
 QList<QObject *> Photo::photoPartList() const
 {
     ostringstream test;
@@ -121,6 +133,16 @@ void Photo::setFinalResultSD(const QUrl &finalResultSD)
 {
     m_finalResultSD = finalResultSD;
     emit finalResultSDChanged();
+}
+
+QString Photo::finalResultSDS() const
+{
+    return m_finalResultSD.toString();
+}
+
+void Photo::setFinalResultSDS(const QString &finalResultSD)
+{
+    setFinalResultSD(QUrl(finalResultSD));
 }
 
 void Photo::Serialize(PrettyWriter<StringBuffer> &writer) const
