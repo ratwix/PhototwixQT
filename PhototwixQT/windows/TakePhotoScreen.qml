@@ -114,7 +114,7 @@ Item {
         captureMode: Camera.CaptureStillImage
 
         imageCapture {
-            resolution: "1920x1080"
+            resolution: parameters.cameraWidth + "x" + parameters.cameraHeight//  "1920x1080"
 
             onImageSaved: {
                 var path = camera.imageCapture.capturedImagePath
@@ -136,19 +136,17 @@ Item {
                 console.debug("Camera resolution : " + JSON.stringify(res));
 
                 if (!camera_ready) {
-                    camera.viewfinder.resolution = "1920x1080"  //Qt.size(res[res.length - 1].width, res[res.length - 1].height)
-                    //cameraVideoOutput.height = res[res.length - 1].height
-                    //cameraVideoOutput.width = res[res.length - 1].width
+                    camera.viewfinder.resolution = parameters.cameraWidth + "x" + parameters.cameraHeight  //Qt.size(res[res.length - 1].width, res[res.length - 1].height)
                     camera_ready = true
                 }
                 //var cres = camera.viewfinder.resolution;  //Choose the best resolution available
 
-                applicationWindows.cameraRation = 1920 / 1080;
-                p.cameraHeight = 1080 //cres.height
-                p.cameraWidth = 1900 //cres.width
+                applicationWindows.cameraRation = parameters.cameraWidth / parameters.cameraHeight;
+                p.cameraHeight = parameters.cameraHeight //cres.height
+                p.cameraWidth = parameters.cameraWidth //cres.width
 
                 //console.log("Current " + cres.width + ":" + cres.height + " ratio:" + applicationWindows.cameraRation);
-                console.log("Current " + 1080 + ":" + 1920 + " ratio:" + applicationWindows.cameraRation);
+                console.log("Current " + parameters.cameraWidth + "x" + parameters.cameraHeight + " ratio:" + applicationWindows.cameraRation);
             }
         }
     }

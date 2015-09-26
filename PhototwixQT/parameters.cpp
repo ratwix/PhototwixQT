@@ -131,6 +131,8 @@ void Parameters::init() {
     m_flipresult = false;
     m_volume = 1.0;
     m_backgroundImage = "";
+    m_cameraHight = 600;
+    m_cameraWidth = 800;
     m_arduino = new Arduino();
     QQmlEngine::setObjectOwnership(m_arduino, QQmlEngine::CppOwnership);
 
@@ -232,6 +234,12 @@ void Parameters::Serialize() {
 
         writer.Key("flashBrightness");
         writer.Int(m_flashBrightness);
+
+        writer.Key("cameraHeight");
+        writer.Int(m_cameraHight);
+
+        writer.Key("cameraWidth");
+        writer.Int(m_cameraWidth);
 
         writer.Key("backgroundImage");
         writer.String(m_backgroundImage.toStdString().c_str());
@@ -379,6 +387,16 @@ void Parameters::Unserialize() {
     if (document.HasMember("backgroundImage")) {
        m_backgroundImage = QString(document["backgroundImage"].GetString());
     }
+
+    if (document.HasMember("cameraHeight")) {
+       m_cameraHight = document["cameraHeight"].GetInt();
+    }
+
+
+    if (document.HasMember("cameraWidth")) {
+       m_cameraWidth = document["cameraWidth"].GetInt();
+    }
+
 
     if (document.HasMember("templates")) {
         const Value& templates = document["templates"];
@@ -568,3 +586,27 @@ void Parameters::setBackgroundImage(const QString &backgroundImage)
     Serialize();
     emit backgroundImageChange();
 }
+int Parameters::getCameraHight() const
+{
+    return m_cameraHight;
+}
+
+void Parameters::setCameraHight(int cameraHight)
+{
+    m_cameraHight = cameraHight;
+    Serialize();
+    emit cameraHeightChange();
+}
+int Parameters::getCameraWidth() const
+{
+    return m_cameraWidth;
+}
+
+void Parameters::setCameraWidth(int cameraWidth)
+{
+    m_cameraWidth = cameraWidth;
+    Serialize();
+    emit cameraWidthChange();
+}
+
+

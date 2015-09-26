@@ -36,6 +36,9 @@ class Parameters : public QObject
     Q_PROPERTY(Arduino* arduino READ getArduino WRITE setArduino NOTIFY arduinoChanged)
     Q_PROPERTY(int flashBrightness READ getFlashBrightness WRITE setFlashBrightness NOTIFY flashBrightnessChanged)
     Q_PROPERTY(QString backgroundImage READ getBackgroundImage WRITE setBackgroundImage NOTIFY backgroundImageChange)
+    Q_PROPERTY(int cameraHeight READ getCameraHight WRITE setCameraHight NOTIFY cameraHeightChange)
+    Q_PROPERTY(int cameraWidth READ getCameraWidth WRITE setCameraWidth NOTIFY cameraWidthChange)
+
 
 public:
     Parameters(QUrl appDirPath);
@@ -92,6 +95,12 @@ public:
     QString getBackgroundImage() const;
     void setBackgroundImage(const QString &backgroundImage);
 
+    int getCameraHight() const;
+    void setCameraHight(int cameraHight);
+
+    int getCameraWidth() const;
+    void setCameraWidth(int cameraWidth);
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -104,6 +113,8 @@ private:
     bool                 m_flipresult;
     float                m_volume;
     int                  m_flashBrightness;
+    int                  m_cameraHight;
+    int                  m_cameraWidth;
     QString              m_backgroundImage;
     Arduino*             m_arduino;
 
@@ -129,6 +140,8 @@ signals:
     void arduinoChanged();
     void flashBrightnessChanged();
     void backgroundImageChange();
+    void cameraHeightChange();
+    void cameraWidthChange();
 };
 
 #endif // CPARAMETERS_H

@@ -23,7 +23,7 @@
 
 #define NB_PHOTO              'N'
 #define PHOTO_PRICE           'R'
-#define PHOTO_FREE            'F'
+#define PHOTO_FREE            'G'
 
 QT_USE_NAMESPACE
 

@@ -193,6 +193,53 @@ Rectangle {
                    value = parameters.flashBrightness;
                }
            }
+
+           Label {
+               height: 30
+               text: "Camera Res"
+               font.pixelSize: 15
+           }
+
+           ListView {
+               id:resolutionList
+               width:300
+               height: 200
+               highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+               snapMode:ListView.SnapOneItem
+               highlightRangeMode :ListView.ApplyRange
+               model: takePhotoScreen.resolution
+               delegate: Item {
+                   height: 20
+                   width:300
+                   Text {
+                       height: 20
+                       width:300
+                       color:"black"
+                       text:   modelData.width + "x" + modelData.height + " (" + Math.round((modelData.width / modelData.height) * 100) / 100 + ")"
+                       MouseArea {
+                           anchors.fill: parent
+                           onClicked: {
+                               /*
+                               takePhotoScreen.camera.viewfinder.resolution = Qt.size(modelData.width, modelData.height);
+                               takePhotoScreen.cameraVideoOutput.height = modelData.height
+                               takePhotoScreen.cameraVideoOutput.width = modelData.width
+                               */
+
+                               resolutionList.currentIndex = index;
+                               parameters.cameraHeight = modelData.height
+                               parameters.cameraWidth = modelData.width
+                               takePhotoScreen.camera.start()
+                           }
+                       }
+                   }
+
+                   Component.onCompleted: {
+                       if ((modelData.height == parameters.cameraHeight) && (modelData.width == parameters.cameraWidth)) {
+                           resolutionList.currentIndex = index;
+                       }
+                   }
+               }
+           }
         }
 
         ButtonImage {

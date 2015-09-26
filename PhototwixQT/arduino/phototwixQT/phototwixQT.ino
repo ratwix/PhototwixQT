@@ -16,7 +16,7 @@
 
 #define NB_PHOTO              'N'
 #define PHOTO_PRICE           'R'
-#define PHOTO_FREE            'F'
+#define PHOTO_FREE            'G'
 
 #define PIN_PHOTO_BUTTON  0
 #define PIN_PRINT_BUTTON 1
