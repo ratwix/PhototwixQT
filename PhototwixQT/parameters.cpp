@@ -296,13 +296,13 @@ Photo* Parameters::addPhotoToGallerie(QString name, QObject *temp)
 
 extern void printThread(QUrl m_applicationDirPath, QUrl url, bool doubleprint, bool cutprint, bool landscape) {
     if (system(NULL)) {
-        string cmd = m_applicationDirPath.toString().toStdString() + "/print/print.bat" +
+        string cmd = m_applicationDirPath.toString().toStdString() + "/print/print.sh" +
                 " duplicate:" + (doubleprint ? "true":"false") +
                 " portrait:" + (landscape?"false":"true") +
                 " cutter:" + (cutprint?"true":"false") +
                 " " + url.toString().toStdString();
-        std::replace(cmd.begin(), cmd.end(), '/', '\\');
-        cmd = "start /min " + cmd + "";
+        //std::replace(cmd.begin(), cmd.end(), '/', '\\'); //TODO: uncomment on windows
+        cmd = cmd;
         CLog::Write(CLog::Debug, "Print cmd :" + cmd);
         system(cmd.c_str());
     }

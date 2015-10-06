@@ -290,15 +290,13 @@ Rectangle {
             }
         }
 
-        /*
         ButtonImage {
-            anchors.left: buttonBackground.left
-            label:"Supprimer Fond d'écran"
+            anchors.left: parent.left
+            label:"Quitter"
             onClicked: {
-                parameters.backgroundImage = ""
+                Qt.quit()
             }
         }
-        */
 
         FileDialog {
             id: importTemplateFileDialog
@@ -327,127 +325,7 @@ Rectangle {
             }
         }
     }
-// Camera Resolution Management
-    /*
-    Grid {
-        id:cameraObject
-        anchors.top: col1.bottom
-        anchors.topMargin: 30
-        columns: 3
-        columnSpacing: 10
-        rowSpacing: 10
 
-        Text {
-            height: 20
-            width: 200
-            text: qsTr("Camera")
-        }
-
-        Text {
-            height: 20
-            width: 200
-            text: qsTr("Resolution")
-        }
-
-        Text {
-            height: 20
-            width: 200
-            text: qsTr("FPS")
-        }
-
-        ListView {
-            id:cameraList
-            model: QtMultimedia.availableCameras
-            height: 200
-            width:200
-            snapMode:ListView.SnapOneItem
-            highlightRangeMode :ListView.ApplyRange
-            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            delegate: Item {
-                height: 10
-                width:50
-                Text {
-                    height: 10
-                    width:50
-                    color: "red"
-                    text: modelData.displayName
-                }
-                Component.onCompleted: {
-                    if (modelData.displayName === takePhotoScreen.camera.displayName) {
-                        cameraList.currentIndex = index;
-                    }
-                }
-            }
-        }
-
-        ListView {
-            id:resolutionList
-            width:300
-            height: 200
-            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            snapMode:ListView.SnapOneItem
-            highlightRangeMode :ListView.ApplyRange
-            model: takePhotoScreen.resolution
-            delegate: Item {
-                height: 20
-                width:300
-                Text {
-                    height: 20
-                    width:300
-                    color:"green"
-                    text:   modelData.width + "x" + modelData.height + " (" + Math.round((modelData.width / modelData.height) * 100) / 100 + ")"
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            takePhotoScreen.camera.viewfinder.resolution = Qt.size(modelData.width, modelData.height);
-                            takePhotoScreen.cameraVideoOutput.height = modelData.height
-                            takePhotoScreen.cameraVideoOutput.width = modelData.width
-                            resolutionList.currentIndex = index;
-                        }
-                    }
-                }
-                Component.onCompleted: {
-                    if ((modelData.height == takePhotoScreen.camera.viewfinder.resolution.height) && (modelData.width == takePhotoScreen.camera.viewfinder.resolution.width)) {
-                        resolutionList.currentIndex = index;
-                    }
-                }
-            }
-        }
-
-        ListView {
-            id:fpsList
-            height: 200
-            width:300
-            snapMode:ListView.SnapOneItem
-            highlightRangeMode :ListView.ApplyRange
-            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            model: takePhotoScreen.frameRate
-            delegate: Item {
-                height: 20
-                width:300
-                Text {
-                    height: 20
-                    width:300
-                    color:"blue"
-                    text: "@" + modelData.minimumFrameRate + "-->@" + modelData.maximumFrameRate
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            takePhotoScreen.camera.viewfinder.minimumFrameRate = modelData.minimumFrameRate;
-                            takePhotoScreen.camera.viewfinder.maximumFrameRate = modelData.maximumFrameRate;
-                            fpsList.currentIndex = index;
-                        }
-                    }
-                }
-                Component.onCompleted: {
-                    if ((modelData.minimumFrameRate == takePhotoScreen.camera.viewfinder.minimumFrameRate) && (modelData.maximumFrameRate == takePhotoScreen.camera.viewfinder.maximumFrameRate)) {
-                        fpsList.currentIndex = index;
-                    }
-                }
-            }
-        }
-    }
-*/
 
     //Liste des templates
     ListView {

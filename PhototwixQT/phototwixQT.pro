@@ -69,3 +69,6 @@ HEADERS += \
 DISTFILES += \
     print/get_printer_reg.bat \
     print/print.bat
+
+OTHER_FILES += \
+    print/print.sh

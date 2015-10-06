@@ -17,7 +17,7 @@ set file_settings_nocut="c:\settings_nocut.dat"
 
 set command_print=c:\Windows\System32\rundll32 c:\Windows\System32\printui.dll,PrintUIEntry /Sr /n "%printer%" /a 
 
-convert -quality 100 -density 300 %source% %dest%
+convert -density 300 %source% %dest%
 
 rem Manage duplication
 

@@ -31,8 +31,8 @@ Flipable {
     function resetFilters() {
         filter_black_white.visible = false;
         filter_sepia.visible = false;
-        filter_xpro2.visible = false;
-        filter_willow.visible = false;
+        filter_edge.visible = false;
+        filter_amaro.visible = false
     }
 
     front: Rectangle {
@@ -81,19 +81,20 @@ Flipable {
             anchors.fill: parent
         }
 
-        EffectXPRO2 {
-            id:filter_xpro2
+        EffectEdge {
+            id:filter_edge
             visible: false
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
-        EffectWillow {
-            id:filter_willow
+        EffectAmaro {
+            id:filter_amaro
             visible: false
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
+
 
         Text {
             id:currentLabel
@@ -105,6 +106,7 @@ Flipable {
 
     onEffectSourceChanged: { //effectManagement
         resetFilters();
+        console.debug("Effect source : " + effectSource);
         if (effectSource == "color") {
 
         }
@@ -117,12 +119,12 @@ Flipable {
             filter_sepia.visible = true;
         }
 
-        if (effectSource == "xpro2") {
-            filter_xpro2.visible = true;
+        if (effectSource == "edge") {
+            filter_edge.visible = true;
         }
 
-        if (effectSource == "willow") {
-            filter_willow.visible = true;
+        if (effectSource == "Amaro") {
+            filter_amaro.visible = true;
         }
     }
 

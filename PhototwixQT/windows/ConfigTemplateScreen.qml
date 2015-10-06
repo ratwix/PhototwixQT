@@ -18,6 +18,10 @@ Rectangle {
         templatePhotoPositionsRepeater.model = applicationWindows.currentEditedTemplate.templatePhotoPositions;
     }
 
+    MouseArea {
+        anchors.fill: parent
+    }
+
     Rectangle {
         id: configTemplateScreenButtons
         anchors.left: parent.left
@@ -176,6 +180,7 @@ Rectangle {
                         pinch.minimumScale: 0.1
                         pinch.maximumScale: 10
                         onPinchStarted: setFrameColor();
+
                         MouseArea {
                             id: dragArea
                             hoverEnabled: true

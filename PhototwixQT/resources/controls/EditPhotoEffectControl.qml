@@ -23,10 +23,10 @@ Rectangle {
     ListModel {
         id:effectButtonModel
         ListElement { name: "Couleur"; image: "../images/effets/couleur.png"}
-        ListElement { name: "Noir et blanc"; image: "../images/effets/black_white.png"}
         ListElement { name: "Sepia"; image: "../images/effets/sepia.png"}
-        ListElement { name: "X-Pro"; image: "../images/effets/warm.png"}
-        ListElement { name: "Willow"; image: "../images/effets/cold.png"}
+        ListElement { name: "Edge"; image: "../images/effets/sepia.png"}
+        ListElement { name: "Noir et blanc"; image: "../images/effets/black_white.png"}
+        ListElement { name: "Amaro"; image: "../images/effets/black_white.png"}
     }
 
     DelegateModel {
@@ -54,43 +54,24 @@ Rectangle {
     function applyEffect(effectName) {
         switch(effectName) {
             case "Couleur":
-                couleur();
+                applicationWindows.effectSource = "color";
                 break;
             case "Noir et blanc":
-                grayscale();
+                applicationWindows.effectSource = "grayscale";
                 break;
             case "Sepia":
-                sepia();
+                applicationWindows.effectSource = "sepia";
                 break;
-            case "X-Pro":
-                xpro();
+            case "Edge":
+                applicationWindows.effectSource = "edge";
                 break;
-            case "Willow":
-                willow();
+            case "Amaro":
+                console.debug("Apply Effect Amaro");
+                applicationWindows.effectSource = "Amaro";
                 break;
             default:
                 break;
         }
-    }
-
-    function sepia() {
-        applicationWindows.effectSource = "sepia"
-    }
-
-    function grayscale() {
-        applicationWindows.effectSource = "grayscale"
-    }
-
-    function xpro() {
-        applicationWindows.effectSource = "xpro2"
-    }
-
-    function willow() {
-        applicationWindows.effectSource = "willow"
-    }
-
-    function couleur() {
-        applicationWindows.effectSource = "color"
     }
 }
 
