@@ -32,7 +32,24 @@ Flipable {
         filter_black_white.visible = false;
         filter_sepia.visible = false;
         filter_edge.visible = false;
-        filter_amaro.visible = false
+        filter_1977.visible = false;
+        filter_amaro.visible = false;
+        filter_branna.visible = false;
+        filter_earlyBird.visible = false;
+        filter_hefe.visible = false;
+        filter_hudson.visible = false;
+        filter_inkwell.visible = false;
+        filter_lomo.visible = false;
+        filter_lordKelvin.visible = false;
+        filter_nashville.visible = false;
+        filter_pixel.visible = false;
+        filter_rise.visible = false;
+        filter_sierra.visible = false;
+        filter_sutro.visible = false;
+        filter_toaster.visible = false;
+        filter_valancia.visible = false;
+        filter_walden.visible = false;
+        filter_xpro.visible = false;
     }
 
     front: Rectangle {
@@ -88,8 +105,128 @@ Flipable {
             anchors.fill: parent
         }
 
+        Effect1977 {
+            id:filter_1977
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
         EffectAmaro {
             id:filter_amaro
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectBranna {
+            id:filter_branna
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectEarlyBird {
+            id:filter_earlyBird
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectHefe {
+            id:filter_hefe
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectHudson {
+            id:filter_hudson
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectInkwell {
+            id:filter_inkwell
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectLomo {
+            id:filter_lomo
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectLordKelvin {
+            id:filter_lordKelvin
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectNashville {
+            id:filter_nashville
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectPixel {
+            id:filter_pixel
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectRise {
+            id:filter_rise
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectSierra {
+            id:filter_sierra
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+
+        EffectSutro {
+            id:filter_sutro
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectToaster {
+            id:filter_toaster
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectValancia {
+            id:filter_valancia
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectWalden {
+            id:filter_walden
+            visible: false
+            itemSource: photoPreviewShader
+            anchors.fill: parent
+        }
+
+        EffectXpro {
+            id:filter_xpro
             visible: false
             itemSource: photoPreviewShader
             anchors.fill: parent
@@ -107,24 +244,92 @@ Flipable {
     onEffectSourceChanged: { //effectManagement
         resetFilters();
         console.debug("Effect source : " + effectSource);
-        if (effectSource == "color") {
+        if (effectSource == "Couleur") {
 
         }
 
-        if (effectSource == "grayscale") {
+        if (effectSource == "Noir et blanc") {
             filter_black_white.visible = true;
         }
 
-        if (effectSource == "sepia") {
+        if (effectSource == "Sepia") {
             filter_sepia.visible = true;
         }
 
-        if (effectSource == "edge") {
+        if (effectSource == "Edge") {
             filter_edge.visible = true;
         }
 
         if (effectSource == "Amaro") {
             filter_amaro.visible = true;
+        }
+
+        if (effectSource == "1977") {
+            filter_1977.visible = true;
+        }
+
+        if (effectSource == "Branna") {
+            filter_branna.visible = true;
+        }
+
+        if (effectSource == "Early Bird") {
+            filter_earlyBird.visible = true;
+        }
+
+        if (effectSource == "Hefe") {
+            filter_hefe.visible = true;
+        }
+
+        if (effectSource == "Hudson") {
+            filter_hudson.visible = true;
+        }
+
+        if (effectSource == "Inkwell") {
+            filter_inkwell.visible = true;
+        }
+
+        if (effectSource == "Lomo") {
+            filter_lomo.visible = true;
+        }
+
+        if (effectSource == "Lord Kelvin") {
+            filter_lordKelvin.visible = true;
+        }
+
+        if (effectSource == "Nashville") {
+            filter_nashville.visible = true;
+        }
+
+        if (effectSource == "Pixel") {
+            filter_pixel.visible = true;
+        }
+
+        if (effectSource == "Rise") {
+            filter_rise.visible = true;
+        }
+
+        if (effectSource == "Sierra") {
+            filter_sierra.visible = true;
+        }
+
+        if (effectSource == "Sutro") {
+            filter_sutro.visible = true;
+        }
+
+        if (effectSource == "Toaster") {
+            filter_toaster.visible = true;
+        }
+
+        if (effectSource == "Valancia") {
+            filter_valancia.visible = true;
+        }
+
+        if (effectSource == "Walden") {
+            filter_walden.visible = true;
+        }
+
+        if (effectSource == "XPro") {
+            filter_xpro.visible = true;
         }
     }
 

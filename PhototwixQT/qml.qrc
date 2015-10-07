@@ -38,9 +38,6 @@
         <file>resources/images/effets/couleur.png</file>
         <file>resources/renderer/EffectSepia.qml</file>
         <file>resources/renderer/EffectGrayscale.qml</file>
-        <file>resources/renderer/EffectXPRO2.qml</file>
-        <file>resources/renderer/EffectSepiaShader.qml</file>
-        <file>resources/renderer/EffectWillow.qml</file>
         <file>resources/controls/PhotoDelegate2.qml</file>
         <file>resources/controls/ChooseTemplateControl.qml</file>
         <file>resources/controls/GalleryControl.qml</file>
@@ -112,5 +109,43 @@
         <file>resources/filtersResources/1977blowout.png</file>
         <file>resources/renderer/EffectEdge.qml</file>
         <file>resources/renderer/EffectAmaro.qml</file>
+        <file>resources/renderer/Effect1977.qml</file>
+        <file>resources/renderer/EffectBranna.qml</file>
+        <file>resources/renderer/EffectEarlyBird.qml</file>
+        <file>resources/renderer/EffectHefe.qml</file>
+        <file>resources/renderer/EffectHudson.qml</file>
+        <file>resources/renderer/EffectInkwell.qml</file>
+        <file>resources/renderer/EffectLomo.qml</file>
+        <file>resources/renderer/EffectLordKelvin.qml</file>
+        <file>resources/renderer/EffectNashville.qml</file>
+        <file>resources/renderer/EffectRise.qml</file>
+        <file>resources/renderer/EffectSierra.qml</file>
+        <file>resources/renderer/EffectSutro.qml</file>
+        <file>resources/renderer/EffectValancia.qml</file>
+        <file>resources/renderer/EffectToaster.qml</file>
+        <file>resources/renderer/EffectWalden.qml</file>
+        <file>resources/renderer/EffectXpro.qml</file>
+        <file>resources/renderer/EffectPixel.qml</file>
+        <file>resources/images/effets/1977.png</file>
+        <file>resources/images/effets/amaro.png</file>
+        <file>resources/images/effets/branna.png</file>
+        <file>resources/images/effets/earlybird.png</file>
+        <file>resources/images/effets/edge.png</file>
+        <file>resources/images/effets/hefe.png</file>
+        <file>resources/images/effets/hudson.png</file>
+        <file>resources/images/effets/inkwell.png</file>
+        <file>resources/images/effets/lomo.png</file>
+        <file>resources/images/effets/lordkelvin.png</file>
+        <file>resources/images/effets/nashville.png</file>
+        <file>resources/images/effets/normal.png</file>
+        <file>resources/images/effets/pixel.png</file>
+        <file>resources/images/effets/rise.png</file>
+        <file>resources/images/effets/sepia2.png</file>
+        <file>resources/images/effets/sierra.png</file>
+        <file>resources/images/effets/sutro.png</file>
+        <file>resources/images/effets/toaster.png</file>
+        <file>resources/images/effets/valancia.png</file>
+        <file>resources/images/effets/walden.png</file>
+        <file>resources/images/effets/xpro.png</file>
     </qresource>
 </RCC>
