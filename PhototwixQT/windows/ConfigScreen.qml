@@ -105,6 +105,20 @@ Rectangle {
 
            Label {
                height: 30
+               text: "Bloquer impression"
+               font.pixelSize: 15
+           }
+
+           MaxPhotoPicker {
+               id:maxPhotoNumber
+               block:false
+               height: 30
+               width: 300
+               step:10
+           }
+
+           Label {
+               height: 30
                text: "Flip Camera"
                font.pixelSize: 15
            }

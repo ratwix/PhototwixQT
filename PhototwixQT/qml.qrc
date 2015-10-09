@@ -121,5 +121,6 @@
         <file>resources/renderer/EffectXpro.qml</file>
         <file>resources/renderer/EffectPixel.qml</file>
         <file>resources/images/green_button.png</file>
+        <file>resources/controls/MaxPhotoPicker.qml</file>
     </qresource>
 </RCC>

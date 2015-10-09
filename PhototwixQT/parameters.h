@@ -38,6 +38,8 @@ class Parameters : public QObject
     Q_PROPERTY(QString backgroundImage READ getBackgroundImage WRITE setBackgroundImage NOTIFY backgroundImageChange)
     Q_PROPERTY(int cameraHeight READ getCameraHight WRITE setCameraHight NOTIFY cameraHeightChange)
     Q_PROPERTY(int cameraWidth READ getCameraWidth WRITE setCameraWidth NOTIFY cameraWidthChange)
+    Q_PROPERTY(bool blockPrint READ getBlockPrint WRITE setBlockPrint NOTIFY blockPrintChanged)
+    Q_PROPERTY(int blockPrintNb READ getBlockPrintNb WRITE setBlockPrintNb NOTIFY blockPrintNbChanged)
 
 
 public:
@@ -101,6 +103,14 @@ public:
     int getCameraWidth() const;
     void setCameraWidth(int cameraWidth);
 
+
+
+    bool getBlockPrint() const;
+    void setBlockPrint(bool blockPrint);
+
+    int getBlockPrintNb() const;
+    void setBlockPrintNb(int blockPrintNb);
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -108,6 +118,8 @@ private:
     QUrl                 m_applicationDirPath;
     int                  m_nbprint;
     int                  m_nbfreephotos;
+    bool                 m_blockPrint;
+    int                  m_blockPrintNb;
     float                m_pricephoto;
     bool                 m_flipcamera;
     bool                 m_flipresult;
@@ -142,6 +154,8 @@ signals:
     void backgroundImageChange();
     void cameraHeightChange();
     void cameraWidthChange();
+    void blockPrintChanged();
+    void blockPrintNbChanged();
 };
 
 #endif // CPARAMETERS_H

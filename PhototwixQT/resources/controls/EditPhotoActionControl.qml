@@ -36,10 +36,16 @@ Rectangle {
             id:printButton
             imagePath:"../images/print.png"
             onClicked: {
-                mbox.message = "Impression en cours"
-                mbox.imageSource = "../images/print.png"
-                mbox.state = "show"
-                print_photo()
+                if (parameters.blockPrint && parameters.nbprint >= parameters.blockPrintNb) {
+                    mbox.message = "Plus d'impressions disponibles..."
+                    mbox.imageSource = "../images/print.png"
+                    mbox.state = "show"
+                } else {
+                    mbox.message = "Impression en cours"
+                    mbox.imageSource = "../images/print.png"
+                    mbox.state = "show"
+                    print_photo()
+                }
             }
         }
 

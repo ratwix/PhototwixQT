@@ -16,6 +16,7 @@ Item {
                 parameters.nbfreephotos = parameters.nbfreephotos - step < 0 ? 0 : parameters.nbfreephotos - step;
             }
         }
+
         Text {
             anchors.leftMargin: 30
             height: parent.height
@@ -23,6 +24,7 @@ Item {
             font.pixelSize: parent.height * 0.9
             text: parameters.nbfreephotos
         }
+
         Button {
             height: parent.height
             width: parent.height

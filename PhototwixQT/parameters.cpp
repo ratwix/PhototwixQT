@@ -133,6 +133,8 @@ void Parameters::init() {
     m_backgroundImage = "";
     m_cameraHight = 600;
     m_cameraWidth = 800;
+    m_blockPrint = false;
+    m_blockPrintNb = 700;
     m_arduino = new Arduino();
     QQmlEngine::setObjectOwnership(m_arduino, QQmlEngine::CppOwnership);
 
@@ -240,6 +242,12 @@ void Parameters::Serialize() {
 
         writer.Key("cameraWidth");
         writer.Int(m_cameraWidth);
+
+        writer.Key("blockPrint");
+        writer.Bool(m_blockPrint);
+
+        writer.Key("blockPrintNb");
+        writer.Int(m_blockPrintNb);
 
         writer.Key("backgroundImage");
         writer.String(m_backgroundImage.toStdString().c_str());
@@ -397,6 +405,13 @@ void Parameters::Unserialize() {
        m_cameraWidth = document["cameraWidth"].GetInt();
     }
 
+    if (document.HasMember("blockPrint")) {
+       m_blockPrint = document["blockPrint"].GetBool();
+    }
+
+    if (document.HasMember("blockPrintNb")) {
+       m_blockPrintNb = document["blockPrintNb"].GetInt();
+    }
 
     if (document.HasMember("templates")) {
         const Value& templates = document["templates"];
@@ -608,5 +623,29 @@ void Parameters::setCameraWidth(int cameraWidth)
     Serialize();
     emit cameraWidthChange();
 }
+bool Parameters::getBlockPrint() const
+{
+    return m_blockPrint;
+}
+
+void Parameters::setBlockPrint(bool blockPrint)
+{
+    m_blockPrint = blockPrint;
+    Serialize();
+    emit blockPrintChanged();
+}
+int Parameters::getBlockPrintNb() const
+{
+    return m_blockPrintNb;
+}
+
+void Parameters::setBlockPrintNb(int blockPrintNb)
+{
+    m_blockPrintNb = blockPrintNb;
+    Serialize();
+    emit blockPrintNbChanged();
+}
+
+
 
 
