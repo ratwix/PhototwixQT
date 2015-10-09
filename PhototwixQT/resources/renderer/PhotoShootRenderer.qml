@@ -29,27 +29,7 @@ Flipable {
     }
 
     function resetFilters() {
-        filter_black_white.visible = false;
-        filter_sepia.visible = false;
-        filter_edge.visible = false;
-        filter_1977.visible = false;
-        filter_amaro.visible = false;
-        filter_branna.visible = false;
-        filter_earlyBird.visible = false;
-        filter_hefe.visible = false;
-        filter_hudson.visible = false;
-        filter_inkwell.visible = false;
-        filter_lomo.visible = false;
-        filter_lordKelvin.visible = false;
-        filter_nashville.visible = false;
-        filter_pixel.visible = false;
-        filter_rise.visible = false;
-        filter_sierra.visible = false;
-        filter_sutro.visible = false;
-        filter_toaster.visible = false;
-        filter_valancia.visible = false;
-        filter_walden.visible = false;
-        filter_xpro.visible = false;
+        applicationWindows.effectSource = "Couleur"
     }
 
     front: Rectangle {
@@ -86,112 +66,112 @@ Flipable {
 
         EffectGrayscale {
             id:filter_black_white
-            visible: false
+            visible: applicationWindows.effectSource == "Noir et Blanc"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectSepia {
             id:filter_sepia
-            visible: false
+            visible: applicationWindows.effectSource == "Sepia"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectEdge {
             id:filter_edge
-            visible: false
+            visible: applicationWindows.effectSource == "Edge"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         Effect1977 {
             id:filter_1977
-            visible: false
+            visible: applicationWindows.effectSource == "1977"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectAmaro {
             id:filter_amaro
-            visible: false
+            visible: applicationWindows.effectSource == "Amaro"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectBranna {
             id:filter_branna
-            visible: false
+            visible: applicationWindows.effectSource == "Branna"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectEarlyBird {
             id:filter_earlyBird
-            visible: false
+            visible: applicationWindows.effectSource == "Early Bird"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectHefe {
             id:filter_hefe
-            visible: false
+            visible: applicationWindows.effectSource == "Hefe"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectHudson {
             id:filter_hudson
-            visible: false
+            visible: applicationWindows.effectSource == "Hudson"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectInkwell {
             id:filter_inkwell
-            visible: false
+            visible: applicationWindows.effectSource == "Inkwell"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectLomo {
             id:filter_lomo
-            visible: false
+            visible: applicationWindows.effectSource == "Lomo"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectLordKelvin {
             id:filter_lordKelvin
-            visible: false
+            visible: applicationWindows.effectSource == "Lord Kelvin"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectNashville {
             id:filter_nashville
-            visible: false
+            visible: applicationWindows.effectSource == "Nashville"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectPixel {
             id:filter_pixel
-            visible: false
+            visible: applicationWindows.effectSource == "Pixel"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectRise {
             id:filter_rise
-            visible: false
+            visible: applicationWindows.effectSource == "Rise"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectSierra {
             id:filter_sierra
-            visible: false
+            visible: applicationWindows.effectSource == "Sierra"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
@@ -199,35 +179,35 @@ Flipable {
 
         EffectSutro {
             id:filter_sutro
-            visible: false
+            visible: applicationWindows.effectSource == "Sutro"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectToaster {
             id:filter_toaster
-            visible: false
+            visible: applicationWindows.effectSource == "Toaster"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectValancia {
             id:filter_valancia
-            visible: false
+            visible: applicationWindows.effectSource == "Valancia"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectWalden {
             id:filter_walden
-            visible: false
+            visible: applicationWindows.effectSource == "Walden"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
 
         EffectXpro {
             id:filter_xpro
-            visible: false
+            visible: applicationWindows.effectSource == "XPro"
             itemSource: photoPreviewShader
             anchors.fill: parent
         }
@@ -238,98 +218,6 @@ Flipable {
             anchors.centerIn: parent
             font.pixelSize: parent.height * 0.6
             text: photoIndex
-        }
-    }
-
-    onEffectSourceChanged: { //effectManagement
-        resetFilters();
-        console.debug("Effect source : " + effectSource);
-        if (effectSource == "Couleur") {
-
-        }
-
-        if (effectSource == "Noir et blanc") {
-            filter_black_white.visible = true;
-        }
-
-        if (effectSource == "Sepia") {
-            filter_sepia.visible = true;
-        }
-
-        if (effectSource == "Edge") {
-            filter_edge.visible = true;
-        }
-
-        if (effectSource == "Amaro") {
-            filter_amaro.visible = true;
-        }
-
-        if (effectSource == "1977") {
-            filter_1977.visible = true;
-        }
-
-        if (effectSource == "Branna") {
-            filter_branna.visible = true;
-        }
-
-        if (effectSource == "Early Bird") {
-            filter_earlyBird.visible = true;
-        }
-
-        if (effectSource == "Hefe") {
-            filter_hefe.visible = true;
-        }
-
-        if (effectSource == "Hudson") {
-            filter_hudson.visible = true;
-        }
-
-        if (effectSource == "Inkwell") {
-            filter_inkwell.visible = true;
-        }
-
-        if (effectSource == "Lomo") {
-            filter_lomo.visible = true;
-        }
-
-        if (effectSource == "Lord Kelvin") {
-            filter_lordKelvin.visible = true;
-        }
-
-        if (effectSource == "Nashville") {
-            filter_nashville.visible = true;
-        }
-
-        if (effectSource == "Pixel") {
-            filter_pixel.visible = true;
-        }
-
-        if (effectSource == "Rise") {
-            filter_rise.visible = true;
-        }
-
-        if (effectSource == "Sierra") {
-            filter_sierra.visible = true;
-        }
-
-        if (effectSource == "Sutro") {
-            filter_sutro.visible = true;
-        }
-
-        if (effectSource == "Toaster") {
-            filter_toaster.visible = true;
-        }
-
-        if (effectSource == "Valancia") {
-            filter_valancia.visible = true;
-        }
-
-        if (effectSource == "Walden") {
-            filter_walden.visible = true;
-        }
-
-        if (effectSource == "XPro") {
-            filter_xpro.visible = true;
         }
     }
 

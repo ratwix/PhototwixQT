@@ -9,7 +9,7 @@ class PhotoPart : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUrl path READ path WRITE setPath NOTIFY pathChanged)
-    Q_PROPERTY(QString pathS READ pathS WRITE setPathS)
+    Q_PROPERTY(QString pathS READ pathS WRITE setPathS NOTIFY pathChanged)
     Q_PROPERTY(TemplatePhotoPosition* photoPosition READ photoPosition WRITE setPhotoPosition NOTIFY photoPositionChanged)
 public:
     PhotoPart();

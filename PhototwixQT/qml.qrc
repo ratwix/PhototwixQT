@@ -15,7 +15,6 @@
         <file>resources/images/config.png</file>
         <file>resources/images/back_button.png</file>
         <file>resources/images/blue_button.png</file>
-        <file>resources/images/green_button.png</file>
         <file>resources/images/grey_button.png</file>
         <file>resources/images/red_button.png</file>
         <file>resources/controls/Countdown.qml</file>
@@ -26,16 +25,11 @@
         <file>resources/renderer/PhotoShootRenderer.qml</file>
         <file>resources/controls/EditPhotoEffectControl.qml</file>
         <file>resources/controls/EditPhotoEffectButton.qml</file>
-        <file>resources/images/effets/black_white.png</file>
-        <file>resources/images/effets/cold.png</file>
-        <file>resources/images/effets/sepia.png</file>
-        <file>resources/images/effets/warm.png</file>
         <file>resources/controls/EditPhotoActionControl.qml</file>
         <file>resources/controls/EditPhotoActionButton.qml</file>
         <file>resources/images/delete.png</file>
         <file>resources/images/home.png</file>
         <file>resources/images/print.png</file>
-        <file>resources/images/effets/couleur.png</file>
         <file>resources/renderer/EffectSepia.qml</file>
         <file>resources/renderer/EffectGrayscale.qml</file>
         <file>resources/controls/PhotoDelegate2.qml</file>
@@ -126,26 +120,6 @@
         <file>resources/renderer/EffectWalden.qml</file>
         <file>resources/renderer/EffectXpro.qml</file>
         <file>resources/renderer/EffectPixel.qml</file>
-        <file>resources/images/effets/1977.png</file>
-        <file>resources/images/effets/amaro.png</file>
-        <file>resources/images/effets/branna.png</file>
-        <file>resources/images/effets/earlybird.png</file>
-        <file>resources/images/effets/edge.png</file>
-        <file>resources/images/effets/hefe.png</file>
-        <file>resources/images/effets/hudson.png</file>
-        <file>resources/images/effets/inkwell.png</file>
-        <file>resources/images/effets/lomo.png</file>
-        <file>resources/images/effets/lordkelvin.png</file>
-        <file>resources/images/effets/nashville.png</file>
-        <file>resources/images/effets/normal.png</file>
-        <file>resources/images/effets/pixel.png</file>
-        <file>resources/images/effets/rise.png</file>
-        <file>resources/images/effets/sepia2.png</file>
-        <file>resources/images/effets/sierra.png</file>
-        <file>resources/images/effets/sutro.png</file>
-        <file>resources/images/effets/toaster.png</file>
-        <file>resources/images/effets/valancia.png</file>
-        <file>resources/images/effets/walden.png</file>
-        <file>resources/images/effets/xpro.png</file>
+        <file>resources/images/green_button.png</file>
     </qresource>
 </RCC>

@@ -22,27 +22,27 @@ Rectangle {
 
     ListModel {
         id:effectButtonModel
-        ListElement { name: "Couleur"; image: "../images/effets/normal.png"}
-        ListElement { name: "Sepia"; image: "../images/effets/sepia2.png"}
-        ListElement { name: "Edge"; image: "../images/effets/edge.png"}
-        ListElement { name: "Inkwell"; image: "../images/effets/inkwell.png"}
-        ListElement { name: "1977"; image: "../images/effets/1977.png"}
-        ListElement { name: "Amaro"; image: "../images/effets/amaro.png"}
-        ListElement { name: "Branna"; image: "../images/effets/branna.png"}
-        ListElement { name: "Early Bird"; image: "../images/effets/earlybird.png"}
-        ListElement { name: "Hefe"; image: "../images/effets/hefe.png"}
-        ListElement { name: "Hudson"; image: "../images/effets/hudson.png"}
-        ListElement { name: "Lomo"; image: "../images/effets/lomo.png"}
-        ListElement { name: "Lord Kelvin"; image: "../images/effets/lordkelvin.png"}
-        ListElement { name: "Nashville"; image: "../images/effets/nashville.png"}
-        ListElement { name: "Pixel"; image: "../images/effets/pixel.png"}
-        ListElement { name: "Rise"; image: "../images/effets/rise.png"}
-        ListElement { name: "Sierra"; image: "../images/effets/sierra.png"}
-        ListElement { name: "Sutro"; image: "../images/effets/sutro.png"}
-        ListElement { name: "Toaster"; image: "../images/effets/toaster.png"}
-        ListElement { name: "Valancia"; image: "../images/effets/valancia.png"}
-        ListElement { name: "Walden"; image: "../images/effets/walden.png"}
-        ListElement { name: "XPro"; image: "../images/effets/xpro.png"}
+        ListElement { name: "Couleur"; }
+        ListElement { name: "Sepia"; }
+        ListElement { name: "Edge";}
+        ListElement { name: "Inkwell"}
+        ListElement { name: "1977"}
+        ListElement { name: "Amaro"}
+        ListElement { name: "Branna"}
+        ListElement { name: "Early Bird"}
+        ListElement { name: "Hefe"}
+        ListElement { name: "Hudson"}
+        ListElement { name: "Lomo"}
+        ListElement { name: "Lord Kelvin"}
+        ListElement { name: "Nashville"}
+        ListElement { name: "Pixel"}
+        ListElement { name: "Rise"}
+        ListElement { name: "Sierra"}
+        ListElement { name: "Sutro"}
+        ListElement { name: "Toaster"}
+        ListElement { name: "Valancia"}
+        ListElement { name: "Walden"}
+        ListElement { name: "XPro"}
     }
 
     DelegateModel {
@@ -52,11 +52,12 @@ Rectangle {
             height: 100
             width: parent.width
             effectName: name
-            effectImage: image
+            /*
             MouseArea {
                 anchors.fill: parent
                 onClicked: applyEffect(name)
             }
+            */
         }
     }
 
@@ -67,24 +68,10 @@ Rectangle {
         model:effectButtonDeleate
     }
 
+    /*
     function applyEffect(effectName) {
         applicationWindows.effectSource = effectName;
-        /*
-        switch(effectName) {
-            case "Couleur":
-                applicationWindows.effectSource = "color"; break;
-            case "Noir et blanc":
-                applicationWindows.effectSource = "grayscale"; break;
-            case "Sepia":
-                applicationWindows.effectSource = "sepia"; break;
-            case "Edge":
-                applicationWindows.effectSource = "edge"; break;
-            case "Amaro":
-                applicationWindows.effectSource = "Amaro"; break;
-            default:
-                break;
-        }
-        */
     }
+    */
 }
 

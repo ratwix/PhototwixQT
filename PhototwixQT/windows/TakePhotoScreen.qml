@@ -145,8 +145,7 @@ Item {
                 p.cameraHeight = parameters.cameraHeight //cres.height
                 p.cameraWidth = parameters.cameraWidth //cres.width
 
-                //console.log("Current " + cres.width + ":" + cres.height + " ratio:" + applicationWindows.cameraRation);
-                console.log("Current " + parameters.cameraWidth + "x" + parameters.cameraHeight + " ratio:" + applicationWindows.cameraRation);
+                console.debug("Current " + parameters.cameraWidth + "x" + parameters.cameraHeight + " ratio:" + applicationWindows.cameraRation);
             }
         }
     }
@@ -270,6 +269,10 @@ Item {
 
     ConfirmScreen {
         id:cbox
+    }
+
+    onStateChanged: {
+        applicationWindows.effectSource = "Couleur"
     }
 
     states: [

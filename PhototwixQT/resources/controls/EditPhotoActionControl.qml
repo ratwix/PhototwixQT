@@ -56,18 +56,12 @@ Rectangle {
     }
 
     function home() {
-        console.log("home")
+        console.debug("home")
         applicationWindows.resetStates()
-        /*
-        mainRectangle.state = "START"
-        if (typeof galleryControl !== 'undefined') {
-            galleryControl.state = "stacked"
-        }
-        */
     }
 
     function delete_photo() {
-        console.log("delete")
+        console.debug("delete")
         if (state == "viewPhoto") {
             var name = parameters.photoGallery.photoList[photosGridView.currentIndex].name;
             console.debug("Delete1 " + name);
@@ -92,13 +86,13 @@ Rectangle {
             var doubleprint = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.doubleprint;
             var cutprint = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.printcutter;
             var landscape = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.landscape;
-            console.log("Print " + url);
+            console.debug("Print " + url);
             parameters.printPhoto(url, doubleprint, cutprint, landscape);
         } else if (state == "editPhoto") { //Save image in a tmp directory to apply effects, then print the file
             var photoHeighP = 6;
             var dpi = 300;
 
-            if (applicationWindows.effectSource == "color") {
+            if (applicationWindows.effectSource == "Couleur") {
                 //No need to regenerate image, just print
                 if (applicationWindows.currentPhoto == null) {
                     return;
@@ -108,7 +102,7 @@ Rectangle {
                 var doubleprint = applicationWindows.currentPhoto.currentTemplate.doubleprint;
                 var cutprint = applicationWindows.currentPhoto.currentTemplate.printcutter;
                 var landscape = applicationWindows.currentPhoto.currentTemplate.landscape;
-                console.log("Print " + url);
+                console.debug("Print " + url);
                 parameters.printPhoto(url, doubleprint, cutprint, landscape);
                 return;
             }

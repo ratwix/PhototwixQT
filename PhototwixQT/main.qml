@@ -33,7 +33,7 @@ ApplicationWindow {
     property var currentActiveTemplates : parameters.activesTemplates
     property int nbSecPhoto: 4
     property double cameraRation: 1.5
-    property string effectSource : "color"
+    property string effectSource : "Couleur"
 
     //Go to home and reset all
     property var resetStates: function () {

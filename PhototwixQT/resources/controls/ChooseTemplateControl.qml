@@ -67,7 +67,7 @@ Item {
 
                     onClicked: {
                         applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", model.modelData)
-                        applicationWindows.effectSource = "color"
+                        applicationWindows.effectSource = "Couleur"
                         mainRectangle.state = "TAKE_PHOTO"
                         last_template_index = index
                     }
@@ -97,7 +97,7 @@ Item {
                 (last_template_index != -1)) {
 
                 applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", currentActiveTemplates[last_template_index])
-                applicationWindows.effectSource = "color"
+                applicationWindows.effectSource = "Couleur"
                 mainRectangle.state = "TAKE_PHOTO"
             } else {
                 if ((mainRectangle.state != "START") && (takePhotoScreen.state == "PHOTO_SHOOT")) { //On ne revient pas au départ pendant la prise de photo
