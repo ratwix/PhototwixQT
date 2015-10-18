@@ -13,6 +13,8 @@ Rectangle {
     height: parent.height
     width: parent.width
 
+    property bool admin: false
+
 
     signal currentEditedTemplateChange(url currentUrl)
 
@@ -57,8 +59,38 @@ Rectangle {
                    anchors.leftMargin: 20
                    height: 30
                    text: "Remise à 0"
+                   visible: admin
                    onClicked: {
                        parameters.nbprint = 0;
+                   }
+               }
+           }
+
+           Label {
+               height: 30
+               text: "Papier Restant"
+               font.pixelSize: 15
+           }
+
+           Rectangle {
+               height: 30
+               width: 150
+               color:"transparent"
+               Text {
+                   anchors.left: parent.left
+                   id:tpaperprint
+                   height: 30
+                   font.pixelSize: 30 * 0.9
+                   text: parameters.paperprint
+               }
+
+               Button {
+                   anchors.left: tpaperprint.right
+                   anchors.leftMargin: 20
+                   height: 30
+                   text: "Remise à jour"
+                   onClicked: {
+                       parameters.updatePaperPrint();
                    }
                }
            }
@@ -88,6 +120,7 @@ Rectangle {
                height: 30
                width: 150
                step:10
+               admin: configScreen.admin
            }
 
            Label {
@@ -101,6 +134,7 @@ Rectangle {
                height: 30
                width: 150
                step:0.05
+               admin: configScreen.admin
            }
 
            Label {
@@ -115,6 +149,7 @@ Rectangle {
                height: 30
                width: 300
                step:10
+               admin:configScreen.admin
            }
 
            Label {
@@ -212,10 +247,12 @@ Rectangle {
                height: 30
                text: "Camera Res"
                font.pixelSize: 15
+               visible: admin
            }
 
            ListView {
                id:resolutionList
+               visible: admin
                width:300
                height: 200
                highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
@@ -256,59 +293,97 @@ Rectangle {
            }
         }
 
-        ButtonImage {
+        Row {
             anchors.left: parent.left
-            label:"Nettoyer la Gallerie"
-            onClicked: {
-                console.debug("Reset photos");
-                cbox.message = "Vider la gallerie ?"
-                cbox.acceptFunction = function () {
-                    parameters.clearGallery();
-                    mbox.message = "La gallerie a été effacée"
-                    mbox.state = "show"
+            spacing: 10
+
+            Label {
+                height: 30
+                text: "Gallerie:"
+                font.pixelSize: 15
+            }
+
+            ButtonImage {
+                label:"Nettoyer"
+                visible: admin
+                onClicked: {
+                    console.debug("Reset photos");
+                    cbox.message = "Vider la gallerie ?"
+                    cbox.acceptFunction = function () {
+                        parameters.clearGallery();
+                        mbox.message = "La gallerie a été effacée"
+                        mbox.state = "show"
+                    }
+                    cbox.state = "show"
                 }
-                cbox.state = "show"
             }
-        }
 
-        ButtonImage {
-            anchors.left: parent.left
-            label:"Nettoyer et effacer la gallerie"
-            onClicked: {
-                console.debug("Reset photos & delete");
-                cbox.message = "Vider la gallerie et supprimer les photos ?"
-                cbox.acceptFunction = function () {
-                    parameters.clearGalleryDeleteImages();
-                    mbox.message = "La gallerie et les photos ont étés effacés"
-                    mbox.state = "show"
+            ButtonImage {
+                label:"Nettoyer et effacer"
+                visible: admin
+                onClicked: {
+                    console.debug("Reset photos & delete");
+                    cbox.message = "Vider la gallerie et supprimer les photos ?"
+                    cbox.acceptFunction = function () {
+                        parameters.clearGalleryDeleteImages();
+                        mbox.message = "La gallerie et les photos ont étés effacés"
+                        mbox.state = "show"
+                    }
+                    cbox.state = "show"
                 }
-                cbox.state = "show"
+            }
+
+
+            ButtonImage {
+                label:"Sauvegarder"
+                onClicked: {
+                    console.debug("Save Gallery");
+                    saveGallerie.open()
+                }
             }
         }
 
-
-        ButtonImage {
+        Row {
             anchors.left: parent.left
-            label:"Importer des visuels"
-            onClicked: {
-                importTemplateFileDialog.open()
+            spacing: 10
+
+            ButtonImage {
+                //anchors.left: parent.left
+                label:"Importer des visuels"
+                onClicked: {
+                    importTemplateFileDialog.open()
+                }
+            }
+
+            ButtonImage {
+                id:buttonBackground
+                //anchors.left: parent.left
+                label:"Fond d'écran"
+                onClicked: {
+                    importBackgroundFileDialog.open()
+                }
             }
         }
 
-        ButtonImage {
-            id:buttonBackground
+        Row {
             anchors.left: parent.left
-            label:"Fond d'écran"
-            onClicked: {
-                importBackgroundFileDialog.open()
-            }
-        }
+            spacing: 10
 
-        ButtonImage {
-            anchors.left: parent.left
-            label:"Quitter"
-            onClicked: {
-                Qt.quit()
+            ButtonImage {
+                //anchors.left: parent.left
+                label:"Quitter"
+                onClicked: {
+                    Qt.quit()
+                }
+            }
+
+            ButtonImage {
+                //anchors.left: parent.left
+                label:"Eteindre"
+                onClicked: {
+                    parameters.haltSystem()
+                    Qt.quit()
+                }
             }
         }
 
@@ -318,6 +393,7 @@ Rectangle {
             folder: shortcuts.home
             visible:false
             selectMultiple: true
+            selectExisting: true
             nameFilters: [ "Images (*.jpg *.png)" ]
             onAccepted: {
                 console.debug("Add templates: " + importTemplateFileDialog.fileUrls);
@@ -333,9 +409,23 @@ Rectangle {
             folder: shortcuts.home
             visible:false
             selectMultiple: false
+            selectExisting: true
             nameFilters: [ "Images (*.jpg *.png)" ]
             onAccepted: {
                 parameters.changeBackground(importBackgroundFileDialog.fileUrl);
+            }
+        }
+
+        FileDialog {
+            id: saveGallerie
+            title: "Sauvegarde"
+            folder: shortcuts.home
+            visible:false
+            selectMultiple: false
+            selectFolder: true
+            selectExisting: true
+            onAccepted: {
+
             }
         }
     }

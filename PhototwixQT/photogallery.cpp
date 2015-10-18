@@ -68,6 +68,12 @@ void PhotoGallery::removePhoto(QString name)
     Serialize();
 }
 
+void PhotoGallery::removeFirstPhoto()
+{
+    m_photoList.removeFirst();
+    emit photoListChanged();
+}
+
 void PhotoGallery::addPhoto(const Value &value, QList<QObject*> &templates)
 {
     //Find the right template

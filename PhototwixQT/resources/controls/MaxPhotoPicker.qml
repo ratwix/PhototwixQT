@@ -4,12 +4,14 @@ import QtQuick.Controls 1.4
 Item {
     property    int     step
     property    bool    block
+    property    bool    admin:false
 
     Row {
         spacing: 5
         height: parent.height
         Switch {
             checked:block
+            visible: admin
             onCheckedChanged: {
                 parameters.blockPrint = checked;
             }
@@ -26,6 +28,7 @@ Item {
                 height: parent.height
                 width: parent.height
                 text: "-"
+                visible: admin
                 onClicked: {
                     parameters.blockPrintNb = parameters.blockPrintNb - step < 0 ? 0 : parameters.blockPrintNb - step;
                 }
@@ -41,6 +44,7 @@ Item {
                 height: parent.height
                 width: parent.height
                 text: "+"
+                visible: admin
                 onClicked: {
                     parameters.blockPrintNb = parameters.blockPrintNb + step
                 }

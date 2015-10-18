@@ -41,10 +41,24 @@ Rectangle {
                     mbox.imageSource = "../images/print.png"
                     mbox.state = "show"
                 } else {
-                    mbox.message = "Impression en cours"
-                    mbox.imageSource = "../images/print.png"
-                    mbox.state = "show"
-                    print_photo()
+                    parameters.updatePaperPrint();
+                    if (parameters.paperprint < 15) { //Warning if paper become low
+                        mbox.message = "Impression en cours.\nPlus que " + parameters.paperprint + " feuilles"
+                        mbox.imageSource = "../images/print.png"
+                        mbox.state = "show"
+                        print_photo()
+                    } else {
+                        if (parameters.paperprint < 2) {
+                            mbox.message = "Plus de papier"
+                            mbox.imageSource = "../images/print.png"
+                            mbox.state = "show"
+                        } else {
+                            mbox.message = "Impression en cours"
+                            mbox.imageSource = "../images/print.png"
+                            mbox.state = "show"
+                            print_photo()
+                        }
+                    }
                 }
             }
         }
@@ -87,6 +101,8 @@ Rectangle {
     }
 
     function print_photo() {
+
+
         if (state == "viewPhoto") {
             var url = parameters.photoGallery.photoList[photosListView.currentIndex].finalResult;
             var doubleprint = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.doubleprint;

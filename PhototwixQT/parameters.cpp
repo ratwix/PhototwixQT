@@ -9,6 +9,9 @@
 #include <QtConcurrent>
 #include <QFile>
 
+#include <string>
+#include <stdio.h>
+
 #include "clog.h"
 #include "rapidjson/document.h"
 #include <sys/stat.h>
@@ -21,6 +24,26 @@ using namespace rapidjson;
 inline bool file_exists (const std::string& name) {
   struct stat buffer;
   return (stat (name.c_str(), &buffer) == 0);
+}
+
+static std::string pexec(const char* cmd) {
+    FILE* pipe = popen(cmd, "r");
+    if (!pipe) return "ERROR";
+    char buffer[128];
+    std::string result = "";
+    while (!feof(pipe)) {
+        if (fgets(buffer, 128, pipe) != NULL)
+            result += buffer;
+    }
+    pclose(pipe);
+    return result;
+}
+
+static bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
 }
 
 Parameters::Parameters(QUrl appDirPath)
@@ -110,6 +133,31 @@ void Parameters::changeBackground(QUrl url) {
 
 }
 
+void Parameters::updatePaperPrint()
+{
+    if (system(NULL)) {
+        string result;
+
+        string cmd = m_applicationDirPath.toString().toStdString() + "/print/get_paper.sh";
+        CLog::Write(CLog::Debug, "Paper cmd :" + cmd);
+        result = pexec(cmd.c_str());
+        CLog::Write(CLog::Debug, "Paper result :" + result);
+        if (is_number(result)) {
+            setPaperprint(atoi(result.c_str()));
+        } else {
+            setPaperprint(699);
+        }
+    }
+}
+
+void Parameters::haltSystem()
+{
+    if (system(NULL)) {
+        string cmd = m_applicationDirPath.toString().toStdString() + "/scripts/halt.sh";
+        pexec(cmd.c_str());
+    }
+}
+
 void Parameters::activeTemplate(QString name) {
     CLog::Write(CLog::Info, "Enable Template " + name.toStdString());
 }
@@ -131,13 +179,13 @@ void Parameters::init() {
     m_flipresult = false;
     m_volume = 1.0;
     m_backgroundImage = "";
-    m_cameraHight = 600;
-    m_cameraWidth = 800;
+    m_cameraHight = 1728;
+    m_cameraWidth = 2592;
     m_blockPrint = false;
     m_blockPrintNb = 700;
+    m_paperprint = 0;
     m_arduino = new Arduino();
     QQmlEngine::setObjectOwnership(m_arduino, QQmlEngine::CppOwnership);
-
     createFolders();
     m_photogallery = new PhotoGallery();
     m_photogallery->setApplicationDirPath(m_applicationDirPath);
@@ -148,7 +196,11 @@ void Parameters::init() {
 
     //Read all .png and .jpg files in tempalte directory
     readTemplateDir();
+
+    updatePaperPrint();
+
     Serialize();
+
     rebuildActivesTemplates();
 
 }
@@ -248,6 +300,9 @@ void Parameters::Serialize() {
 
         writer.Key("blockPrintNb");
         writer.Int(m_blockPrintNb);
+
+        writer.Key("paperprint");
+        writer.Int(m_paperprint);
 
         writer.Key("backgroundImage");
         writer.String(m_backgroundImage.toStdString().c_str());
@@ -411,6 +466,10 @@ void Parameters::Unserialize() {
 
     if (document.HasMember("blockPrintNb")) {
        m_blockPrintNb = document["blockPrintNb"].GetInt();
+    }
+
+    if (document.HasMember("paperprint")) {
+        m_paperprint = document["paperprint"].GetInt();
     }
 
     if (document.HasMember("templates")) {
@@ -645,6 +704,18 @@ void Parameters::setBlockPrintNb(int blockPrintNb)
     Serialize();
     emit blockPrintNbChanged();
 }
+int Parameters::paperprint() const
+{
+    return m_paperprint;
+}
+
+void Parameters::setPaperprint(int paperprint)
+{
+    m_paperprint = paperprint;
+    Serialize();
+    emit paperprintChanged();
+}
+
 
 
 

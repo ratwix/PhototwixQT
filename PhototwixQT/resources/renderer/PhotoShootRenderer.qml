@@ -35,7 +35,7 @@ Flipable {
     front: Rectangle {
         anchors.fill: parent
         id: photoResult
-        color:"red" //TODO, a remplacer avec une image
+        color:"#8097AC"
 
         Image {
             id: photoPreview

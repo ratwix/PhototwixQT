@@ -40,6 +40,7 @@ class Parameters : public QObject
     Q_PROPERTY(int cameraWidth READ getCameraWidth WRITE setCameraWidth NOTIFY cameraWidthChange)
     Q_PROPERTY(bool blockPrint READ getBlockPrint WRITE setBlockPrint NOTIFY blockPrintChanged)
     Q_PROPERTY(int blockPrintNb READ getBlockPrintNb WRITE setBlockPrintNb NOTIFY blockPrintNbChanged)
+    Q_PROPERTY(int paperprint READ paperprint WRITE setPaperprint NOTIFY paperprintChanged)
 
 
 public:
@@ -55,6 +56,8 @@ public:
     Q_INVOKABLE void clearGalleryDeleteImages();
     Q_INVOKABLE void addTemplateFromUrl(QUrl url);
     Q_INVOKABLE void changeBackground(QUrl url);
+    Q_INVOKABLE void updatePaperPrint();
+    Q_INVOKABLE void haltSystem();
 
 
     QList<QObject*> getTemplates();
@@ -111,6 +114,9 @@ public:
     int getBlockPrintNb() const;
     void setBlockPrintNb(int blockPrintNb);
 
+    int paperprint() const;
+    void setPaperprint(int paperprint);
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -127,6 +133,7 @@ private:
     int                  m_flashBrightness;
     int                  m_cameraHight;
     int                  m_cameraWidth;
+    int                  m_paperprint;
     QString              m_backgroundImage;
     Arduino*             m_arduino;
 
@@ -156,6 +163,7 @@ signals:
     void cameraWidthChange();
     void blockPrintChanged();
     void blockPrintNbChanged();
+    void paperprintChanged();
 };
 
 #endif // CPARAMETERS_H

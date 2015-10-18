@@ -134,7 +134,7 @@ ApplicationWindow {
 
         transitions: [
           Transition {
-              from: "START"; to: "TAKE_PHOTO,EDIT_PHOTO"
+              from: "START"; to: "TAKE_PHOTO"
               ParallelAnimation {
                   NumberAnimation { target: startScreenHide
                                       properties: "opacity"
@@ -150,6 +150,15 @@ ApplicationWindow {
                   if (mainRectangle.state == "TAKE_PHOTO" && (!running)) {
                       takePhotoScreen.startGlobalPhotoProcess();
                   }
+              }
+          },
+          Transition {
+              from: "START"; to: "EDIT_PHOTO"
+              ParallelAnimation {
+                  NumberAnimation { target: startScreenHide
+                                      properties: "opacity"
+                                      easing.type: Easing.Linear
+                                      duration: 200 }
               }
           },
           Transition {

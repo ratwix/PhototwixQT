@@ -113,7 +113,7 @@ void setup() {
   nb_photos = 350;
   
   display.begin();
-  //display.setContrast(40);
+  display.setContrast(50);
   updateScreen();
 }
 

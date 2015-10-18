@@ -109,6 +109,18 @@ Item {
         //Serialize gallery after new insertion
     }
 
+    function endGlobalPhotoProcessAfterError() {
+        console.log("La capture a merder, faut stopper le process")
+        parameters.arduino.flashSwitchOff();
+        //TODO: supprimer la derniere tentative
+        applicationWindows.resetStates();
+        parameters.photoGallery.removeFirstPhoto();
+        mbox.message = "Ooops.. quelque chose n'a pas fonctionné"
+        mbox.imageSource = "../images/Refuse-icon.png"
+        mbox.state = "show"
+
+    }
+
     Camera {
         id: camera
         captureMode: Camera.CaptureStillImage
@@ -120,6 +132,11 @@ Item {
                 var path = camera.imageCapture.capturedImagePath
                 applicationWindows.currentPhoto.photoPartList[p.currentPhoto].pathS = path; //TODO: bug, type conversion on linux date to string add qrc://
                 photoPartRepeater.itemAt(p.currentPhoto).endPhotoProcess(path)
+            }
+
+            onCaptureFailed: {
+                console.error("Capture error:" + message)
+                endGlobalPhotoProcessAfterError()
             }
         }
 
@@ -146,6 +163,15 @@ Item {
                 p.cameraWidth = parameters.cameraWidth //cres.width
 
                 console.debug("Current " + parameters.cameraWidth + "x" + parameters.cameraHeight + " ratio:" + applicationWindows.cameraRation);
+            }
+        }
+
+        onError: {
+            console.debug("Camera error:" + errorCode + " -- " + errorString)
+
+            if (errorCode == Camera.CameraError && errorString == "Unable to open camera") {
+                console.error("No camera connected");
+                Qt.quit();
             }
         }
     }

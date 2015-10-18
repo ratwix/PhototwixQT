@@ -3,7 +3,7 @@ import QtQuick.Controls 1.4
 
 Item {
     property    real step
-
+    property bool admin: false
     Grid {
         columns: 3
         columnSpacing: 0
@@ -12,6 +12,7 @@ Item {
             height: parent.height
             width: parent.height
             text: "-"
+            visible: admin
             onClicked: {
                 parameters.pricephoto = parameters.pricephoto - step < 0 ? 0 : parameters.pricephoto - step;
             }
@@ -26,6 +27,7 @@ Item {
         Button {
             height: parent.height
             width: parent.height
+            visible: admin
             text: "+"
             onClicked: {
                 parameters.pricephoto = parameters.pricephoto + step

@@ -4,6 +4,7 @@ Rectangle {
     id:escapeScreen
     anchors.fill: parent
     property string password: "photo123"
+    property string passwordAdmin: "pm"
     property bool   show: false
     color:"#C0212126"
 
@@ -12,6 +13,7 @@ Rectangle {
     visible: opacity != 0.0
 
     signal success()
+    signal successAdmin()
     signal failed()
 
     FontLoader {
@@ -83,8 +85,14 @@ Rectangle {
                 passInput.text = ""
                 escapeScreen.success()
             } else {
-                passInput.text = ""
-                escapeScreen.failed()
+                if (passInput.text == passwordAdmin) {
+                    escapeScreen.state = "hide"
+                    passInput.text = ""
+                    escapeScreen.successAdmin()
+                } else {
+                    passInput.text = ""
+                    escapeScreen.failed()
+                }
             }
         }
     }

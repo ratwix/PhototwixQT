@@ -72,6 +72,11 @@ Rectangle {
     PasswordScreen {
         id: passScreen
         onSuccess: {
+            configScreen.admin = false
+            mainRectangle.state = "CONFIG"
+        }
+        onSuccessAdmin: {
+            configScreen.admin = true
             mainRectangle.state = "CONFIG"
         }
     }
