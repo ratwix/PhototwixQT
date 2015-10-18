@@ -334,6 +334,13 @@ Rectangle {
             }
 
 
+
+        }
+
+        Row {
+            anchors.left: parent.left
+            spacing: 10
+
             ButtonImage {
                 label:"Sauvegarder"
                 onClicked: {
@@ -341,6 +348,38 @@ Rectangle {
                     saveGallerie.open()
                 }
             }
+
+            CheckBox {
+                id: copySingle
+                text: "Sans visuel"
+                checked: true
+            }
+
+            CheckBox {
+                id: copyDeleted
+                text: "Supprime"
+                checked: true
+            }
+
+            CheckBox {
+                id: copyDeletedSingle
+                text: "Supprime sans visuel"
+                checked: true
+            }
+
+            /*
+                function getReadableFileSizeString(fileSizeInBytes) {
+
+                    var i = -1;
+                    var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+                    do {
+                        fileSizeInBytes = fileSizeInBytes / 1024;
+                        i++;
+                    } while (fileSizeInBytes > 1024);
+
+                    return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
+                };
+            */
         }
 
         Row {
@@ -425,7 +464,7 @@ Rectangle {
             selectFolder: true
             selectExisting: true
             onAccepted: {
-
+                parameters.photoGallery.saveGallery(saveGallerie.fileUrl, copySingle.checked, copyDeleted.checked, copyDeletedSingle.checked);
             }
         }
     }

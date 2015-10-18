@@ -171,7 +171,7 @@ Item {
 
             if (errorCode == Camera.CameraError && errorString == "Unable to open camera") {
                 console.error("No camera connected");
-                Qt.quit();
+                //Qt.quit();
             }
         }
     }

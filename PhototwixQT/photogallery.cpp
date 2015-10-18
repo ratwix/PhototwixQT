@@ -2,12 +2,18 @@
 #include <iostream>
 #include <fstream>
 #include <QQmlEngine>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
 #include "rapidjson/document.h"
 #include <sys/stat.h>
 #include <thread>
 
 #include "photogallery.h"
 #include "parameters.h"
+#include "common.h"
+
+#define PHOTO_DEST  "photos"
 
 PhotoGallery::PhotoGallery()
 {
@@ -74,6 +80,149 @@ void PhotoGallery::removeFirstPhoto()
     emit photoListChanged();
 }
 
+static qint64 getDirectoryFileSize(QString s, int &nb) {
+    qint64 totalSizeByte = 0;
+
+    QDir photoDir(s);
+    if (photoDir.exists()) {
+         QFileInfoList list = photoDir.entryInfoList();
+         for (int i = 0; i < list.size(); ++i) {
+             QFileInfo fileInfo = list.at(i);
+             if (!fileInfo.isDir()) {
+                 totalSizeByte += fileInfo.size();
+                 nb += 1;
+             }
+         }
+     }
+
+    return totalSizeByte;
+}
+
+void PhotoGallery::updateGalleryDiskSize(bool saveSingle, bool saveDeleted, bool saveDeletedSingle) {
+    qint64 totalSizeByte = 0;
+    int    nb;
+    totalSizeByte += getDirectoryFileSize(PHOTOS_PATH, nb);
+
+    if (saveSingle) {
+        totalSizeByte += getDirectoryFileSize(PHOTOSS_PATH, nb);
+    }
+
+    if (saveDeleted) {
+        totalSizeByte += getDirectoryFileSize(PHOTOSD_PATH, nb);
+    }
+
+    if (saveDeletedSingle) {
+        totalSizeByte += getDirectoryFileSize(PHOTOSDS_PATH, nb);
+    }
+
+    setTotalFileNumber(nb);
+    setTotalFileSize(totalSizeByte);
+}
+
+void PhotoGallery::saveGallery(QUrl d, bool saveSingle, bool saveDeleted, bool saveDeletedSingle)
+{
+    int current = 0;
+    setCurrentCopy(current);
+
+    updateGalleryDiskSize(saveSingle, saveDeleted, saveDeletedSingle);
+
+    QString destPath = d.toString();
+    string prefix("file://");
+
+    if (destPath.toStdString().substr(0, prefix.size()) == prefix) {
+        destPath = QString(destPath.toStdString().substr(prefix.size(), destPath.size() - prefix.size()).c_str());
+    }
+
+    if (destPath.toStdString().back() != '/') {
+        destPath = destPath + "/";
+    }
+
+    QList<QObject*>::iterator it;
+
+    //Copy all photos from the gallery --> basic photos
+
+    for (it = m_photoList.begin(); it != m_photoList.end(); it++) {
+        if (Photo *p = dynamic_cast<Photo*>(*it)) {
+            QFileInfo f(p->finalResultS());
+            QFile file(p->finalResultS());
+
+            if (!f.exists()) {
+                CLog::Write(CLog::Debug, "COPY : File do not exist" + p->finalResultS().toStdString());
+                continue ;
+            }
+
+            //Create a directory to contain photos
+            QDir d;
+            d.mkpath(destPath + PHOTO_DEST);
+            CLog::Write(CLog::Debug, (destPath + "/" + PHOTO_DEST).toStdString());
+            file.copy(destPath + PHOTO_DEST + "/" + f.fileName());
+
+            CLog::Write(CLog::Debug, ("COPY : File " + destPath + PHOTO_DEST + "/" + f.fileName()).toStdString());
+            setCurrentCopy(++current);
+        }
+    }
+
+    //Save single files
+    if (saveSingle) {
+        QDir singleDir(PHOTOSS_PATH);
+
+        if (singleDir.exists()) {
+            QDir d;
+            d.mkpath(destPath + PHOTO_DEST + "/single/");
+
+            QFileInfoList list = singleDir.entryInfoList();
+            for (int i = 0; i < list.size(); ++i) {
+                QFileInfo fileInfo = list.at(i);
+
+                if (!fileInfo.isDir()) {
+                    QFile::copy(fileInfo.absoluteFilePath(), destPath + PHOTO_DEST + "/single/" + fileInfo.fileName());
+                    setCurrentCopy(++current);
+                }
+            }
+        }
+    }
+
+    //Save deleted files
+    if (saveDeleted) {
+        QDir delDir(PHOTOSD_PATH);
+
+        if (delDir.exists()) {
+            QDir d;
+            d.mkpath(destPath + PHOTO_DEST + "/deleted/");
+
+            QFileInfoList list = delDir.entryInfoList();
+            for (int i = 0; i < list.size(); ++i) {
+                QFileInfo fileInfo = list.at(i);
+
+                if (!fileInfo.isDir()) {
+                    QFile::copy(fileInfo.absoluteFilePath(), destPath + PHOTO_DEST + "/deleted/" + fileInfo.fileName());
+                    setCurrentCopy(++current);
+                }
+            }
+        }
+    }
+
+    //Save deleted single
+    if (saveDeletedSingle) {
+        QDir delDirSingle(PHOTOSDS_PATH);
+
+        if (delDirSingle.exists()) {
+            QDir d;
+            d.mkpath(destPath + PHOTO_DEST + "/deleted/single");
+
+            QFileInfoList list = delDirSingle.entryInfoList();
+            for (int i = 0; i < list.size(); ++i) {
+                QFileInfo fileInfo = list.at(i);
+
+                if (!fileInfo.isDir()) {
+                    QFile::copy(fileInfo.absoluteFilePath(), destPath + PHOTO_DEST + "/deleted/single/" + fileInfo.fileName());
+                    setCurrentCopy(++current);
+                }
+            }
+        }
+    }
+}
+
 void PhotoGallery::addPhoto(const Value &value, QList<QObject*> &templates)
 {
     //Find the right template
@@ -101,6 +250,39 @@ void PhotoGallery::addPhoto(const Value &value, QList<QObject*> &templates)
     } else {
         CLog::Write(CLog::Debug, "No current template");
     }
+}
+
+int PhotoGallery::totalFileNumber() const
+{
+    return m_totalFileNumber;
+}
+
+void PhotoGallery::setTotalFileNumber(int totalFileNumber)
+{
+    m_totalFileNumber = totalFileNumber;
+    emit totalFileNumberChanged();
+}
+
+qint64 PhotoGallery::totalFileSize() const
+{
+    return m_totalFileSize;
+}
+
+void PhotoGallery::setTotalFileSize(const qint64 &totalFileSize)
+{
+    m_totalFileSize = totalFileSize;
+    emit totalFileSizeChanged();
+}
+
+int PhotoGallery::currentCopy() const
+{
+    return m_currentCopy;
+}
+
+void PhotoGallery::setCurrentCopy(int currentCopy)
+{
+    m_currentCopy = currentCopy;
+    emit currentCopyChanged();
 }
 
 
