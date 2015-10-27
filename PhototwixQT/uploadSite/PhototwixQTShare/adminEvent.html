@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Phototwix admin event</title>
+  <link rel="stylesheet" href="css/admin.css">
+  
+  <link  href="http://fonts.googleapis.com/css?family=Cabin:400,500,600,bold" rel="stylesheet" type="text/css" >
+  <link  href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:regular,bold" rel="stylesheet" type="text/css" >
+  
+  <script src="lib/jquery-1.11.3.min.js"></script>
+  
+  <script>
+	function init() {
+		loadEvent();
+		loadEdit("");
+	}
+  
+	function loadEvent() {
+		$( "#list_event_div" ).load("listEvent.php");
+	}
+	
+	function loadEdit(event_code) {
+		if (event_code == "") {
+			$( "#edit_event_div" ).load("editEvent.php");
+		} else {
+			$( "#edit_event_div" ).load("editEvent.php?event_code=" + event_code);
+		}
+		$( "#edit_event_div" ).show();
+	}
+	
+	function downloadEvent(event_code) {
+		console.log("Download" + event_code);
+	}
+	
+	function postEvent() {
+		post_data = {
+			'event_code'			: $('#event_code').val(),
+			'event_name'			: $('#event_title').val(),
+			'event_facebook_text'	: $('#event_facebook_text').val(),
+			'event_twitter_text'	: $('#event_twitter_text').val(),
+			'event_google_text'		: $('#event_google_text').val(),
+			'event_mail_subject'	: $('#event_mail_subject').val(),
+			'event_mail_from'		: $('#event_mail_from').val(),
+			'event_mail_cc'			: $('#event_mail_cc').val(),
+			'event_mail_text'		: $('#event_mail_text').val()
+		};
+	
+		//Ajax post data to server
+		$.post('postEvent.php', post_data)
+			.done(function(response){
+				alert("Modification prise en compte");
+				loadEvent();
+			});
+	}
+	
+  </script>
+</head>
+<body onload="init()">
+
+	<div id="create_event_form_div">
+		<a class="button" onclick='loadEdit("")'>
+			<span>Nouvel événement</span>
+		</a>
+	</div>
+	
+	<div id="list_event_div" class="liststyle">
+		
+	</div>
+	
+	<div id="edit_event_div" class="basic-grey" style="display: none">
+		
+	</div
+</body>
+</html>
+
+
+<?php
+	
+?>

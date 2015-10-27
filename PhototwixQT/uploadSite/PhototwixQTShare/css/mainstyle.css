@@ -1,0 +1,21 @@
+.photoResut {
+	height:300;
+	width: auto;
+}
+
+#socialButtonGroup {
+	position: fixed;
+	bottom : 0;
+	
+}
+
+.socialButton {
+	height:100;
+	width: auto;
+}
+
+#qrCodeGroup {
+	position: fixed;
+    top: 20;
+    right: 20;
+}
