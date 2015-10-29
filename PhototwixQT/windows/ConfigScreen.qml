@@ -332,10 +332,9 @@ Rectangle {
                     cbox.state = "show"
                 }
             }
-
-
-
         }
+
+
 
         Row {
             anchors.left: parent.left
@@ -386,20 +385,51 @@ Rectangle {
             anchors.left: parent.left
             spacing: 10
 
-            ButtonImage {
-                //anchors.left: parent.left
-                label:"Importer des visuels"
-                onClicked: {
-                    importTemplateFileDialog.open()
+            Label {
+                height: 30
+                text: "Sharing"
+                font.pixelSize: 15
+            }
+
+            Switch {
+                onCheckedChanged: {
+                    parameters.sharing = checked;
+                }
+                Component.onCompleted: {
+                    checked = parameters.sharing;
+                }
+            }
+
+            TextField {
+                id:eventCodeText
+                visible: admin
+                placeholderText: qsTr("Code evenement")
+                Component.onCompleted: {
+                    text = parameters.eventCode;
                 }
             }
 
             ButtonImage {
-                id:buttonBackground
-                //anchors.left: parent.left
-                label:"Fond d'écran"
+                label:"Change le code evenement"
                 onClicked: {
-                    importBackgroundFileDialog.open()
+                    parameters.eventCode = eventCodeText.text
+                }
+            }
+
+            TextField {
+                id:baseUrlText
+                visible: admin
+                placeholderText: qsTr("Server base url")
+                Component.onCompleted: {
+                    text = parameters.sharingBaseUrl;
+                }
+            }
+
+            ButtonImage {
+                label:"Change Base URL"
+                visible: admin
+                onClicked: {
+                    parameters.sharingBaseUrl = baseUrlText.text
                 }
             }
         }

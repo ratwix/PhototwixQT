@@ -8,6 +8,7 @@
 #include "filereader.h"
 #include "clog.h"
 #include "keyemitter.h"
+#include "base64.h"
 
 
 
@@ -22,7 +23,9 @@ int main(int argc, char *argv[])
     Parameters            parameters(QGuiApplication::applicationDirPath());
     FileReader            fileReader;
     KeyEmitter            keyEmitter;
+    Base64                base64;
 
+    engine.rootContext()->setContextProperty("base64", &base64);
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     engine.rootContext()->setContextProperty("parameters", &parameters);
     engine.rootContext()->setContextProperty("fileReader", &fileReader);
