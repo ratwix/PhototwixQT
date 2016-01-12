@@ -14,10 +14,10 @@ ApplicationWindow {
     visible: true
     visibility: Window.FullScreen
 
-
-    //height: 900
-    //width: 1600
-
+/*
+    height: 900
+    width: 1600
+*/
     property string backColor: "#d5d6d8" //"#212126"
     property string backTemplateColor: "#193259"
 

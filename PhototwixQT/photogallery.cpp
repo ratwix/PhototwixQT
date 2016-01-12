@@ -342,7 +342,7 @@ void PhotoGallery::Unserialize(QList<QObject*> &templates)
     str.assign((std::istreambuf_iterator<char>(jsonFile)),
                 std::istreambuf_iterator<char>());
 
-    CLog::Write(CLog::Debug, "Fichier json gallery : " + str);
+    //CLog::Write(CLog::Debug, "Fichier json gallery : " + str);
 
     Document document;
     document.Parse(str.c_str());

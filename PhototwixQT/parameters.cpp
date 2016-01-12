@@ -412,7 +412,7 @@ void Parameters::Unserialize() {
     str.assign((std::istreambuf_iterator<char>(jsonFile)),
                 std::istreambuf_iterator<char>());
 
-    CLog::Write(CLog::Debug, "Fichier json : " + str);
+    //CLog::Write(CLog::Debug, "Fichier json : " + str);
 
     Document document;
     document.Parse(str.c_str());

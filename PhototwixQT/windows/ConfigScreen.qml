@@ -250,6 +250,7 @@ Rectangle {
                visible: admin
            }
 
+           /*
            ListView {
                id:resolutionList
                visible: admin
@@ -270,11 +271,10 @@ Rectangle {
                        MouseArea {
                            anchors.fill: parent
                            onClicked: {
-                               /*
-                               takePhotoScreen.camera.viewfinder.resolution = Qt.size(modelData.width, modelData.height);
-                               takePhotoScreen.cameraVideoOutput.height = modelData.height
-                               takePhotoScreen.cameraVideoOutput.width = modelData.width
-                               */
+
+                               //takePhotoScreen.camera.viewfinder.resolution = Qt.size(modelData.width, modelData.height);
+                               //takePhotoScreen.cameraVideoOutput.height = modelData.height
+                               //takePhotoScreen.cameraVideoOutput.width = modelData.width
 
                                resolutionList.currentIndex = index;
                                parameters.cameraHeight = modelData.height
@@ -291,6 +291,7 @@ Rectangle {
                    }
                }
            }
+           */
         }
 
         Row {

@@ -95,7 +95,7 @@ QList<QObject *> Photo::photoPartList() const
 {
     ostringstream test;
     test << "Get photo part list :" << m_photoPartList.count() << ":";
-    CLog::Write(CLog::Debug, test.str());
+    //CLog::Write(CLog::Debug, test.str());
     return m_photoPartList;
 }
 

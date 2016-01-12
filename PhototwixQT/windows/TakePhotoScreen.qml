@@ -11,7 +11,7 @@ Item {
     height: parent.height
     width: parent.width
 
-    property alias camera: camera
+    //property alias camera: camera
     property alias cameraVideoOutput: cameraVideoOutput
 
     property variant frameRate
@@ -38,16 +38,19 @@ Item {
     }
 
     function startGlobalPhotoProcess() {
+        //timerPhotoPreview.running = true;
         p.currentPhoto = 0;
         parameters.arduino.flashSwitchOn();
         takePhotoScreen.startPhotoProcess();
     }
 
     function startPhotoProcess() {
+        //timerPhotoPreview.running = true;
         countdown.start()
     }
 
     function endGlobalPhotoProcess() {
+        //timerPhotoPreview.running = false;
         var photoHeighP = 6;
         var dpi = 300;
         var firstsave = 0;
@@ -106,6 +109,8 @@ Item {
             takePhotoScreenPhotoSizedBlock.grabToImage(saveImageSD, Qt.size(captureWidth, captureHeight));
         }
 
+        cameraWorker.closeCamera();
+
         //Serialize gallery after new insertion
     }
 
@@ -118,8 +123,9 @@ Item {
         mbox.message = "Ooops.. quelque chose n'a pas fonctionné"
         mbox.imageSource = "../images/Refuse-icon.png"
         mbox.state = "show"
-
     }
+
+    /*
 
     Camera {
         id: camera
@@ -180,6 +186,44 @@ Item {
             id: cameraVideoOutput
             source: camera
             visible: false
+    }
+
+    */
+
+    //Connection to cameraWorker in C++
+    Connections {
+            target: cameraWorker
+
+            onImageCaptured: {
+                console.log("Image captured!" + fileName)
+
+                var path = fileName
+                applicationWindows.currentPhoto.photoPartList[p.currentPhoto].pathS = path; //TODO: bug, type conversion on linux date to string add qrc://
+                photoPartRepeater.itemAt(p.currentPhoto).endPhotoProcess(path)
+            }
+
+            onImageCaptureError: {
+                endGlobalPhotoProcessAfterError();
+            }
+    }
+
+
+    Timer {
+            id: timerPhotoPreview
+            interval: 100;
+            running: false;
+            repeat: true
+            onTriggered: {
+                cameraWorker.capturePreview();
+                cameraVideoOutput.source = "image://camerapreview/" + Math.random();
+                // change URL to refresh image. Add random URL part to avoid caching
+            }
+    }
+
+    Image {
+        id: cameraVideoOutput
+        source:"image://camerapreview/1"
+        visible: false
     }
 
     Item {
@@ -256,15 +300,18 @@ Item {
             y:0
 
             onStartCount: { //debut de prise d'une photo
+                timerPhotoPreview.running = true;
                 photoPartRepeater.itemAt(p.currentPhoto).startPhotoProcess()
             }
 
             onEndCount: { //fin de prise d'une photo
+                timerPhotoPreview.running = false;
                 var d = new Date();
                 var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "_" + d.getHours() + "h" + d.getMinutes() + "m" + d.getSeconds() + "s"
                 var imageName = "phototwix-" + date + ".jpg" //TODO : modifier cet element. Doit etre un jpg
                 var imagePath = applicationDirPath + "/photos/single/" + imageName;
-                camera.imageCapture.captureToLocation(imagePath)
+                cameraWorker.capturePhoto(imagePath)
+                //camera.imageCapture.captureToLocation(imagePath)
                 //TODO: ajouter l'image a l'image part
             }
         }

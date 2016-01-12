@@ -2,7 +2,7 @@
 #include <iostream>
 
 bool CLog::m_bInitialised = false;
-int  CLog::m_nLevel = CLog::All;
+int  CLog::m_nLevel = CLog::Info;
 
 void CLog::Write(int nLevel, const char *szFormat)
 {

@@ -67,6 +67,7 @@ Item {
 
                     onClicked: {
                         applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", model.modelData)
+                        cameraWorker.capturePreview()
                         applicationWindows.effectSource = "Couleur"
                         mainRectangle.state = "TAKE_PHOTO"
                         last_template_index = index

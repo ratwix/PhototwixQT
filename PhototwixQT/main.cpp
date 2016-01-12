@@ -8,6 +8,7 @@
 #include "filereader.h"
 #include "clog.h"
 #include "keyemitter.h"
+#include "cameraworker.h"
 
 
 
@@ -22,11 +23,16 @@ int main(int argc, char *argv[])
     Parameters            parameters(QGuiApplication::applicationDirPath());
     FileReader            fileReader;
     KeyEmitter            keyEmitter;
+    CameraWorker          *cameraWorker;
+
+    cameraWorker = new CameraWorker();
+
 
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     engine.rootContext()->setContextProperty("parameters", &parameters);
     engine.rootContext()->setContextProperty("fileReader", &fileReader);
     engine.rootContext()->setContextProperty("keyEmitter", &keyEmitter);
+    engine.rootContext()->setContextProperty("cameraWorker", cameraWorker);
 
     CLog::Write(CLog::Debug, ("Application dir path "  + QGuiApplication::applicationDirPath()).toStdString());
 
@@ -37,7 +43,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<Photo>("com.phototwix.components", 1, 0, "Photo");
     qmlRegisterType<PhotoPart>("com.phototwix.components", 1, 0, "PhotoPart");
     qmlRegisterType<Arduino>("com.phototwix.components", 1, 0, "Arduino");
+    qmlRegisterType<CameraWorker>("com.phototwix.components", 1, 0, "CameraWorker");
 
+    //cameraWorker->capturePreview();
+
+    engine.addImageProvider("camerapreview", cameraWorker);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();

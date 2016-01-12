@@ -177,15 +177,19 @@ void Arduino::openPort()
     }
 
     //Open port
-    QSerialPort serialPort;
 
     m_serialPort.setPortName(serialPortName);
+    m_serialPort.setBaudRate(QSerialPort::Baud9600);
+    m_serialPort.setDataBits(QSerialPort::Data8);
+    m_serialPort.setParity(QSerialPort::NoParity);
+    m_serialPort.setStopBits(QSerialPort::OneStop);
+    m_serialPort.setFlowControl(QSerialPort::NoFlowControl);
+    m_serialPort.setSettingsRestoredOnClose(true);
 
-    int serialPortBaudRate = QSerialPort::Baud9600;
-    m_serialPort.setBaudRate(serialPortBaudRate);
+
 
     if (!m_serialPort.open(QIODevice::ReadWrite)) {
-        qDebug() << QObject::tr("Failed to open port %1, error: %2").arg(serialPortName).arg(serialPort.errorString()) << endl;
+        qDebug() << QObject::tr("Failed to open port %1, error: %2").arg(serialPortName).arg(m_serialPort.errorString()) << endl;
         m_arduinoActive = false;
         return;
     }

@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     filereader.cpp \
     common.cpp \
     arduino.cpp \
-    keyemitter.cpp
+    keyemitter.cpp \
+    cameraworker.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,6 +25,8 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 QMAKE_CXXFLAGS += -std=c++11
+
+LIBS=-lgphoto2 -lgphoto2_port
 
 HEADERS += \
     template.h \
@@ -64,7 +67,8 @@ HEADERS += \
     photogallery.h \
     filereader.h \
     arduino.h \
-    keyemitter.h
+    keyemitter.h \
+    cameraworker.h
 
 DISTFILES += \
     print/get_printer_reg.bat \
