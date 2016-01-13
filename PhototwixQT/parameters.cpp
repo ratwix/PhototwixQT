@@ -185,6 +185,9 @@ void Parameters::init() {
     m_blockPrintNb = 700;
     m_paperprint = 0;
     m_arduino = new Arduino();
+    m_sharing = true;
+    m_sharingBaseUrl = "";
+    m_eventCode = "";
     QQmlEngine::setObjectOwnership(m_arduino, QQmlEngine::CppOwnership);
     createFolders();
     m_photogallery = new PhotoGallery();
@@ -306,6 +309,15 @@ void Parameters::Serialize() {
 
         writer.Key("backgroundImage");
         writer.String(m_backgroundImage.toStdString().c_str());
+
+        writer.Key("sharing");
+        writer.Bool(m_sharing);
+
+        writer.Key("sharingBaseUrl");
+        writer.String(m_sharingBaseUrl.toStdString().c_str());
+
+        writer.Key("eventCode");
+        writer.String(m_eventCode.toStdString().c_str());
 
         m_arduino->setPhotoPrice(m_pricephoto);
         m_arduino->setNbPhotoFree(m_nbfreephotos);
@@ -470,6 +482,18 @@ void Parameters::Unserialize() {
 
     if (document.HasMember("paperprint")) {
         m_paperprint = document["paperprint"].GetInt();
+    }
+
+    if (document.HasMember("sharing")) {
+        m_sharing = document["sharing"].GetBool();
+    }
+
+    if (document.HasMember("sharingBaseUrl")) {
+        m_sharingBaseUrl = QString(document["sharingBaseUrl"].GetString());
+    }
+
+    if (document.HasMember("eventCode")) {
+        m_eventCode = QString(document["eventCode"].GetString());
     }
 
     if (document.HasMember("templates")) {
@@ -715,6 +739,42 @@ void Parameters::setPaperprint(int paperprint)
     Serialize();
     emit paperprintChanged();
 }
+bool Parameters::getSharing() const
+{
+    return m_sharing;
+}
+
+void Parameters::setSharing(bool sharing)
+{
+    m_sharing = sharing;
+    Serialize();
+    emit sharingChanged();
+}
+QString Parameters::getSharingBaseUrl() const
+{
+    return m_sharingBaseUrl;
+}
+
+void Parameters::setSharingBaseUrl(const QString &sharingBaseUrl)
+{
+    m_sharingBaseUrl = sharingBaseUrl;
+    Serialize();
+    emit sharingBaseUrlChanged();
+}
+QString Parameters::getEventCode() const
+{
+    return m_eventCode;
+}
+
+void Parameters::setEventCode(const QString &eventCode)
+{
+    m_eventCode = eventCode;
+    Serialize();
+    emit eventCodeChanged();
+}
+
+
+
 
 
 

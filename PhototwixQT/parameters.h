@@ -41,7 +41,9 @@ class Parameters : public QObject
     Q_PROPERTY(bool blockPrint READ getBlockPrint WRITE setBlockPrint NOTIFY blockPrintChanged)
     Q_PROPERTY(int blockPrintNb READ getBlockPrintNb WRITE setBlockPrintNb NOTIFY blockPrintNbChanged)
     Q_PROPERTY(int paperprint READ paperprint WRITE setPaperprint NOTIFY paperprintChanged)
-
+    Q_PROPERTY(bool sharing READ getSharing WRITE setSharing NOTIFY sharingChanged)
+    Q_PROPERTY(QString sharingBaseUrl READ getSharingBaseUrl WRITE setSharingBaseUrl NOTIFY sharingBaseUrlChanged)
+    Q_PROPERTY(QString eventCode READ getEventCode WRITE setEventCode NOTIFY eventCodeChanged)
 
 public:
     Parameters(QUrl appDirPath);
@@ -117,6 +119,15 @@ public:
     int paperprint() const;
     void setPaperprint(int paperprint);
 
+    bool getSharing() const;
+    void setSharing(bool sharing);
+
+    QString getSharingBaseUrl() const;
+    void setSharingBaseUrl(const QString &sharingBaseUrl);
+
+    QString getEventCode() const;
+    void setEventCode(const QString &eventCode);
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -136,6 +147,9 @@ private:
     int                  m_paperprint;
     QString              m_backgroundImage;
     Arduino*             m_arduino;
+    bool                 m_sharing;
+    QString              m_sharingBaseUrl;
+    QString              m_eventCode;
 
     void addTemplate(QString name);
     void addTemplate(Value const &value);
@@ -164,6 +178,9 @@ signals:
     void blockPrintChanged();
     void blockPrintNbChanged();
     void paperprintChanged();
+    void sharingChanged();
+    void sharingBaseUrlChanged();
+    void eventCodeChanged();
 };
 
 #endif // CPARAMETERS_H

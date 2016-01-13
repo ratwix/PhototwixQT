@@ -122,5 +122,9 @@
         <file>resources/renderer/EffectPixel.qml</file>
         <file>resources/images/green_button.png</file>
         <file>resources/controls/MaxPhotoPicker.qml</file>
+        <file>resources/images/share.png</file>
+        <file>resources/controls/ShareScreen.qml</file>
+        <file>resources/controls/createWebview.js</file>
+        <file>resources/controls/MyWebEngineProfile.qml</file>
     </qresource>
 </RCC>

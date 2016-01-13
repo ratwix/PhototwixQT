@@ -40,6 +40,7 @@ ApplicationWindow {
         mainRectangle.state = "START"
         takePhotoScreen.state = "PHOTO_SHOOT"
         startScreen.galleryControlAlias.state = "stacked"
+        shareScreen.state = "hide"
     }
 
     property var showEdit: function () {
@@ -103,7 +104,6 @@ ApplicationWindow {
             x:applicationWindows.width
             y:0
         }
-
 
         states: [
             State {

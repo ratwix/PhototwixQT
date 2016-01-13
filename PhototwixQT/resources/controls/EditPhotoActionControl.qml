@@ -8,7 +8,7 @@ Rectangle {
 
     Grid {
         id:gridButton
-        columns: 3
+        columns: parameters.sharing ? 4 : 3
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         spacing: 30
@@ -73,6 +73,18 @@ Rectangle {
             }
             visible: false
         }
+
+        EditPhotoActionButton {
+            id:shareButton
+            visible: parameters.sharing
+            imagePath:"../images/share.png"
+            onClicked: {
+                mbox.message = "Partage de la photo"
+                mbox.imageSource = "../images/share.png"
+                mbox.state = "show"
+                share_photo()
+            }
+        }
     }
 
     function home() {
@@ -100,16 +112,19 @@ Rectangle {
         }
     }
 
-    function print_photo() {
 
-
+    function print_share_photo(boolPrint) {
         if (state == "viewPhoto") {
             var url = parameters.photoGallery.photoList[photosListView.currentIndex].finalResult;
             var doubleprint = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.doubleprint;
             var cutprint = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.printcutter;
             var landscape = parameters.photoGallery.photoList[photosListView.currentIndex].currentTemplate.landscape;
             console.debug("Print " + url);
-            parameters.printPhoto(url, doubleprint, cutprint, landscape);
+            if (boolPrint) {
+                parameters.printPhoto(url, doubleprint, cutprint, landscape);
+            } else {
+                sendPhotoToShareServer(url);
+            }
         } else if (state == "editPhoto") { //Save image in a tmp directory to apply effects, then print the file
             var photoHeighP = 6;
             var dpi = 300;
@@ -125,7 +140,12 @@ Rectangle {
                 var cutprint = applicationWindows.currentPhoto.currentTemplate.printcutter;
                 var landscape = applicationWindows.currentPhoto.currentTemplate.landscape;
                 console.debug("Print " + url);
-                parameters.printPhoto(url, doubleprint, cutprint, landscape);
+                if (boolPrint) {
+                    parameters.printPhoto(url, doubleprint, cutprint, landscape);
+                } else {
+                    sendPhotoToShareServer(url);
+                }
+
                 return;
             }
             //else regenerate the image with effects
@@ -138,7 +158,11 @@ Rectangle {
 
                 result.saveToFile(url);
                 console.debug("Print " + url);
-                parameters.printPhoto(url, doubleprint, cutprint, landscape);
+                if (boolPrint) {
+                    parameters.printPhoto(url, doubleprint, cutprint, landscape);
+                } else {
+                    sendPhotoToShareServer(url);
+                }
             }
 
             if (takePhotoScreenPhotoSizedBlock.height > takePhotoScreenPhotoSizedBlock.width) { //Photo in portrait
@@ -151,6 +175,18 @@ Rectangle {
                 takePhotoScreenPhotoSizedBlock.grabToImage(saveImage, Qt.size(captureWidth, captureHeight));
             }
         }
+    }
+
+    function print_photo() {
+        print_share_photo(true);
+    }
+
+    function share_photo() {
+        print_share_photo(false);
+    }
+
+    function sendPhotoToShareServer(url) {
+        shareScreen.state = "show"
     }
 
     Connections {

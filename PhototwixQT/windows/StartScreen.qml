@@ -61,6 +61,11 @@ Rectangle {
         visible: galleryControl.state == "stacked"
     }
 
+    ShareScreen {
+        id:shareScreen
+        state:"hide"
+    }
+
     MessageScreen {
         id:mbox
     }

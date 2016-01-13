@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets serialport concurrent core
+QT += qml quick widgets serialport concurrent core webengine
 
 SOURCES += main.cpp \
     template.cpp \
@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     common.cpp \
     arduino.cpp \
     keyemitter.cpp \
-    cameraworker.cpp
+    cameraworker.cpp \
+    base64.cpp
 
 RESOURCES += qml.qrc
 
@@ -68,7 +69,8 @@ HEADERS += \
     filereader.h \
     arduino.h \
     keyemitter.h \
-    cameraworker.h
+    cameraworker.h \
+    base64.h
 
 DISTFILES += \
     print/get_printer_reg.bat \
