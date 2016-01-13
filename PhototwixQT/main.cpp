@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QtQml>
+#include <QtWebEngine/QtWebEngine>
 
 #include "arduino.h"
 #include "parameters.h"
@@ -9,6 +10,7 @@
 #include "clog.h"
 #include "keyemitter.h"
 #include "base64.h"
+#include "cameraworker.h"
 
 
 
@@ -28,6 +30,8 @@ int main(int argc, char *argv[])
 
     cameraWorker = new CameraWorker();
 
+    QtWebEngine::initialize();
+
     engine.rootContext()->setContextProperty("base64", &base64);
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     engine.rootContext()->setContextProperty("parameters", &parameters);
@@ -45,8 +49,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<PhotoPart>("com.phototwix.components", 1, 0, "PhotoPart");
     qmlRegisterType<Arduino>("com.phototwix.components", 1, 0, "Arduino");
     qmlRegisterType<CameraWorker>("com.phototwix.components", 1, 0, "CameraWorker");
-
-    //cameraWorker->capturePreview();
 
     engine.addImageProvider("camerapreview", cameraWorker);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
