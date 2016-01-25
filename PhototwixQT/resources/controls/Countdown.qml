@@ -40,18 +40,6 @@ Rectangle {
     }
 
     SoundEffect {
-        id: beep3Sound
-        source: "../sounds/bip3.wav"
-        volume: parameters.volume
-    }
-
-    SoundEffect {
-        id: beep4Sound
-        source: "../sounds/bip4.wav"
-        volume: parameters.volume
-    }
-
-    SoundEffect {
         id: photoSound
         source: "../sounds/photo.wav"
         volume: parameters.volume

@@ -44,6 +44,16 @@ class Parameters : public QObject
     Q_PROPERTY(bool sharing READ getSharing WRITE setSharing NOTIFY sharingChanged)
     Q_PROPERTY(QString sharingBaseUrl READ getSharingBaseUrl WRITE setSharingBaseUrl NOTIFY sharingBaseUrlChanged)
     Q_PROPERTY(QString eventCode READ getEventCode WRITE setEventCode NOTIFY eventCodeChanged)
+    Q_PROPERTY(bool mailActive READ getMailActive WRITE setMailActive NOTIFY mailChange)
+    Q_PROPERTY(QString mailFrom READ getMailFrom WRITE setMailFrom NOTIFY mailChange)
+    Q_PROPERTY(QString mailCc READ getMailCc WRITE setMailCc NOTIFY mailChange)
+    Q_PROPERTY(QString mailBcc READ getMailBcc WRITE setMailBcc NOTIFY mailChange)
+    Q_PROPERTY(QString mailSmtp READ getMailSmtp WRITE setMailSmtp NOTIFY mailChange)
+    Q_PROPERTY(QString mailPort READ getMailPort WRITE setMailPort NOTIFY mailChange)
+    Q_PROPERTY(QString mailUsername READ getMailUsername WRITE setMailUsername NOTIFY mailChange)
+    Q_PROPERTY(QString mailPassword READ getMailPassword WRITE setMailPassword NOTIFY mailChange)
+
+
 
 public:
     Parameters(QUrl appDirPath);
@@ -128,6 +138,30 @@ public:
     QString getEventCode() const;
     void setEventCode(const QString &eventCode);
 
+    bool getMailActive() const;
+    void setMailActive(bool mailActive);
+
+    QString getMailFrom() const;
+    void setMailFrom(const QString &mailFrom);
+
+    QString getMailCc() const;
+    void setMailCc(const QString &mailCc);
+
+    QString getMailBcc() const;
+    void setMailBcc(const QString &mailBcc);
+
+    QString getMailSmtp() const;
+    void setMailSmtp(const QString &mailSmtp);
+
+    QString getMailPort() const;
+    void setMailPort(const QString &mailPort);
+
+    QString getMailUsername() const;
+    void setMailUsername(const QString &mailUsername);
+
+    QString getMailPassword() const;
+    void setMailPassword(const QString &mailPassword);
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -150,6 +184,15 @@ private:
     bool                 m_sharing;
     QString              m_sharingBaseUrl;
     QString              m_eventCode;
+    bool                 m_mailActive;
+    QString              m_mailFrom;
+    QString              m_mailCc;
+    QString              m_mailBcc;
+    QString              m_mailSmtp;
+    QString              m_mailPort;
+    QString              m_mailUsername;
+    QString              m_mailPassword;
+
 
     void addTemplate(QString name);
     void addTemplate(Value const &value);
@@ -181,6 +224,7 @@ signals:
     void sharingChanged();
     void sharingBaseUrlChanged();
     void eventCodeChanged();
+    void mailChange();
 };
 
 #endif // CPARAMETERS_H

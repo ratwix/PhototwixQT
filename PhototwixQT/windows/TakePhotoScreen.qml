@@ -344,6 +344,16 @@ Item {
         id:cbox
     }
 
+    MailScreen {
+        id: mailScreen
+        onSuccess: {
+
+        }
+        onFailed: {
+
+        }
+    }
+
     onStateChanged: {
         applicationWindows.effectSource = "Couleur"
     }

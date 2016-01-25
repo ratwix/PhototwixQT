@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QtQml>
-#include <QtWebEngine/QtWebEngine>
+//#include <QtWebEngine/QtWebEngine>
 
 #include "arduino.h"
 #include "parameters.h"
@@ -11,6 +11,7 @@
 #include "keyemitter.h"
 #include "base64.h"
 #include "cameraworker.h"
+#include "mail.h"
 
 
 
@@ -27,10 +28,13 @@ int main(int argc, char *argv[])
     KeyEmitter            keyEmitter;
     Base64                base64;
     CameraWorker          *cameraWorker;
+    Mail                  mail;
 
+
+    mail.setParameters(&parameters);
     cameraWorker = new CameraWorker();
 
-    QtWebEngine::initialize();
+//    QtWebEngine::initialize();
 
     engine.rootContext()->setContextProperty("base64", &base64);
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
@@ -38,6 +42,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fileReader", &fileReader);
     engine.rootContext()->setContextProperty("keyEmitter", &keyEmitter);
     engine.rootContext()->setContextProperty("cameraWorker", cameraWorker);
+    engine.rootContext()->setContextProperty("mail", &mail);
 
     CLog::Write(CLog::Debug, ("Application dir path "  + QGuiApplication::applicationDirPath()).toStdString());
 
@@ -49,6 +54,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PhotoPart>("com.phototwix.components", 1, 0, "PhotoPart");
     qmlRegisterType<Arduino>("com.phototwix.components", 1, 0, "Arduino");
     qmlRegisterType<CameraWorker>("com.phototwix.components", 1, 0, "CameraWorker");
+    qmlRegisterType<Mail>("com.phototwix.components", 1, 0, "Mail");
 
     engine.addImageProvider("camerapreview", cameraWorker);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

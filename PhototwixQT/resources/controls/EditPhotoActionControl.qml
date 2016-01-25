@@ -8,7 +8,7 @@ Rectangle {
 
     Grid {
         id:gridButton
-        columns: parameters.sharing ? 4 : 3
+        columns: parameters.mailActive ? 4 : 3
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         spacing: 30
@@ -75,14 +75,25 @@ Rectangle {
         }
 
         EditPhotoActionButton {
+            id:mailButton
+            visible: parameters.mailActive
+            imagePath:"../images/mail.png"
+            onClicked: {
+                if (actionControl.state == "viewPhoto") {
+                    currentPhoto = parameters.photoGallery.photoList[photosListView.currentIndex];
+                }
+                mailScreen.currentPhoto = currentPhoto;
+                mailScreen.state = "show"
+                console.log("Tachatte")
+            }
+        }
+
+        EditPhotoActionButton {
             id:shareButton
             visible: parameters.sharing
             imagePath:"../images/share.png"
             onClicked: {
-                mbox.message = "Partage de la photo"
-                mbox.imageSource = "../images/share.png"
-                mbox.state = "show"
-                share_photo()
+
             }
         }
     }
@@ -186,7 +197,7 @@ Rectangle {
     }
 
     function sendPhotoToShareServer(url) {
-        shareScreen.state = "show"
+        //shareScreen.state = "show"
     }
 
     Connections {

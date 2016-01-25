@@ -21,7 +21,6 @@
         <file>resources/controls/CountdownLight.qml</file>
         <file>resources/sounds/beep-07.wav</file>
         <file>resources/sounds/beep-08b.wav</file>
-        <file>resources/sounds/camera-shutter-click-01.wav</file>
         <file>resources/renderer/PhotoShootRenderer.qml</file>
         <file>resources/controls/EditPhotoEffectControl.qml</file>
         <file>resources/controls/EditPhotoEffectButton.qml</file>
@@ -43,15 +42,8 @@
         <file>resources/images/Refuse-icon.png</file>
         <file>resources/images/paint_bucket.png</file>
         <file>resources/images/star.png</file>
-        <file>resources/sounds/bip1.mp3</file>
-        <file>resources/sounds/bip2.mp3</file>
-        <file>resources/sounds/bip3.mp3</file>
-        <file>resources/sounds/bip4.mp3</file>
-        <file>resources/sounds/photo.mp3</file>
         <file>resources/sounds/bip1.wav</file>
         <file>resources/sounds/bip2.wav</file>
-        <file>resources/sounds/bip3.wav</file>
-        <file>resources/sounds/bip4.wav</file>
         <file>resources/sounds/photo.wav</file>
         <file>resources/font/FontAwesome.otf</file>
         <file>resources/controls/InputPanel.qml</file>
@@ -126,5 +118,7 @@
         <file>resources/controls/ShareScreen.qml</file>
         <file>resources/controls/createWebview.js</file>
         <file>resources/controls/MyWebEngineProfile.qml</file>
+        <file>resources/controls/MailScreen.qml</file>
+        <file>resources/images/mail.png</file>
     </qresource>
 </RCC>

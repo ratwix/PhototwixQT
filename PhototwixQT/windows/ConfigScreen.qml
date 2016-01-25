@@ -22,6 +22,9 @@ Rectangle {
         anchors.fill: parent
     }
 
+
+    state: "FULL"
+
     //Actions
     Column {
         id: col1
@@ -249,49 +252,6 @@ Rectangle {
                font.pixelSize: 15
                visible: admin
            }
-
-           /*
-           ListView {
-               id:resolutionList
-               visible: admin
-               width:300
-               height: 200
-               highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-               snapMode:ListView.SnapOneItem
-               highlightRangeMode :ListView.ApplyRange
-               model: takePhotoScreen.resolution
-               delegate: Item {
-                   height: 20
-                   width:300
-                   Text {
-                       height: 20
-                       width:300
-                       color:"black"
-                       text:   modelData.width + "x" + modelData.height + " (" + Math.round((modelData.width / modelData.height) * 100) / 100 + ")"
-                       MouseArea {
-                           anchors.fill: parent
-                           onClicked: {
-
-                               //takePhotoScreen.camera.viewfinder.resolution = Qt.size(modelData.width, modelData.height);
-                               //takePhotoScreen.cameraVideoOutput.height = modelData.height
-                               //takePhotoScreen.cameraVideoOutput.width = modelData.width
-
-                               resolutionList.currentIndex = index;
-                               parameters.cameraHeight = modelData.height
-                               parameters.cameraWidth = modelData.width
-                               takePhotoScreen.camera.start()
-                           }
-                       }
-                   }
-
-                   Component.onCompleted: {
-                       if ((modelData.height == parameters.cameraHeight) && (modelData.width == parameters.cameraWidth)) {
-                           resolutionList.currentIndex = index;
-                       }
-                   }
-               }
-           }
-           */
         }
 
         Row {
@@ -335,7 +295,17 @@ Rectangle {
             }
         }
 
+        Row {
+            anchors.left: parent.left
+            spacing: 10
 
+            ButtonImage {
+                label:"Mail"
+                onClicked: {
+                    configScreen.state = "MAIL"
+                }
+            }
+        }
 
         Row {
             anchors.left: parent.left
@@ -382,6 +352,7 @@ Rectangle {
             */
         }
 
+        /* Active if sharing via website : deprecated
         Row {
             anchors.left: parent.left
             spacing: 10
@@ -434,6 +405,8 @@ Rectangle {
                 }
             }
         }
+        */
+
 
         Row {
             anchors.left: parent.left
@@ -635,6 +608,8 @@ Rectangle {
         delegate: fileDelegate
     }
 
+
+
     Rectangle {
         id:homeButton
         anchors.right: parent.right
@@ -663,6 +638,216 @@ Rectangle {
         }
     }
 
+    Rectangle {
+        id:mailRectangle
+        anchors.fill: parent
+        color: "#D0AAAAAA"
+        visible: false
+
+        MouseArea {
+            anchors { fill: parent;  }
+            onClicked: {}
+        }
+
+        Column {
+            id: mailCol
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top + 10
+            width: parent.width / 2
+            spacing: 5
+                Row {
+                    anchors.left: parent.left
+                    spacing: 10
+
+                    Label {
+                        id:mailLabel
+                        height: 30
+                        text: "Mail :"
+                        font.pixelSize: 15
+                    }
+
+                    Switch {
+                        id:mailActive
+
+                        Component.onCompleted: {
+                            checked = parameters.mailActive;
+                        }
+                    }
+                }
+
+                Row {
+                    anchors.left: parent.left
+                    spacing: 10
+                    visible: admin
+
+                    Label {
+                        id:fromMailLabel
+                        height: 30
+                        text: "Mail From :"
+                        font.pixelSize: 15
+                    }
+
+                    TextField {
+                        id:mailFrom
+
+                        width: 300
+                        placeholderText: qsTr("From")
+                        Component.onCompleted: {
+                            text = parameters.mailFrom;
+                        }
+                    }
+                }
+
+                Row {
+                    anchors.left: parent.left
+                    spacing: 10
+
+                    Label {
+                        id:ccMailLabel
+                        height: 30
+                        text: "Mail Cc :"
+                        font.pixelSize: 15
+                    }
+
+                    TextField {
+                        id:mailCc
+                        width: 300
+                        placeholderText: qsTr("Cc")
+                        Component.onCompleted: {
+                            text = parameters.mailCc;
+                        }
+                    }
+                }
+
+                Row {
+                    anchors.left: parent.left
+                    spacing: 10
+
+                    Label {
+                        id:bccMailLabel
+                        height: 30
+                        text: "Mail Bcc :"
+                        font.pixelSize: 15
+                    }
+
+                    TextField {
+                        id:mailBcc
+                        width: 300
+                        placeholderText: qsTr("Bcc")
+                        Component.onCompleted: {
+                            text = parameters.mailBcc;
+                        }
+                    }
+                }
+
+                Row {
+                    anchors.left: parent.left
+                    spacing: 10
+                    visible: admin
+
+                    Label {
+                        height: 30
+                        text: "SMTP :"
+                        font.pixelSize: 15
+                    }
+
+                    TextField {
+                        id:mailSmtp
+                        visible: admin
+                        width: 300
+                        placeholderText: qsTr("Smtp")
+                        Component.onCompleted: {
+                            text = parameters.mailSmtp;
+                        }
+                    }
+
+                    TextField {
+                        id:mailPort
+                        visible: admin
+                        width: 50
+                        placeholderText: qsTr("Port")
+                        Component.onCompleted: {
+                            text = parameters.mailPort;
+                        }
+                    }
+
+                    TextField {
+                        id:mailUsername
+                        visible: admin
+                        width: 150
+                        placeholderText: qsTr("User")
+                        Component.onCompleted: {
+                            text = parameters.mailUsername;
+                        }
+                    }
+
+                    TextField {
+                        id:mailPassword
+                        visible: admin
+                        width: 150
+                        placeholderText: qsTr("Password")
+                        Component.onCompleted: {
+                            text = parameters.mailPassword;
+                        }
+                    }
+                }
+
+                Row {
+                    anchors.left: parent.left
+                    spacing: 10
+
+                    ButtonImage {
+                        label:"Sauvegarder"
+                        visible: admin
+                        onClicked: {
+                            parameters.mailFrom = mailFrom.text
+                            parameters.mailCc = mailCc.text
+                            parameters.mailBcc = mailBcc.text
+                            parameters.mailSmtp = mailSmtp.text
+                            parameters.mailPort = mailPort.text
+                            parameters.mailUsername = mailUsername.text
+                            parameters.mailPassword = mailPassword.text
+                            parameters.mailActive = mailActive.checked
+                            parameters.Serialize();
+                            configScreen.state = "FULL"
+                        }
+                    }
+
+                    ButtonImage {
+                        label:"Annuler"
+                        visible: admin
+                        onClicked: {
+                            mailFrom.text = parameters.mailFrom
+                            mailCc.text = parameters.mailCc
+                            mailBcc.text = parameters.mailBcc
+                            mailSmtp.text = parameters.mailSmtp
+                            mailPort.text = parameters.mailPort
+                            mailUsername.text = parameters.mailUsername
+                            mailPassword.text = parameters.mailPassword
+                            mailActive.checked = parameters.mailActive
+                            configScreen.state = "FULL"
+                        }
+                    }
+                }
+            }
+
+        InputPanel {
+            id:keyboard
+            state:"SHOW"
+
+            onEsc: {
+                configScreen.state = "FULL"
+            }
+
+            onEnter: {
+
+            }
+        }
+
+    }
+
+
+
     MessageScreen {
         id:mbox
     }
@@ -670,4 +855,20 @@ Rectangle {
     ConfirmScreen {
         id:cbox
     }
+
+
+    states: [
+        State {
+            name: "FULL"
+        },
+
+        State {
+            name: "MAIL"
+            PropertyChanges { target: keyboard; state:"SHOW"}
+            PropertyChanges { target: mailRectangle; visible:true}
+
+        }
+    ]
+
+
 }

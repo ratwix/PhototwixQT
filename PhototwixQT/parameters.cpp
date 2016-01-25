@@ -192,6 +192,14 @@ void Parameters::init() {
     createFolders();
     m_photogallery = new PhotoGallery();
     m_photogallery->setApplicationDirPath(m_applicationDirPath);
+    m_mailActive = false;
+    m_mailFrom = "";
+    m_mailCc = "";
+    m_mailBcc = "";
+    m_mailSmtp = "";
+    m_mailPort = "";
+    m_mailUsername = "";
+    m_mailPassword = "";
 
     Unserialize();
 
@@ -318,6 +326,30 @@ void Parameters::Serialize() {
 
         writer.Key("eventCode");
         writer.String(m_eventCode.toStdString().c_str());
+
+        writer.Key("mailActive");
+        writer.Bool(m_mailActive);
+
+        writer.Key("mailFrom");
+        writer.String(m_mailFrom.toStdString().c_str());
+
+        writer.Key("mailCc");
+        writer.String(m_mailCc.toStdString().c_str());
+
+        writer.Key("mailBcc");
+        writer.String(m_mailBcc.toStdString().c_str());
+
+        writer.Key("mailSmtp");
+        writer.String(m_mailSmtp.toStdString().c_str());
+
+        writer.Key("mailPort");
+        writer.String(m_mailPort.toStdString().c_str());
+
+        writer.Key("mailUsername");
+        writer.String(m_mailUsername.toStdString().c_str());
+
+        writer.Key("mailPassword");
+        writer.String(m_mailPassword.toStdString().c_str());
 
         m_arduino->setPhotoPrice(m_pricephoto);
         m_arduino->setNbPhotoFree(m_nbfreephotos);
@@ -494,6 +526,38 @@ void Parameters::Unserialize() {
 
     if (document.HasMember("eventCode")) {
         m_eventCode = QString(document["eventCode"].GetString());
+    }
+
+    if (document.HasMember("mailActive")) {
+        m_mailActive = document["mailActive"].GetBool();
+    }
+
+    if (document.HasMember("mailFrom")) {
+        m_mailFrom = QString(document["mailFrom"].GetString());
+    }
+
+    if (document.HasMember("mailCc")) {
+        m_mailCc = QString(document["mailCc"].GetString());
+    }
+
+    if (document.HasMember("mailBcc")) {
+        m_mailBcc = QString(document["mailBcc"].GetString());
+    }
+
+    if (document.HasMember("mailSmtp")) {
+        m_mailSmtp = QString(document["mailSmtp"].GetString());
+    }
+
+    if (document.HasMember("mailPort")) {
+        m_mailPort = QString(document["mailPort"].GetString());
+    }
+
+    if (document.HasMember("mailUsername")) {
+        m_mailUsername = QString(document["mailUsername"].GetString());
+    }
+
+    if (document.HasMember("mailPassword")) {
+        m_mailPassword = QString(document["mailPassword"].GetString());
     }
 
     if (document.HasMember("templates")) {
@@ -771,6 +835,102 @@ void Parameters::setEventCode(const QString &eventCode)
     m_eventCode = eventCode;
     Serialize();
     emit eventCodeChanged();
+}
+
+bool Parameters::getMailActive() const
+{
+    return m_mailActive;
+}
+
+void Parameters::setMailActive(bool mailActive)
+{
+    m_mailActive = mailActive;
+    Serialize();
+    emit mailChange();
+}
+
+QString Parameters::getMailFrom() const
+{
+    return m_mailFrom;
+}
+
+void Parameters::setMailFrom(const QString &mailFrom)
+{
+    m_mailFrom = mailFrom;
+    Serialize();
+    emit mailChange();
+}
+
+QString Parameters::getMailCc() const
+{
+    return m_mailCc;
+}
+
+void Parameters::setMailCc(const QString &mailCc)
+{
+    m_mailCc = mailCc;
+    Serialize();
+    emit mailChange();
+}
+
+QString Parameters::getMailBcc() const
+{
+    return m_mailBcc;
+}
+
+void Parameters::setMailBcc(const QString &mailBcc)
+{
+    m_mailBcc = mailBcc;
+    Serialize();
+    emit mailChange();
+}
+
+QString Parameters::getMailSmtp() const
+{
+    return m_mailSmtp;
+}
+
+void Parameters::setMailSmtp(const QString &mailSmtp)
+{
+    m_mailSmtp = mailSmtp;
+    Serialize();
+    emit mailChange();
+}
+
+QString Parameters::getMailPort() const
+{
+    return m_mailPort;
+}
+
+void Parameters::setMailPort(const QString &mailPort)
+{
+    m_mailPort = mailPort;
+    Serialize();
+    emit mailChange();
+}
+
+QString Parameters::getMailUsername() const
+{
+    return m_mailUsername;
+}
+
+void Parameters::setMailUsername(const QString &mailUsername)
+{
+    m_mailUsername = mailUsername;
+    Serialize();
+    emit mailChange();
+}
+
+QString Parameters::getMailPassword() const
+{
+    return m_mailPassword;
+}
+
+void Parameters::setMailPassword(const QString &mailPassword)
+{
+    m_mailPassword = mailPassword;
+    Serialize();
+    emit mailChange();
 }
 
 

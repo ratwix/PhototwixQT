@@ -60,12 +60,12 @@ Rectangle {
         }
         visible: galleryControl.state == "stacked"
     }
-
+/*
     ShareScreen {
         id:shareScreen
         state:"hide"
     }
-
+*/
     MessageScreen {
         id:mbox
     }
@@ -83,6 +83,16 @@ Rectangle {
         onSuccessAdmin: {
             configScreen.admin = true
             mainRectangle.state = "CONFIG"
+        }
+    }
+
+    MailScreen {
+        id: mailScreen
+        onSuccess: {
+
+        }
+        onFailed: {
+
         }
     }
 }

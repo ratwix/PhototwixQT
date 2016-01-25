@@ -1,6 +1,7 @@
 TEMPLATE = app
 
-QT += qml quick widgets serialport concurrent core webengine
+QT += qml quick widgets serialport concurrent core
+# webengine
 
 SOURCES += main.cpp \
     template.cpp \
@@ -15,7 +16,8 @@ SOURCES += main.cpp \
     arduino.cpp \
     keyemitter.cpp \
     cameraworker.cpp \
-    base64.cpp
+    base64.cpp \
+    mail.cpp
 
 RESOURCES += qml.qrc
 
@@ -27,7 +29,8 @@ include(deployment.pri)
 
 QMAKE_CXXFLAGS += -std=c++11
 
-LIBS=-lgphoto2 -lgphoto2_port
+LIBS=-lgphoto2 -lgphoto2_port -lvmime
+
 
 HEADERS += \
     template.h \
@@ -70,11 +73,13 @@ HEADERS += \
     arduino.h \
     keyemitter.h \
     cameraworker.h \
-    base64.h
+    base64.h \
+    mail.h
 
 DISTFILES += \
     print/get_printer_reg.bat \
-    print/print.bat
+    print/print.bat \
+    TODO
 
 OTHER_FILES += \
     print/print.sh
