@@ -796,9 +796,51 @@ Rectangle {
                     anchors.left: parent.left
                     spacing: 10
 
+                    Label {
+                        id:mailSubjectLabel
+                        height: 30
+                        text: "Sujet :"
+                        font.pixelSize: 15
+                    }
+
+                    TextField {
+                        id:mailSubject
+                        width: 300
+                        placeholderText: qsTr("Subject")
+                        Component.onCompleted: {
+                            text = parameters.mailSubject;
+                        }
+                    }
+                }
+
+                Row {
+                    anchors.left: parent.left
+                    spacing: 10
+
+                    Label {
+                        id:mailContentLabel
+                        height: 30
+                        text: "Contenu :"
+                        font.pixelSize: 15
+                    }
+
+                    TextArea {
+                        id:mailContent
+                        width: 300
+                        height: 200
+                        Component.onCompleted: {
+                            text = parameters.mailContent;
+                        }
+                    }
+                }
+
+                Row {
+                    anchors.left: parent.left
+                    spacing: 10
+
                     ButtonImage {
                         label:"Sauvegarder"
-                        visible: admin
+
                         onClicked: {
                             parameters.mailFrom = mailFrom.text
                             parameters.mailCc = mailCc.text
@@ -807,6 +849,8 @@ Rectangle {
                             parameters.mailPort = mailPort.text
                             parameters.mailUsername = mailUsername.text
                             parameters.mailPassword = mailPassword.text
+                            parameters.mailSubject = mailSubject.text
+                            parameters.mailContent = mailContent.text
                             parameters.mailActive = mailActive.checked
                             parameters.Serialize();
                             configScreen.state = "FULL"
@@ -815,7 +859,6 @@ Rectangle {
 
                     ButtonImage {
                         label:"Annuler"
-                        visible: admin
                         onClicked: {
                             mailFrom.text = parameters.mailFrom
                             mailCc.text = parameters.mailCc
@@ -824,6 +867,8 @@ Rectangle {
                             mailPort.text = parameters.mailPort
                             mailUsername.text = parameters.mailUsername
                             mailPassword.text = parameters.mailPassword
+                            mailSubject.text = parameters.mailSubject
+                            mailContent.text = parameters.mailContent
                             mailActive.checked = parameters.mailActive
                             configScreen.state = "FULL"
                         }

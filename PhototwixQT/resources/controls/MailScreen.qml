@@ -44,7 +44,8 @@ Rectangle {
         //height: parent.height * 0.4
         anchors.top: parent.top
         anchors.topMargin: 250
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 30
         fontSizeMode :  Text.Fit
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -56,9 +57,10 @@ Rectangle {
 
     TextInput {
         id:mailInput
-        width: 400
+
         height: textLabel.height
         anchors.left: textLabel.right
+        anchors.right: mailScreen.right
         anchors.top: textLabel.top
         anchors.leftMargin: 30
         echoMode: TextInput.Normal
@@ -82,8 +84,7 @@ Rectangle {
         }
         onEnter: {
             mail.sendMail(mailInput.text, currentPhoto.finalResultS)
-
-            //mailScreen.state = "hide"
+            mailScreen.state = "hide"
             //mailScreen.success()
 
         }

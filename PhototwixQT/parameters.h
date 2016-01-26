@@ -52,6 +52,8 @@ class Parameters : public QObject
     Q_PROPERTY(QString mailPort READ getMailPort WRITE setMailPort NOTIFY mailChange)
     Q_PROPERTY(QString mailUsername READ getMailUsername WRITE setMailUsername NOTIFY mailChange)
     Q_PROPERTY(QString mailPassword READ getMailPassword WRITE setMailPassword NOTIFY mailChange)
+    Q_PROPERTY(QString mailSubject READ getMailSubject WRITE setMailSubject NOTIFY mailChange)
+    Q_PROPERTY(QString mailContent READ getMailContent WRITE setMailContent NOTIFY mailChange)
 
 
 
@@ -162,6 +164,12 @@ public:
     QString getMailPassword() const;
     void setMailPassword(const QString &mailPassword);
 
+    QString getMailSubject() const;
+    void setMailSubject(const QString &mailSubject);
+
+    void setMailContent(const QString &mailContent);
+    QString getMailContent() const;
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -192,6 +200,8 @@ private:
     QString              m_mailPort;
     QString              m_mailUsername;
     QString              m_mailPassword;
+    QString              m_mailSubject;
+    QString              m_mailContent;
 
 
     void addTemplate(QString name);

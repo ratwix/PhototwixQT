@@ -29,7 +29,7 @@ include(deployment.pri)
 
 QMAKE_CXXFLAGS += -std=c++11
 
-LIBS=-lgphoto2 -lgphoto2_port -lvmime
+LIBS=-lgphoto2 -lgphoto2_port -L/usr/local/lib -lvmime
 
 
 HEADERS += \

@@ -200,6 +200,8 @@ void Parameters::init() {
     m_mailPort = "";
     m_mailUsername = "";
     m_mailPassword = "";
+    m_mailSubject = "";
+    m_mailContent = "";
 
     Unserialize();
 
@@ -350,6 +352,12 @@ void Parameters::Serialize() {
 
         writer.Key("mailPassword");
         writer.String(m_mailPassword.toStdString().c_str());
+
+        writer.Key("mailSubject");
+        writer.String(m_mailSubject.toStdString().c_str());
+
+        writer.Key("mailContent");
+        writer.String(m_mailContent.toStdString().c_str());
 
         m_arduino->setPhotoPrice(m_pricephoto);
         m_arduino->setNbPhotoFree(m_nbfreephotos);
@@ -558,6 +566,14 @@ void Parameters::Unserialize() {
 
     if (document.HasMember("mailPassword")) {
         m_mailPassword = QString(document["mailPassword"].GetString());
+    }
+
+    if (document.HasMember("mailSubject")) {
+        m_mailSubject = QString(document["mailSubject"].GetString());
+    }
+
+    if (document.HasMember("mailContent")) {
+        m_mailContent = QString(document["mailContent"].GetString());
     }
 
     if (document.HasMember("templates")) {
@@ -931,6 +947,30 @@ void Parameters::setMailPassword(const QString &mailPassword)
     m_mailPassword = mailPassword;
     Serialize();
     emit mailChange();
+}
+
+QString Parameters::getMailSubject() const
+{
+    return m_mailSubject;
+}
+
+void Parameters::setMailSubject(const QString &mailSubject)
+{
+    m_mailSubject = mailSubject;
+    Serialize();
+    emit mailChange();
+}
+
+void Parameters::setMailContent(const QString &mailContent)
+{
+    m_mailContent = mailContent;
+    Serialize();
+    emit mailChange();
+}
+
+QString Parameters::getMailContent() const
+{
+    return m_mailContent;
 }
 
 

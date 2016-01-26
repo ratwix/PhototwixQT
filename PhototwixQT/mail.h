@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <parameters.h>
+#include <vmime/vmime.hpp>
 
 class Mail : public QObject
 {
@@ -16,6 +17,7 @@ public:
     Q_INVOKABLE void sendMail(QString mail, QString photoPath);
 private:
     Parameters *m_parameters;
+    vmime::shared_ptr <vmime::net::session> m_session;
 
 signals:
     void mailSend();
