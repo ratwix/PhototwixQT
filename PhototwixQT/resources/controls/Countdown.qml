@@ -119,7 +119,7 @@ Rectangle {
         }
     }
 
-    Timer { //TODO : integrer le timer a Countdown et emettre des signaux onStart et onFinish
+    Timer {
         id:timer
         interval: 50; running: false; repeat: true; triggeredOnStart: true
 
@@ -134,10 +134,9 @@ Rectangle {
         }
 
         onTriggered: {
-            var nbSec = Math.round(((Date.now() - initialTime) / 1000))
+            var nbSec = Math.round(((Date.now() - initialTime) / parameters.countdownDelay))
 
             countdown.updateStatus(nbSec)
-
 
             if (nbSec == 4) {
                 timer.stop()

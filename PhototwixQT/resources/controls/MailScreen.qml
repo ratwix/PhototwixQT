@@ -55,6 +55,23 @@ Rectangle {
         font.pixelSize: 80
     }
 
+    Text {
+        id:sendLabel
+        width: 300
+        visible: false
+        //height: parent.height * 0.4
+        anchors.bottomMargin: 20
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        fontSizeMode :  Text.Fit
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        color: "white"
+        text:"Envoi en cours"
+        minimumPixelSize: 30
+        font.pixelSize: 80
+    }
+
     TextInput {
         id:mailInput
 
@@ -72,6 +89,7 @@ Rectangle {
 
     onStateChanged: {
         if (state == "show") {
+            mailInput.text = ""
             mailInput.forceActiveFocus()
         }
     }
@@ -83,10 +101,9 @@ Rectangle {
             mailScreen.state = "hide"
         }
         onEnter: {
+            mailScreen.state = "send"
             mail.sendMail(mailInput.text, currentPhoto.finalResultS)
             mailScreen.state = "hide"
-            //mailScreen.success()
-
         }
     }
 
@@ -97,6 +114,12 @@ Rectangle {
         State {
             name: "show"
             PropertyChanges { target: mailScreen; opacity: 1.0}
+        },
+        State {
+            name: "send"
+            extend: "show"
+            PropertyChanges { target: sendLabel; visible: true}
+            PropertyChanges { target: keyboard; state: "HIDE"}
         }
 
     ]

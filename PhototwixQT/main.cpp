@@ -28,10 +28,10 @@ int main(int argc, char *argv[])
     KeyEmitter            keyEmitter;
     Base64                base64;
     CameraWorker          *cameraWorker;
-    Mail                  mail;
+    Mail                  mail(&parameters);
 
 
-    mail.setParameters(&parameters);
+    //mail.setParameters(&parameters);
     cameraWorker = new CameraWorker();
 
 //    QtWebEngine::initialize();

@@ -124,11 +124,10 @@ Item {
             if (root.state == "")
             {
                 root.state = "REPEATING"
-                console.debug("switching to repeating");
             }
             else if (root.state == "REPEATING")
             {
-                console.debug("repeating");
+
             }
 
             if (!functionKey)
@@ -157,7 +156,6 @@ Item {
 
     onReleased: {
         state = ""
-        console.debug("onReleased - functionKey = " + text)
         if (!functionKey)
         {
             keyEmitter.emitKey(text)

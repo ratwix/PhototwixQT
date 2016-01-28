@@ -1,9 +1,19 @@
 #include <QFileInfo>
+#include <QDate>
+#include "common.h"
 #include "mail.h"
 #include "clog.h"
 
+
 Mail::Mail(QObject *parent) : QObject(parent)
 {
+
+}
+
+Mail::Mail(Parameters *p)
+{
+    m_parameters = p;
+    m_mail_path = m_parameters->getApplicationDirPath().toString() + "/contact_mails.csv";
     m_session = vmime::make_shared <vmime::net::session>();
 }
 
@@ -19,6 +29,19 @@ void Mail::setParameters(Parameters *parameters)
 
 void Mail::sendMail(QString mail, QString photoPath)
 {
+    //Write address to file
+    try {
+        QFile file(m_mail_path);
+        if ( file.open(QIODevice::Append) )
+        {
+            QTextStream stream( &file );
+            stream <<  QDateTime::currentDateTime().toString("dd.MM.yyyy_hh:mm:ss") << ";" << mail << ";" << QFileInfo(photoPath).fileName() << endl;
+        }
+        file.close();
+    } catch (std::exception& e) {
+        CLog::Write(CLog::Error, e.what());
+    }
+
 
     try {
          //CLog::Write(CLog::Debug, "Envoie du mail" + mail.toStdString() + " photo:" + photoPath.toStdString());
@@ -86,6 +109,27 @@ void Mail::sendMail(QString mail, QString photoPath)
         std::cerr << std::endl;
         std::cerr << "std::exception: " << e.what() << std::endl;
         emit mailFailed();
+    }
+}
+
+void Mail::saveMail(QUrl url)
+{
+    QFile file(m_mail_path);
+    if (file.exists()) {
+        file.copy(url.toString() + "/contact_mail.csv");
+    }
+}
+
+void Mail::resetMail()
+{
+    try {
+        QFile file(m_mail_path);
+        if (file.exists()) {
+            file.remove();
+        }
+
+    } catch (std::exception& e) {
+        CLog::Write(CLog::Error, e.what());
     }
 }
 

@@ -54,6 +54,7 @@ class Parameters : public QObject
     Q_PROPERTY(QString mailPassword READ getMailPassword WRITE setMailPassword NOTIFY mailChange)
     Q_PROPERTY(QString mailSubject READ getMailSubject WRITE setMailSubject NOTIFY mailChange)
     Q_PROPERTY(QString mailContent READ getMailContent WRITE setMailContent NOTIFY mailChange)
+    Q_PROPERTY(int countdownDelay READ getCountdownDelay WRITE setCountdownDelay NOTIFY countdownDelayChange)
 
 
 
@@ -170,6 +171,9 @@ public:
     void setMailContent(const QString &mailContent);
     QString getMailContent() const;
 
+    int getCountdownDelay() const;
+    void setCountdownDelay(int countdownDelay);
+
 private:
     QList<QObject*>      m_templates;
     QList<QObject*>      m_activesTemplates;
@@ -202,6 +206,7 @@ private:
     QString              m_mailPassword;
     QString              m_mailSubject;
     QString              m_mailContent;
+    int                  m_countdownDelay;
 
 
     void addTemplate(QString name);
@@ -235,6 +240,7 @@ signals:
     void sharingBaseUrlChanged();
     void eventCodeChanged();
     void mailChange();
+    void countdownDelayChange();
 };
 
 #endif // CPARAMETERS_H

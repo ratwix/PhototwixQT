@@ -99,12 +99,12 @@ Rectangle {
     }
 
     function home() {
-        console.debug("home")
+
         applicationWindows.resetStates()
     }
 
     function delete_photo() {
-        console.debug("delete")
+
         if (state == "viewPhoto") {
             var name = parameters.photoGallery.photoList[photosGridView.currentIndex].name;
             console.debug("Delete1 " + name);

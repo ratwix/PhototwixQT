@@ -202,6 +202,7 @@ void Parameters::init() {
     m_mailPassword = "";
     m_mailSubject = "";
     m_mailContent = "";
+    m_countdownDelay = 1000;
 
     Unserialize();
 
@@ -358,6 +359,9 @@ void Parameters::Serialize() {
 
         writer.Key("mailContent");
         writer.String(m_mailContent.toStdString().c_str());
+
+        writer.Key("countdownDelay");
+        writer.Int(m_countdownDelay);
 
         m_arduino->setPhotoPrice(m_pricephoto);
         m_arduino->setNbPhotoFree(m_nbfreephotos);
@@ -574,6 +578,10 @@ void Parameters::Unserialize() {
 
     if (document.HasMember("mailContent")) {
         m_mailContent = QString(document["mailContent"].GetString());
+    }
+
+    if (document.HasMember("countdownDelay")) {
+        m_countdownDelay = document["countdownDelay"].GetInt();
     }
 
     if (document.HasMember("templates")) {
@@ -971,6 +979,18 @@ void Parameters::setMailContent(const QString &mailContent)
 QString Parameters::getMailContent() const
 {
     return m_mailContent;
+}
+
+int Parameters::getCountdownDelay() const
+{
+    return m_countdownDelay;
+}
+
+void Parameters::setCountdownDelay(int countdownDelay)
+{
+    m_countdownDelay = countdownDelay;
+    Serialize();
+    emit countdownDelayChange();
 }
 
 

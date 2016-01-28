@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtMultimedia 5.4
 
+
 import "../resources/controls"
 
 
@@ -187,6 +188,28 @@ Rectangle {
 
            Label {
                height: 30
+               text: "Delais photos"
+               font.pixelSize: 15
+           }
+
+           Slider {
+               id:countdownSlider
+               minimumValue: 1000
+               maximumValue: 4000
+               stepSize: 500
+               tickmarksEnabled: true
+               updateValueWhileDragging: false
+               onValueChanged: {
+                   parameters.countdownDelay = value;
+               }
+
+               Component.onCompleted: {
+                   value = parameters.countdownDelay;
+               }
+           }
+
+           Label {
+               height: 30
                text: "Volume"
                font.pixelSize: 15
            }
@@ -252,6 +275,50 @@ Rectangle {
                font.pixelSize: 15
                visible: admin
            }
+
+           Row {
+               spacing: 10
+
+               TextField {
+                   id:editCameraHeight
+
+                   Component.onCompleted: {
+                       text = parameters.cameraHeight;
+                   }
+               }
+
+               Label {
+                   text:"x"
+               }
+
+               TextField {
+                   id:editCameraWidth
+
+                   Component.onCompleted: {
+                       text = parameters.cameraWidth;
+                   }
+               }
+
+               Label {
+                   text:" (ratio:" + Math.round((parameters.cameraWidth / parameters.cameraHeight) * 100) / 100 + ")"
+               }
+
+               ButtonImage {
+                   label:"Save Res"
+                   onClicked: {
+                       parameters.cameraWidth = parseInt(editCameraWidth.text)
+                       parameters.cameraHeight = parseInt(editCameraHeight.text)
+                   }
+               }
+
+               ButtonImage {
+                   label:"Focus"
+                   onClicked: {
+                       timerPhotoPreview.start()
+                       configScreen.state = "FOCUS"
+                   }
+               }
+           }
         }
 
         Row {
@@ -284,10 +351,11 @@ Rectangle {
                 visible: admin
                 onClicked: {
                     console.debug("Reset photos & delete");
-                    cbox.message = "Vider la gallerie et supprimer les photos ?"
+                    cbox.message = "Vider la gallerie et supprimer les photos et mails ?"
                     cbox.acceptFunction = function () {
+                        mail.resetMail();
                         parameters.clearGalleryDeleteImages();
-                        mbox.message = "La gallerie et les photos ont étés effacés"
+                        mbox.message = "La gallerie les photos et mes mailsont étés effacés"
                         mbox.state = "show"
                     }
                     cbox.state = "show"
@@ -303,6 +371,14 @@ Rectangle {
                 label:"Mail"
                 onClicked: {
                     configScreen.state = "MAIL"
+                }
+            }
+
+            ButtonImage {
+                label:"Sauvegarder Mails"
+                visible: admin
+                onClicked: {
+                    saveMail.open()
                 }
             }
         }
@@ -413,6 +489,26 @@ Rectangle {
             spacing: 10
 
             ButtonImage {
+                label:"Importer des visuels"
+                onClicked: {
+                    importTemplateFileDialog.open()
+                }
+            }
+
+            ButtonImage {
+                id:buttonBackground
+                label:"Fond d'écran"
+                onClicked: {
+                    importBackgroundFileDialog.open()
+                }
+            }
+        }
+
+        Row {
+            anchors.left: parent.left
+            spacing: 10
+
+            ButtonImage {
                 //anchors.left: parent.left
                 label:"Quitter"
                 onClicked: {
@@ -437,6 +533,7 @@ Rectangle {
             visible:false
             selectMultiple: true
             selectExisting: true
+            modality: Qt.NonModal
             nameFilters: [ "Images (*.jpg *.png)" ]
             onAccepted: {
                 console.debug("Add templates: " + importTemplateFileDialog.fileUrls);
@@ -453,6 +550,7 @@ Rectangle {
             visible:false
             selectMultiple: false
             selectExisting: true
+            modality: Qt.NonModal
             nameFilters: [ "Images (*.jpg *.png)" ]
             onAccepted: {
                 parameters.changeBackground(importBackgroundFileDialog.fileUrl);
@@ -467,8 +565,23 @@ Rectangle {
             selectMultiple: false
             selectFolder: true
             selectExisting: true
+            modality: Qt.NonModal
             onAccepted: {
                 parameters.photoGallery.saveGallery(saveGallerie.fileUrl, copySingle.checked, copyDeleted.checked, copyDeletedSingle.checked);
+            }
+        }
+
+        FileDialog {
+            id: saveMail
+            title: "Sauvegarde mails"
+            folder: shortcuts.home
+            visible:false
+            selectMultiple: false
+            selectFolder: true
+            selectExisting: true
+            modality: Qt.NonModal
+            onAccepted: {
+                mail.saveMail(saveMail.fileUrl);
             }
         }
     }
@@ -891,7 +1004,71 @@ Rectangle {
 
     }
 
+    Rectangle {
+        id: focusRectangle
 
+        anchors.fill: parent
+        color: "#D0AAAAAA"
+        visible: false
+
+        MouseArea {
+            anchors { fill: parent;  }
+            onClicked: {}
+        }
+
+
+        Image {
+            id: cameraFocusOutput
+            source:"image://camerapreview/1"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height * 0.6
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Timer {
+            id: timerPhotoPreview
+            interval: 100;
+            running: false;
+            repeat: true
+            onTriggered: {
+                cameraWorker.capturePreview();
+                cameraFocusOutput.source = "image://camerapreview/" + Math.random();
+                // change URL to refresh image. Add random URL part to avoid caching
+            }
+        }
+
+        Rectangle {
+            anchors.right: parent.right
+            anchors.top : parent.top
+            anchors.rightMargin: 10
+            anchors.topMargin: 10
+            height: 60
+            width: 60
+            color:"#212126"
+            radius:height / 7
+
+            Image {
+                antialiasing: true
+                smooth: true
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height * 0.6
+                fillMode: Image.PreserveAspectFit
+                source:"../resources/images/home.png"
+            }
+
+            MouseArea {
+                anchors { fill: parent;  }
+                onClicked: {
+                    timerPhotoPreview.stop()
+                    cameraWorker.closeCamera();
+                    configScreen.state = "FULL"
+                }
+            }
+        }
+
+    }
 
     MessageScreen {
         id:mbox
@@ -911,7 +1088,11 @@ Rectangle {
             name: "MAIL"
             PropertyChanges { target: keyboard; state:"SHOW"}
             PropertyChanges { target: mailRectangle; visible:true}
+        },
 
+        State {
+            name: "FOCUS"
+            PropertyChanges { target: focusRectangle; visible:true}
         }
     ]
 
