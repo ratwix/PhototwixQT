@@ -70,6 +70,7 @@ public:
     Q_INVOKABLE void clearGallery();
     Q_INVOKABLE void clearGalleryDeleteImages();
     Q_INVOKABLE void addTemplateFromUrl(QUrl url);
+    Q_INVOKABLE void deleteTemplateFromName(QString name);
     Q_INVOKABLE void changeBackground(QUrl url);
     Q_INVOKABLE void updatePaperPrint();
     Q_INVOKABLE void haltSystem();

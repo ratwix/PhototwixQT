@@ -2,6 +2,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.2
 
 import "../resources/controls"
 
@@ -65,6 +66,30 @@ Rectangle {
                 {
                     parameters.Serialize();
                     mainRectangle.state = "CONFIG"
+                }
+            }
+
+            ButtonImage {
+                id: updateTemplate;
+                anchors.horizontalCenter: parent.horizontalCenter
+                label: "Changer image";
+                onClicked:
+                {
+                    updateTemplateFileDialog.open();
+                }
+            }
+
+            FileDialog {
+                id: updateTemplateFileDialog
+                title: "Mise à jour de de template"
+                folder: shortcuts.home
+                visible:false
+                selectMultiple: false
+                selectExisting: true
+                modality: Qt.NonModal
+                nameFilters: [ "Images (*.jpg *.png)" ]
+                onAccepted: {
+                    applicationWindows.currentEditedTemplate.updateImageFromUrl(updateTemplateFileDialog.fileUrl);
                 }
             }
         }

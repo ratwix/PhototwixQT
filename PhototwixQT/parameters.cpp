@@ -119,6 +119,33 @@ void Parameters::addTemplateFromUrl(QUrl url)
     }
 }
 
+void Parameters::deleteTemplateFromName(QString name)
+{
+    for (QList<QObject*>::const_iterator it = m_templates.begin(); it != m_templates.end(); it++) {
+        if (Template *t = dynamic_cast<Template*>(*it)) {
+            QString tname = t->getName();
+            if (tname == name) {
+                //Delete image file
+                QString furl = t->getUrl().toString();
+                if (furl.startsWith("file://")) {
+                    furl = furl.right(furl.length() - QString("file://").length());
+                }
+                if (!QFile::remove(furl)) {
+                    CLog::Write(CLog::Error, "Unable to delete file : " + t->getUrl().toString().toStdString());
+                }
+                //Delete template from library
+                m_templates.removeOne(*it);
+
+                //Serialize
+                Serialize();
+
+                //Update interface
+                emit templatesChanged();
+            }
+        }
+    }
+}
+
 void Parameters::changeBackground(QUrl url) {
     QFileInfo fileInf(url.toLocalFile());
     QString filename = fileInf.fileName();
@@ -604,6 +631,7 @@ void Parameters::createFolders()
     d.mkpath(QString(PHOTOSD_PATH));
     d.mkpath(QString(PHOTOSDS_PATH));
     d.mkpath(QString(BACKGROUND_PATH));
+    d.mkpath(QString(TEMPLATE_PATH));
 }
 
 static void delAllFileInDirectory(const char* p) {

@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <sstream>
 #include <QQmlEngine>
+#include <QFile>
 #include "template.h"
 
 Template::Template()
@@ -201,6 +202,24 @@ void Template::deleteTemplatePhotoPosition(int i)
             tpp->setNumber(i++);
         }
     }
+}
+
+void Template::updateImageFromUrl(QUrl source_url)
+{
+    QString source_url_s = source_url.toString();
+    QString targer_url_s = m_url.toString();
+
+    if (source_url_s.startsWith("file://")) {
+        source_url_s = source_url_s.right(source_url_s.length() - QString("file://").length());
+    }
+
+    if (targer_url_s.startsWith("file://")) {
+        targer_url_s = targer_url_s.right(targer_url_s.length() - QString("file://").length());
+    }
+
+    QFile::copy(source_url_s, targer_url_s);
+
+    emit urlChanged(m_url);
 }
 bool Template::getPrintcutter() const
 {

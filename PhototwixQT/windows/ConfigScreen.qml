@@ -711,6 +711,19 @@ Rectangle {
                             mainRectangle.state = "CONFIG_TEMPLATE"
                         }
                     }
+
+                    ButtonImage {
+                        visible: admin
+                        label: "Supprimer"
+                        onClicked: {
+                            console.debug("Delete template");
+                            cbox.message = "Supprimer ce visuel ?"
+                            cbox.acceptFunction = function () {
+                                parameters.deleteTemplateFromName(model.modelData.name);
+                            }
+                            cbox.state = "show"
+                        }
+                    }
                 }
 
             }
