@@ -12,7 +12,7 @@ Rectangle {
     height: parent.height
     width: parent.width
 
-    property var currentFrame: undefined
+    property var currentFrame: null
     property int currentFrameNumber : 0
 
     function updateTemplatePhotoPositionsRepeater() {

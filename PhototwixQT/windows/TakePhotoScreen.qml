@@ -125,70 +125,6 @@ Item {
         mbox.state = "show"
     }
 
-    /*
-
-    Camera {
-        id: camera
-        captureMode: Camera.CaptureStillImage
-
-        imageCapture {
-            resolution: parameters.cameraWidth + "x" + parameters.cameraHeight//  "1920x1080"
-
-            onImageSaved: {
-                var path = camera.imageCapture.capturedImagePath
-                applicationWindows.currentPhoto.photoPartList[p.currentPhoto].pathS = path; //TODO: bug, type conversion on linux date to string add qrc://
-                photoPartRepeater.itemAt(p.currentPhoto).endPhotoProcess(path)
-            }
-
-            onCaptureFailed: {
-                console.error("Capture error:" + message)
-                endGlobalPhotoProcessAfterError()
-            }
-        }
-
-        onCameraStatusChanged: {
-            if (cameraStatus == Camera.ActiveStatus) {
-
-                var fr = camera.supportedViewfinderFrameRateRanges();
-                frameRate = fr
-                console.debug("Frame rate : " + JSON.stringify(fr));
-
-
-                var res = camera.supportedViewfinderResolutions(15);
-                resolution = res
-                console.debug("Camera resolution : " + JSON.stringify(res));
-
-                if (!camera_ready) {
-                    camera.viewfinder.resolution = parameters.cameraWidth + "x" + parameters.cameraHeight  //Qt.size(res[res.length - 1].width, res[res.length - 1].height)
-                    camera_ready = true
-                }
-                //var cres = camera.viewfinder.resolution;  //Choose the best resolution available
-
-                applicationWindows.cameraRation = parameters.cameraWidth / parameters.cameraHeight;
-                p.cameraHeight = parameters.cameraHeight //cres.height
-                p.cameraWidth = parameters.cameraWidth //cres.width
-
-                console.debug("Current " + parameters.cameraWidth + "x" + parameters.cameraHeight + " ratio:" + applicationWindows.cameraRation);
-            }
-        }
-
-        onError: {
-            console.debug("Camera error:" + errorCode + " -- " + errorString)
-
-            if (errorCode == Camera.CameraError && errorString == "Unable to open camera") {
-                console.error("No camera connected");
-                //Qt.quit();
-            }
-        }
-    }
-
-    VideoOutput {
-            id: cameraVideoOutput
-            source: camera
-            visible: false
-    }
-
-    */
 
     //Connection to cameraWorker in C++
     Connections {
@@ -244,7 +180,7 @@ Item {
 
             DelegateModel {
                 id: photoPartModel
-                model:applicationWindows.currentPhoto ? applicationWindows.currentPhoto.photoPartList : undefined
+                model:applicationWindows.currentPhoto ? applicationWindows.currentPhoto.photoPartList : null
                 delegate: PhotoShootRenderer {
                     y: photoScreenTemplate.y + photoScreenTemplate.height * modelData.photoPosition.y
                     x: photoScreenTemplate.x + photoScreenTemplate.width * modelData.photoPosition.x + photoScreenTemplate.width * modelData.photoPosition.width * modelData.photoPosition.xphoto
@@ -336,6 +272,7 @@ Item {
         visible: false
     }
 
+    /*
     MessageScreen {
         id:mbox
     }
@@ -343,7 +280,7 @@ Item {
     ConfirmScreen {
         id:cbox
     }
-
+*/
 
     MailScreen {
         id: mailScreen

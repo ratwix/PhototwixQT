@@ -131,13 +131,11 @@ void KeyEmitter::emitKey(KeyEmitter::keyMesage k)
         return;
     }
 
-    std::cout << "Ca marche" << std::endl;
     QKeyEvent* pressEvent = new QKeyEvent(QEvent::KeyPress, k.key, k.modifiers, k.text);
     QKeyEvent* releaseEvent = new QKeyEvent(QEvent::KeyRelease, k.key, k.modifiers);
     QCoreApplication::sendEvent(receiver, pressEvent);
     QCoreApplication::sendEvent(receiver, releaseEvent);
 
-    std::cout << "J'ai fini" << std::endl;
     //TODO : memory leak or managed by qml ?
 }
 

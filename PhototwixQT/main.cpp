@@ -18,7 +18,7 @@
 int main(int argc, char *argv[])
 {
     //Définition du niveau de log
-    CLog::SetLevel(CLog::Debug);
+    CLog::SetLevel(CLog::Warning);
 
     QApplication app(argc, argv);
 

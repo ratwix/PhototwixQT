@@ -105,6 +105,14 @@ ApplicationWindow {
             y:0
         }
 
+        MessageScreen {
+            id:mbox
+        }
+
+        ConfirmScreen {
+            id:cbox
+        }
+
         states: [
             State {
                 name: "START"

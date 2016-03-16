@@ -68,7 +68,7 @@ public:
 
 signals:
     void nameChanged(QString);
-    void urlChanged(QUrl);
+    void urlChanged();
     void activeChanged();
     void templatePhotoPositionsChanged();
     void printcutterChanged();

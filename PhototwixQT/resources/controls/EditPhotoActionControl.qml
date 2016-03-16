@@ -119,7 +119,7 @@ Rectangle {
             if (typeof galleryControl !== 'undefined') {
                 galleryControl.state = "stacked"
             }
-            currentPhoto = undefined;
+            currentPhoto = null;
         }
     }
 
@@ -218,8 +218,9 @@ Rectangle {
         },
         State {
             name: "viewPhoto"
-            PropertyChanges { target: gridButton
-                              columns: 1
+            PropertyChanges {
+                target: gridButton
+                columns: 1
             }
             PropertyChanges {
                 target: editButton

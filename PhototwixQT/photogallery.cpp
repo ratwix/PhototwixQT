@@ -302,7 +302,12 @@ void PhotoGallery::SerializeThread()
     writer.StartArray();
     for (QList<QObject*>::const_iterator it = m_photoList.begin(); it != m_photoList.end(); it++) {
         if (Photo *p = dynamic_cast<Photo*>(*it)) {
-            p->Serialize(writer);
+            if (p->finalResult().toString() == "") {
+                //TODO: Bug template with no final result, no serialisation, delete it
+                m_photoList.removeOne(*it);
+            } else {
+                p->Serialize(writer);
+            }
         } else {
             CLog::Write(CLog::Fatal, "Bad type QObject -> Photo");
         }

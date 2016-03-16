@@ -1,8 +1,9 @@
 #include "clog.h"
 #include <iostream>
+#include <qstring.h>
 
 bool CLog::m_bInitialised = false;
-int  CLog::m_nLevel = CLog::Info;
+int  CLog::m_nLevel = CLog::Error;
 
 void CLog::Write(int nLevel, const char *szFormat)
 {
@@ -31,6 +32,10 @@ void CLog::Write(int nLevel, const char *szFormat)
 
 void CLog::Write(int nLevel, const string szFormat) {
     Write(nLevel, szFormat.c_str());
+}
+
+void CLog::Write(int nLevel, const QString szFormat) {
+    Write(nLevel, szFormat.toStdString().c_str());
 }
 
 void CLog::SetLevel(int nLevel)

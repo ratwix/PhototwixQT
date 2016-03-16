@@ -66,6 +66,7 @@ Rectangle {
         state:"hide"
     }
 */
+    /*
     MessageScreen {
         id:mbox
     }
@@ -73,6 +74,7 @@ Rectangle {
     ConfirmScreen {
         id:cbox
     }
+    */
 
     PasswordScreen {
         id: passScreen

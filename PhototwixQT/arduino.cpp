@@ -41,7 +41,6 @@ void Arduino::flashSwitchOff()
 
 void Arduino::flashSetIntensity(int i)
 {
-    qDebug() << "Arduino:setFlash:" << i;
     QByteArray bites;
     char c = LED_INTENSITY;
     char it = (char) i;
@@ -54,7 +53,6 @@ void Arduino::flashSetIntensity(int i)
 
 void Arduino::setNbPhotoPrint(int nbPhotos)
 {
-    qDebug() << "Arduino:setNbPhotoPrint:" << nbPhotos;
     QByteArray bites;
     char c = NB_PHOTO;
     bites.append(c);
@@ -69,7 +67,6 @@ void Arduino::setNbPhotoPrint(int nbPhotos)
 
 void Arduino::setPhotoPrice(float photoPrice)
 {
-    qDebug() << "Arduino:setPhotoPrice:" << photoPrice;
     QByteArray bites;
     int result = photoPrice * 100;
     char c = PHOTO_PRICE;
@@ -85,7 +82,6 @@ void Arduino::setPhotoPrice(float photoPrice)
 
 void Arduino::setNbPhotoFree(int nbPhotos)
 {
-    qDebug() << "Arduino:setNbPhotoFree:" << nbPhotos;
     QByteArray bites;
     char c = PHOTO_FREE;
     bites.append(c);

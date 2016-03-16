@@ -209,18 +209,42 @@ void Template::updateImageFromUrl(QUrl source_url)
     QString source_url_s = source_url.toString();
     QString targer_url_s = m_url.toString();
 
-    if (source_url_s.startsWith("file://")) {
+    CLog::Write(CLog::Info, QString("Change " + source_url_s + " to " + targer_url_s).toStdString());
+    //TOTO: change with file path
+    if (source_url_s.startsWith("file:////")) {
+        source_url_s = source_url_s.right(source_url_s.length() - QString("file:///").length());
+    }
+
+
+    if (source_url_s.startsWith("file:///")) {
         source_url_s = source_url_s.right(source_url_s.length() - QString("file://").length());
     }
 
-    if (targer_url_s.startsWith("file://")) {
+    if (targer_url_s.startsWith("file:////")) {
+        targer_url_s = targer_url_s.right(targer_url_s.length() - QString("file:///").length());
+    }
+
+
+    if (targer_url_s.startsWith("file:///")) {
         targer_url_s = targer_url_s.right(targer_url_s.length() - QString("file://").length());
     }
 
-    QFile::copy(source_url_s, targer_url_s);
+    if (QFile::exists(targer_url_s) && QFile::exists(source_url_s)) {
+        CLog::Write(CLog::Info, "Success change 1");
+        if (QFile::remove(targer_url_s)) {
+            CLog::Write(CLog::Info, "Success change 2");
+            if (QFile::copy(source_url_s, targer_url_s)) {
+                CLog::Write(CLog::Info, "Success change 3");
+            }
+        }
+    } else {
+        CLog::Write(CLog::Info, "error");
+    }
 
-    emit urlChanged(m_url);
+    emit urlChanged();
 }
+
+
 bool Template::getPrintcutter() const
 {
     return m_printcutter;

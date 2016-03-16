@@ -1083,6 +1083,7 @@ Rectangle {
 
     }
 
+    /*
     MessageScreen {
         id:mbox
     }
@@ -1090,7 +1091,7 @@ Rectangle {
     ConfirmScreen {
         id:cbox
     }
-
+*/
 
     states: [
         State {

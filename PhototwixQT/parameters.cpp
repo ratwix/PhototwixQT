@@ -428,6 +428,9 @@ void Parameters::Serialize() {
 
 Photo* Parameters::addPhotoToGallerie(QString name, QObject *temp)
 {
+    if (name == "") {
+        return NULL;
+    }
     if (Template *t = dynamic_cast<Template*>(temp)) {
         CLog::Write(CLog::Info, "Creation d'une nouvelle photo " + name.toStdString());
         Photo *p = m_photogallery->addPhoto(name, t);
