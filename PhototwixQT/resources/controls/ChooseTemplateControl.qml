@@ -21,6 +21,7 @@ Item {
                 color:applicationWindows.backTemplateColor
                 anchors.fill: parent
                 visible: index == last_template_index
+                /*
                 ParticleSystem {
                     anchors.fill: parent
                     ImageParticle {
@@ -43,6 +44,7 @@ Item {
                         strength: 2
                     }
                 }
+                */
             }
 
             Rectangle {
