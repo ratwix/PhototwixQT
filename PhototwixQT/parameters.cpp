@@ -89,7 +89,7 @@ void Parameters::addTemplate(QString name) {
 
 void Parameters::addTemplate(Value const &value) {
     CLog::Write(CLog::Info, "Load Template ");
-    //TODO : check if template file exists, or remove it
+
     if (file_exists(string(TEMPLATE_PATH) + "/" + value["template_name"].GetString())) {
         Template *t = new Template(value, this);
         QQmlEngine::setObjectOwnership(t, QQmlEngine::CppOwnership);
@@ -460,7 +460,6 @@ extern void printThread(QUrl m_applicationDirPath, QUrl url, bool doubleprint, b
 void Parameters::printPhoto(QUrl url, bool doubleprint, bool cutprint, bool landscape)
 {
     CLog::Write(CLog::Debug, "Print file : " + url.toString().toStdString() + " double:" + (doubleprint ? "true":"false") + " cut:" + (cutprint?"true":"false") + " landscape:" + (landscape?"true":"false"));
-    //TODO: print & manage
 
     QtConcurrent::run(printThread, m_applicationDirPath, url, doubleprint, cutprint, landscape);
     //printThread(m_applicationDirPath, url, doubleprint, cutprint, landscape);

@@ -47,6 +47,10 @@ Rectangle {
         State {
             name: "show"
             PropertyChanges { target: messageScreen; opacity: 1.0}
+        },
+        State {
+            name: "showNoTimer"
+            PropertyChanges { target: messageScreen; opacity: 1.0}
         }
 
     ]
@@ -54,6 +58,12 @@ Rectangle {
     transitions: [
         Transition {
             from: 'hide'; to: 'show'
+            NumberAnimation {
+                target: messageScreen; properties:'opacity'; duration: 400; easing.type: 'OutQuart'
+            }
+        },
+        Transition {
+            from: 'hide'; to: 'showNoTimer'
             NumberAnimation {
                 target: messageScreen; properties:'opacity'; duration: 400; easing.type: 'OutQuart'
             }

@@ -197,13 +197,14 @@ Rectangle {
                         text: modelData.number
                     }
 
+
                     PinchArea {
                         anchors.fill: parent
                         pinch.target: templatePhotoPosition
-                        pinch.minimumRotation: -360
-                        pinch.maximumRotation: 360
-                        pinch.minimumScale: 0.1
-                        pinch.maximumScale: 10
+                        pinch.minimumRotation: -180
+                        pinch.maximumRotation: 180
+                        pinch.minimumScale: 1
+                        pinch.maximumScale: 1
                         onPinchStarted: setFrameColor();
 
                         MouseArea {

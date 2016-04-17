@@ -5,6 +5,9 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
+#include <QtConcurrent>
+#include <QFuture>
+#include <QFutureWatcher>
 #include "rapidjson/document.h"
 #include <sys/stat.h>
 #include <thread>
@@ -119,8 +122,17 @@ void PhotoGallery::updateGalleryDiskSize(bool saveSingle, bool saveDeleted, bool
     setTotalFileSize(totalSizeByte);
 }
 
-void PhotoGallery::saveGallery(QUrl d, bool saveSingle, bool saveDeleted, bool saveDeletedSingle)
+
+void PhotoGallery::saveGallery(QUrl destPath, bool saveSingle, bool saveDeleted, bool saveDeletedSingle)
 {
+    QtConcurrent::run(this, &PhotoGallery::saveGalleryThread, destPath, saveSingle, saveDeleted, saveDeletedSingle);
+    //saveGalleryThread(destPath, saveSingle, saveDeleted, saveDeletedSingle);
+}
+
+void PhotoGallery::saveGalleryThread(QUrl d, bool saveSingle, bool saveDeleted, bool saveDeletedSingle)
+{
+    emit copyStart();
+
     int current = 0;
     setCurrentCopy(current);
 
@@ -221,6 +233,8 @@ void PhotoGallery::saveGallery(QUrl d, bool saveSingle, bool saveDeleted, bool s
             }
         }
     }
+
+    emit copyEnd();
 }
 
 void PhotoGallery::addPhoto(const Value &value, QList<QObject*> &templates)
@@ -252,6 +266,8 @@ void PhotoGallery::addPhoto(const Value &value, QList<QObject*> &templates)
     }
 }
 
+
+
 int PhotoGallery::totalFileNumber() const
 {
     return m_totalFileNumber;
@@ -282,6 +298,7 @@ int PhotoGallery::currentCopy() const
 void PhotoGallery::setCurrentCopy(int currentCopy)
 {
     m_currentCopy = currentCopy;
+    emit copyProgress(m_currentCopy, m_totalFileNumber);
     emit currentCopyChanged();
 }
 

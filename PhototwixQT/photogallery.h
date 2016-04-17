@@ -42,10 +42,13 @@ public:
     void setTotalFileNumber(int totalFileNumber);
 
 private:
-    QList<QObject*> m_photoList; //List of all photos in Gallery. List of Photo class
-    QUrl            m_applicationDirPath;
     void            SerializeThread();
     void            addPhoto(Value const &value, QList<QObject*> &templates);
+
+    void            saveGalleryThread(QUrl destPath, bool saveSingle, bool saveDeleted, bool saveDeletedSingle);
+
+    QList<QObject*> m_photoList; //List of all photos in Gallery. List of Photo class
+    QUrl            m_applicationDirPath;
     int             m_currentCopy;
     qint64          m_totalFileSize;
     int             m_totalFileNumber;
@@ -55,7 +58,9 @@ signals:
     void currentCopyChanged();
     void totalFileSizeChanged();
     void totalFileNumberChanged();
-
+    void copyProgress(int current, int total);
+    void copyStart();
+    void copyEnd();
 public slots:
 };
 

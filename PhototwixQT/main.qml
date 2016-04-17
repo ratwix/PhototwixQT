@@ -14,6 +14,8 @@ ApplicationWindow {
     visible: true
     visibility: Window.FullScreen
 
+    property bool photoInProgress: false
+
 /*
     height: 900
     width: 1600

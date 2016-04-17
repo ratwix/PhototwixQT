@@ -78,10 +78,7 @@ HEADERS += \
     base64.h \
     mail.h
 
-DISTFILES += \
-    print/get_printer_reg.bat \
-    print/print.bat \
-    TODO
-
 OTHER_FILES += \
+    scripts/halt.sh \
+    print/get_paper.sh \
     print/print.sh

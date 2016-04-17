@@ -9,6 +9,8 @@ import "../controls"
 Item {
     property int last_template_index: -1
 
+
+
     Component {
         id: activeTemplateDelegate
 
@@ -68,11 +70,13 @@ Item {
                     anchors.fill: parent
 
                     onClicked: {
-                        applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", model.modelData)
-                        cameraWorker.capturePreview()
-                        applicationWindows.effectSource = "Couleur"
-                        mainRectangle.state = "TAKE_PHOTO"
-                        last_template_index = index
+                        if ((mainRectangle.state == "START")) {
+                            mainRectangle.state = "TAKE_PHOTO"
+                            applicationWindows.currentPhoto = parameters.addPhotoToGallerie("Test", model.modelData)
+                            cameraWorker.capturePreview()
+                            applicationWindows.effectSource = "Couleur"
+                            last_template_index = index
+                        }
                     }
                 }
             }

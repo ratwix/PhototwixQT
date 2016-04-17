@@ -17,7 +17,7 @@ Rectangle {
     visible: opacity != 0.0
 
     MouseArea {
-
+        anchors.fill: parent
     }
 
     Text {
